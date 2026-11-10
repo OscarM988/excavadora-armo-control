@@ -1,6 +1,6 @@
-﻿"use strict";
+"use strict";
 
-const CACHE = "armoiot-pwa-v1";
+const CACHE = "armoiot-pwa-v4";
 
 const ARCHIVOS = [
     "./",
@@ -9,9 +9,9 @@ const ARCHIVOS = [
     "./acabados.css",
     "./app.js",
     "./manifest.json",
-    "./favicon.svg",
-    "./icons/icon-192.png",
-    "./icons/icon-512.png",
+    "./assets/favicon.svg",
+    "./assets/icons/icon-192.png",
+    "./assets/icons/icon-512.png",
     "./js/api-client.js",
     "./js/control-service.js"
 ];

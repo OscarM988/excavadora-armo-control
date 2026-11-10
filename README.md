@@ -55,10 +55,11 @@ excavadora-armo-control/
 ├── app.js
 ├── manifest.json
 ├── service-worker.js
-├── favicon.svg
-├── icons/
-│   ├── icon-192.png
-│   └── icon-512.png
+├── assets/
+│   ├── favicon.svg
+│   └── icons/
+│       ├── icon-192.png
+│       └── icon-512.png
 ├── js/
 │   ├── api-client.js
 │   ├── control-service.js
