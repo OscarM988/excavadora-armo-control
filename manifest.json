@@ -1,0 +1,13 @@
+
+{
+  "name": "EXCAVADORA-ARMO | Control IoT",
+  "short_name": "EXCAVADORA",
+  "description": "Aplicacion web de control IoT con FastAPI, AWS y WebSocket",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#071224",
+  "theme_color": "#0f172a",
+  "lang": "es",
+  "orientation": "any"
+}

@@ -1,0 +1,58 @@
+﻿/* =======================================
+   EXCAVADORA-ARMO - ACABADOS FINALES
+   ======================================= */
+
+#pantallaControl:not(.oculto) > footer.pie {
+    display: flex !important;
+    position: static !important;
+
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+
+    flex-wrap: wrap;
+    gap: 4px;
+
+    width: 100%;
+    min-height: 18px;
+
+    margin: 0;
+    padding: 3px 5px;
+
+    background: transparent;
+    border-top: 1px solid rgba(148,163,184,0.15);
+
+    color: #94a3b8;
+    font-size: clamp(9px, 1.3vw, 12px);
+    line-height: 1.2;
+
+    text-align: center;
+    white-space: normal;
+}
+
+#pantallaControl footer.pie strong {
+    color: #e2e8f0;
+    font-weight: 600;
+}
+
+#pantallaControl button:focus-visible,
+#pantallaControl select:focus-visible,
+#pantallaControl .joystick-base:focus-visible {
+    outline: 2px solid #38bdf8;
+    outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+    #pantallaControl:not(.oculto) > footer.pie {
+        font-size: 9px;
+        padding: 2px;
+    }
+}
+
+@media (max-height: 500px) {
+    #pantallaControl:not(.oculto) > footer.pie {
+        min-height: 14px;
+        font-size: 9px;
+        padding: 1px;
+    }
+}

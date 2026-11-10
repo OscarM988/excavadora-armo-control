@@ -1,0 +1,1750 @@
+/* =========================================
+
+   EXCAVADORA-ARMO
+
+   APLICACION MOVIL IoT
+
+   ========================================= */
+
+:root {
+
+    --fondo: #0b1120;
+
+    --panel: #172235;
+
+    --panel-claro: #223149;
+
+    --borde: #334155;
+
+    --texto: #f8fafc;
+
+    --texto-secundario: #94a3b8;
+
+    --amarillo: #facc15;
+
+    --amarillo-oscuro: #ca8a04;
+
+    --verde: #22c55e;
+
+    --rojo: #ef4444;
+
+    --azul: #38bdf8;
+
+    --radio: 18px;
+
+}
+
+* {
+
+    box-sizing: border-box;
+
+}
+
+html {
+
+    scroll-behavior: smooth;
+
+}
+
+body {
+
+    margin: 0;
+
+    min-height: 100vh;
+
+    background: var(--fondo);
+
+    color: var(--texto);
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    -webkit-font-smoothing: antialiased;
+
+}
+
+button,
+
+input {
+
+    font: inherit;
+
+}
+
+button {
+
+    border: none;
+
+    cursor: pointer;
+
+    touch-action: manipulation;
+
+    transition: background 0.2s, transform 0.15s;
+
+}
+
+button:active:not(:disabled) {
+
+    transform: scale(0.96);
+
+}
+
+button:focus-visible,
+
+input:focus-visible {
+
+    outline: 3px solid var(--azul);
+
+    outline-offset: 3px;
+
+}
+
+button:disabled {
+
+    opacity: 0.45;
+
+    cursor: not-allowed;
+
+}
+
+.oculto {
+
+    display: none !important;
+
+}
+
+/* =========================================
+
+   PANTALLA DE LOGIN
+
+   ========================================= */
+
+.pantalla-login {
+
+    min-height: 100vh;
+
+    min-height: 100dvh;
+
+    padding: 24px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+
+        radial-gradient(
+
+            circle at top,
+
+            #233755 0%,
+
+            #0b1120 65%
+
+        );
+
+}
+
+.login-card {
+
+    width: 100%;
+
+    max-width: 410px;
+
+    padding: 36px 26px;
+
+    background: var(--panel);
+
+    border: 1px solid var(--borde);
+
+    border-radius: 24px;
+
+    text-align: center;
+
+    box-shadow: 0 18px 55px rgba(0, 0, 0, 0.35);
+
+}
+
+.logo {
+
+    font-size: 65px;
+
+    margin-bottom: 14px;
+
+}
+
+.login-card h1 {
+
+    margin: 0 0 10px;
+
+    font-size: 26px;
+
+    color: var(--amarillo);
+
+    letter-spacing: 0.5px;
+
+}
+
+.subtitulo {
+
+    margin-bottom: 32px;
+
+    color: var(--texto-secundario);
+
+    font-size: 15px;
+
+}
+
+#formLogin {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+    text-align: left;
+
+}
+
+#formLogin label {
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+}
+
+#formLogin input {
+
+    width: 100%;
+
+    min-height: 48px;
+
+    padding: 13px 14px;
+
+    background: #0f172a;
+
+    border: 1px solid var(--borde);
+
+    border-radius: 10px;
+
+    color: white;
+
+    font-size: 16px;
+
+}
+
+#formLogin input:focus {
+
+    border-color: var(--amarillo);
+
+}
+
+#btnLogin {
+
+    width: 100%;
+
+    min-height: 52px;
+
+    margin-top: 15px;
+
+    background: var(--amarillo);
+
+    color: #111827;
+
+    border-radius: 12px;
+
+    font-weight: 800;
+
+}
+
+#btnLogin:hover:not(:disabled) {
+
+    background: #fde047;
+
+}
+
+#mensajeLogin {
+
+    min-height: 22px;
+
+    margin-top: 15px;
+
+    font-size: 14px;
+
+    color: var(--rojo);
+
+}
+
+.pie-login {
+
+    margin-top: 30px;
+
+    color: var(--texto-secundario);
+
+    font-size: 12px;
+
+}
+
+/* =========================================
+
+   PANEL PRINCIPAL
+
+   ========================================= */
+
+#pantallaControl {
+
+    width: 100%;
+
+    max-width: 900px;
+
+    margin: auto;
+
+    padding: 16px;
+
+    padding-bottom: 40px;
+
+}
+
+.encabezado {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 12px;
+
+    margin-bottom: 18px;
+
+    padding: 16px;
+
+    background: var(--panel);
+
+    border: 1px solid var(--borde);
+
+    border-radius: var(--radio);
+
+}
+
+.encabezado h1 {
+
+    margin: 0 0 7px;
+
+    font-size: 21px;
+
+    color: var(--amarillo);
+
+}
+
+.encabezado p {
+
+    margin: 0;
+
+    color: var(--texto-secundario);
+
+    font-size: 13px;
+
+}
+
+.btn-salir {
+
+    flex-shrink: 0;
+
+    padding: 11px 16px;
+
+    background: var(--panel-claro);
+
+    border: 1px solid var(--borde);
+
+    border-radius: 10px;
+
+    color: white;
+
+    font-weight: bold;
+
+}
+
+/* =========================================
+
+   TARJETAS
+
+   ========================================= */
+
+.panel {
+
+    margin-bottom: 16px;
+
+    padding: 20px;
+
+    background: var(--panel);
+
+    border: 1px solid var(--borde);
+
+    border-radius: var(--radio);
+
+}
+
+.panel h2 {
+
+    margin: 0 0 18px;
+
+    color: var(--texto);
+
+    font-size: 19px;
+
+}
+
+.panel p {
+
+    line-height: 1.6;
+
+}
+
+.nota {
+
+    color: var(--texto-secundario);
+
+    font-size: 13px;
+
+}
+
+/* =========================================
+
+   INDICADORES DE ESTADO
+
+   ========================================= */
+
+.indicadores {
+
+    display: grid;
+
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    gap: 10px;
+
+}
+
+.indicador {
+
+    min-width: 0;
+
+    padding: 15px 10px;
+
+    background: #0f172a;
+
+    border: 1px solid var(--borde);
+
+    border-radius: 12px;
+
+    text-align: center;
+
+}
+
+.indicador span {
+
+    display: block;
+
+    margin-bottom: 9px;
+
+    color: var(--texto-secundario);
+
+    font-size: 12px;
+
+}
+
+.indicador strong {
+
+    display: block;
+
+    overflow-wrap: anywhere;
+
+    font-size: 13px;
+
+    color: var(--amarillo);
+
+}
+
+/* =========================================
+
+   CONTROL DIRECCIONAL
+
+   ========================================= */
+
+.control-direccion {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 10px 0;
+
+}
+
+.fila-direccion {
+
+    width: 100%;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 10px;
+
+}
+
+.btn-movimiento {
+
+    width: 115px;
+
+    min-height: 90px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    padding: 12px;
+
+    background: var(--panel-claro);
+
+    border: 2px solid var(--borde);
+
+    border-radius: 15px;
+
+    color: var(--amarillo);
+
+    font-size: 27px;
+
+    font-weight: bold;
+
+    user-select: none;
+
+    -webkit-user-select: none;
+
+}
+
+.btn-movimiento span {
+
+    color: white;
+
+    font-size: 11px;
+
+    letter-spacing: 0.3px;
+
+}
+
+.btn-movimiento:hover:not(:disabled) {
+
+    background: #30425e;
+
+    border-color: var(--amarillo);
+
+}
+
+/* =========================================
+
+   BOTON DETENER
+
+   ========================================= */
+
+.btn-detener {
+
+    width: 115px;
+
+    min-height: 90px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    padding: 12px;
+
+    background: #991b1b;
+
+    border: 2px solid var(--rojo);
+
+    border-radius: 15px;
+
+    color: white;
+
+    font-size: 25px;
+
+    font-weight: 800;
+
+}
+
+.btn-detener span {
+
+    font-size: 12px;
+
+}
+
+.btn-detener:hover:not(:disabled) {
+
+    background: #b91c1c;
+
+}
+
+/* =========================================
+
+   BRAZO Y FUNCIONES
+
+   ========================================= */
+
+.cuadricula-controles {
+
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 12px;
+
+}
+
+.cuadricula-controles button {
+
+    min-height: 75px;
+
+    padding: 15px 10px;
+
+    border: 1px solid var(--borde);
+
+    border-radius: 13px;
+
+    background: var(--panel-claro);
+
+    color: white;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+}
+
+.cuadricula-controles button:hover:not(:disabled) {
+
+    background: #30425e;
+
+}
+
+.btn-funcion {
+
+    color: var(--amarillo) !important;
+
+}
+
+/* =========================================
+
+   DEMOSTRACIONES
+
+   ========================================= */
+
+#btnEjecutarDemo {
+
+    background: #14532d;
+
+    border-color: #22c55e;
+
+}
+
+#btnCancelarDemo {
+
+    background: #7f1d1d;
+
+    border-color: #ef4444;
+
+}
+
+/* =========================================
+
+   MONITOR DE MOVIMIENTOS
+
+   ========================================= */
+
+#monitor {
+
+    width: 100%;
+
+    min-height: 160px;
+
+    max-height: 300px;
+
+    padding: 16px;
+
+    overflow-y: auto;
+
+    background: #080d18;
+
+    border: 1px solid var(--borde);
+
+    border-radius: 12px;
+
+    color: var(--verde);
+
+    font-family: Consolas, monospace;
+
+    font-size: 13px;
+
+    line-height: 1.7;
+
+    overflow-wrap: anywhere;
+
+}
+
+#monitor p {
+
+    margin: 0;
+
+}
+
+/* =========================================
+
+   PIE DE PAGINA
+
+   ========================================= */
+
+.pie {
+
+    padding: 20px 10px;
+
+    color: var(--texto-secundario);
+
+    text-align: center;
+
+    font-size: 12px;
+
+}
+
+/* =========================================
+
+   CELULARES
+
+   ========================================= */
+
+@media (max-width: 480px) {
+
+    #pantallaControl {
+
+        padding: 10px;
+
+        padding-bottom: 30px;
+
+    }
+
+    .encabezado {
+
+        padding: 13px;
+
+    }
+
+    .encabezado h1 {
+
+        font-size: 16px;
+
+    }
+
+    .encabezado p {
+
+        font-size: 11px;
+
+    }
+
+    .btn-salir {
+
+        padding: 10px 12px;
+
+        font-size: 12px;
+
+    }
+
+    .panel {
+
+        padding: 15px;
+
+    }
+
+    .panel h2 {
+
+        font-size: 17px;
+
+    }
+
+    .indicadores {
+
+        gap: 6px;
+
+    }
+
+    .indicador {
+
+        padding: 12px 5px;
+
+    }
+
+    .indicador span {
+
+        font-size: 10px;
+
+    }
+
+    .indicador strong {
+
+        font-size: 11px;
+
+    }
+
+    .fila-direccion {
+
+        gap: 7px;
+
+    }
+
+    .btn-movimiento,
+
+    .btn-detener {
+
+        width: 30%;
+
+        min-height: 82px;
+
+        padding: 9px 4px;
+
+    }
+
+    .btn-movimiento span,
+
+    .btn-detener span {
+
+        font-size: 10px;
+
+    }
+
+    .cuadricula-controles {
+
+        gap: 9px;
+
+    }
+
+    .cuadricula-controles button {
+
+        min-height: 70px;
+
+        padding: 12px 7px;
+
+        font-size: 12px;
+
+    }
+
+    .login-card {
+
+        padding: 30px 20px;
+
+    }
+
+    .login-card h1 {
+
+        font-size: 23px;
+
+    }
+
+}
+
+@media (max-width: 340px) {
+
+    .encabezado h1 {
+
+        font-size: 14px;
+
+    }
+
+    .btn-movimiento span,
+
+    .btn-detener span {
+
+        font-size: 9px;
+
+    }
+
+    .cuadricula-controles button {
+
+        font-size: 11px;
+
+    }
+
+}
+
+/* =========================================
+
+   ACCESIBILIDAD
+
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+
+    *::before,
+
+    *::after {
+
+        scroll-behavior: auto !important;
+
+        transition-duration: 0.01ms !important;
+
+        animation-duration: 0.01ms !important;
+
+    }
+
+}
+
+/* =========================================
+
+   DISENO SIN SCROLL - EXCAVADORA ARMO
+
+   ========================================= */
+
+html,
+
+body {
+
+    width: 100%;
+
+    height: 100%;
+
+    margin: 0;
+
+    overflow: hidden;
+
+    overscroll-behavior: none;
+
+}
+
+#pantallaControl:not(.oculto) {
+
+    display: flex;
+
+    flex-direction: column;
+
+    width: 100%;
+
+    max-width: 900px;
+
+    height: 100vh;
+
+    height: 100dvh;
+
+    padding: 10px;
+
+    margin: 0 auto;
+
+    overflow: hidden;
+
+    gap: 8px;
+
+}
+
+#pantallaControl .encabezado,
+
+#pantallaControl .indicadores {
+
+    flex-shrink: 0;
+
+    margin: 0;
+
+}
+
+#pantallaControl .encabezado {
+
+    padding: 10px 14px;
+
+}
+
+#pantallaControl .indicadores {
+
+    padding: 8px;
+
+}
+
+#pantallaControl .indicador {
+
+    padding: 7px 5px;
+
+}
+
+#pantallaControl .indicador span {
+
+    margin-bottom: 3px;
+
+}
+
+#pantallaControl .pie {
+
+    display: none;
+
+}
+
+/* Navegacion de cinco pestanas */
+
+.navegacion-armo {
+
+    display: grid;
+
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+
+    gap: 5px;
+
+    flex-shrink: 0;
+
+}
+
+.navegacion-armo button {
+
+    min-width: 0;
+
+    min-height: 48px;
+
+    padding: 7px 2px;
+
+    background: #223149;
+
+    color: #f8fafc;
+
+    border: 1px solid #334155;
+
+    border-radius: 10px;
+
+    font-size: clamp(10px, 1.5vw, 13px);
+
+    font-weight: bold;
+
+}
+
+.navegacion-armo button.activo {
+
+    background: #facc15;
+
+    color: #111827;
+
+    border-color: #facc15;
+
+}
+
+/* Mostrar solamente una seccion */
+
+#pantallaControl .panel[data-vista] {
+
+    display: none;
+
+    flex: 1;
+
+    min-height: 0;
+
+    margin: 0;
+
+    overflow: hidden;
+
+}
+
+#pantallaControl .panel[data-vista].vista-activa {
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+#pantallaControl .panel[data-vista] h2 {
+
+    margin-bottom: 12px;
+
+    flex-shrink: 0;
+
+}
+
+/* Ocultar tarjeta larga de seguridad */
+
+#pantallaControl .panel.seguridad-armo {
+
+    display: none;
+
+}
+
+.aviso-seguro {
+
+    padding: 6px 10px;
+
+    border-radius: 8px;
+
+    background: #273242;
+
+    color: #facc15;
+
+    text-align: center;
+
+    font-size: 11px;
+
+    flex-shrink: 0;
+
+}
+
+/* Adaptar controles al espacio disponible */
+
+#pantallaControl .control-direccion {
+
+    flex: 1;
+
+    min-height: 0;
+
+    justify-content: center;
+
+    gap: clamp(4px, 1vh, 12px);
+
+    padding: 0;
+
+}
+
+#pantallaControl .btn-movimiento,
+
+#pantallaControl .btn-detener {
+
+    min-height: 0;
+
+    height: clamp(48px, 14dvh, 95px);
+
+}
+
+#pantallaControl .cuadricula-controles {
+
+    flex: 1;
+
+    min-height: 0;
+
+    grid-auto-rows: minmax(0, 1fr);
+
+}
+
+#pantallaControl .cuadricula-controles button {
+
+    min-height: 0;
+
+}
+
+#pantallaControl #monitor {
+
+    flex: 1;
+
+    min-height: 0;
+
+    max-height: none;
+
+    overflow: hidden;
+
+}
+
+/* Celulares de poca altura */
+
+@media (max-height: 650px) {
+
+    #pantallaControl:not(.oculto) {
+
+        gap: 5px;
+
+        padding: 6px;
+
+    }
+
+    #pantallaControl .encabezado {
+
+        padding: 6px 10px;
+
+    }
+
+    #pantallaControl .panel[data-vista] {
+
+        padding: 9px;
+
+    }
+
+    #pantallaControl .panel h2 {
+
+        font-size: 15px;
+
+        margin-bottom: 6px;
+
+    }
+
+    .navegacion-armo button {
+
+        min-height: 36px;
+
+    }
+
+    .aviso-seguro {
+
+        padding: 4px;
+
+    }
+
+    #pantallaControl .btn-movimiento,
+
+    #pantallaControl .btn-detener {
+
+        height: clamp(42px, 12dvh, 70px);
+
+    }
+
+}
+
+/* Login sin desplazamiento */
+
+.pantalla-login {
+
+    height: 100vh;
+
+    height: 100dvh;
+
+    min-height: 0;
+
+    overflow: hidden;
+
+}
+
+.login-card {
+
+    max-height: calc(100dvh - 20px);
+
+    overflow: hidden;
+
+}
+
+/* ============================================================
+   EXCAVADORA-ARMO | CLOUD DASHBOARD PREMIUM
+   CAPA VISUAL FINAL - CONSERVA LAS REGLAS ORIGINALES
+   Compatible con index.html y navegacion de app.js
+   ============================================================ */
+
+:root {
+    --fondo: #071223;
+    --panel: #14233d;
+    --panel-claro: #223858;
+    --borde: #354765;
+    --texto: #f8fafc;
+    --texto-secundario: #aabbd2;
+    --amarillo: #facc15;
+    --amarillo-oscuro: #eab308;
+    --verde: #34d399;
+    --rojo: #fb7185;
+    --azul: #60a5fa;
+    --radio: 20px;
+    --sombra-cloud: 0 16px 40px rgba(0, 0, 0, .25);
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    overscroll-behavior: none;
+}
+
+body {
+    background:
+        radial-gradient(ellipse 85% 55% at 50% -15%, rgba(43, 105, 177, .23), transparent 70%),
+        radial-gradient(ellipse 60% 50% at 100% 100%, rgba(32, 71, 128, .12), transparent 75%),
+        linear-gradient(145deg, #081122, #0b1730 65%, #071021);
+    font-family: "Segoe UI", system-ui, Arial, sans-serif;
+}
+
+button {
+    -webkit-tap-highlight-color: transparent;
+}
+button:disabled { opacity: .52; filter: saturate(.76); }
+button:hover:disabled { transform: none; }
+button:focus-visible, input:focus-visible {
+    outline: 2px solid var(--azul);
+    outline-offset: 2px;
+}
+
+/* Acceso cloud */
+.pantalla-login {
+    height: 100dvh;
+    min-height: 0;
+    padding: clamp(8px, 3dvh, 22px);
+    overflow: hidden;
+}
+.login-card {
+    max-width: 425px;
+    max-height: calc(100dvh - 16px);
+    padding: clamp(12px, 3dvh, 32px) clamp(18px, 4vw, 30px);
+    border-radius: 24px;
+    background: linear-gradient(155deg, rgba(30, 49, 80, .95), rgba(15, 28, 49, .97));
+    border: 1px solid rgba(148, 163, 184, .22);
+    box-shadow: var(--sombra-cloud), inset 0 1px rgba(255, 255, 255, .05);
+    backdrop-filter: blur(15px);
+    overflow: hidden;
+}
+.logo { font-size: clamp(34px, 7dvh, 58px); margin-bottom: 6px; }
+.login-card h1 { font-size: clamp(19px, 3.4vh, 27px); }
+.subtitulo { margin: 8px 0 clamp(12px, 3dvh, 24px); }
+#formLogin { gap: clamp(6px, 1.4dvh, 12px); }
+#formLogin input {
+    min-height: clamp(36px, 6dvh, 48px);
+    border-radius: 12px;
+    background: rgba(6, 15, 32, .76);
+}
+#btnLogin {
+    min-height: clamp(38px, 6dvh, 52px);
+    margin-top: clamp(4px, 1.5dvh, 15px);
+    background: linear-gradient(135deg, #fde047, #facc15);
+    box-shadow: 0 7px 18px rgba(250, 204, 21, .13);
+}
+#mensajeLogin { margin: 10px 0 0; min-height: 18px; }
+.pie-login { margin-top: clamp(8px, 2dvh, 20px); }
+
+/* Aplicacion completa ocupa exactamente el area visible */
+#pantallaControl:not(.oculto) {
+    width: 100%;
+    max-width: 1060px;
+    height: 100dvh;
+    margin: 0 auto;
+    padding: clamp(5px, 1.3dvh, 13px);
+    gap: clamp(4px, 1.1dvh, 10px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+#pantallaControl .encabezado {
+    flex: 0 0 auto;
+    margin: 0;
+    padding: clamp(8px, 1.6dvh, 15px) clamp(10px, 2vw, 20px);
+    border: 1px solid rgba(148, 163, 184, .20);
+    border-radius: 18px;
+    background: linear-gradient(130deg, rgba(29, 48, 79, .97), rgba(19, 33, 58, .94));
+    box-shadow: var(--sombra-cloud);
+}
+.encabezado h1 { margin: 0 0 4px; font-size: clamp(15px, 2.6vh, 25px); }
+.encabezado p { font-size: clamp(10px, 1.6vh, 13px); }
+.btn-salir {
+    padding: 9px 15px;
+    color: var(--texto);
+    border-radius: 12px;
+    background: linear-gradient(180deg, #31466a, #263955);
+}
+
+#pantallaControl .indicadores {
+    flex: 0 0 auto;
+    margin: 0;
+    padding: clamp(5px, 1dvh, 8px);
+    gap: clamp(4px, 1vw, 10px);
+    border: 1px solid rgba(148, 163, 184, .19);
+    border-radius: 17px;
+    background: rgba(19, 34, 57, .91);
+}
+#pantallaControl .indicador {
+    padding: clamp(5px, 1dvh, 9px) 5px;
+    border-radius: 12px;
+    background: linear-gradient(150deg, #0f1d34, #111f36);
+    border: 1px solid rgba(148, 163, 184, .17);
+}
+#pantallaControl .indicador span { margin-bottom: 3px; font-size: clamp(10px, 1.6vh, 13px); }
+#pantallaControl .indicador strong { font-size: clamp(11px, 1.8vh, 15px); }
+
+#pantallaControl .panel.seguridad-armo { display: none !important; }
+.aviso-seguro {
+    flex: 0 0 auto;
+    border: 1px solid rgba(250, 204, 21, .17);
+    border-radius: 10px;
+    background: linear-gradient(90deg, #253145, #1f2d43);
+    color: #fde047;
+    font-weight: 700;
+    padding: clamp(4px, .9dvh, 7px) 8px;
+    font-size: clamp(10px, 1.5vh, 12px);
+}
+
+.navegacion-armo {
+    flex: 0 0 auto;
+    gap: clamp(4px, 1vw, 8px);
+}
+.navegacion-armo button {
+    min-width: 0;
+    min-height: clamp(35px, 6dvh, 54px);
+    padding: 6px 3px;
+    border-radius: 12px;
+    border: 1px solid rgba(148, 163, 184, .20);
+    background: linear-gradient(145deg, #2a4165, #20334f);
+    color: var(--texto);
+    font-size: clamp(10px, 1.7vw, 15px);
+    font-weight: 700;
+    box-shadow: 0 5px 12px rgba(0, 0, 0, .13);
+}
+.navegacion-armo button:hover:not(.activo) { background: #344d72; }
+.navegacion-armo button.activo {
+    color: #111827;
+    border-color: transparent;
+    background: linear-gradient(130deg, #fde047, #facc15);
+    box-shadow: 0 7px 19px rgba(250, 204, 21, .16);
+}
+
+/* Solo una vista visible; el resto ocupa cero espacio */
+#pantallaControl .panel[data-vista] {
+    display: none;
+    flex: 1 1 0;
+    min-height: 0;
+    margin: 0;
+    overflow: hidden;
+    padding: clamp(10px, 2dvh, 20px);
+    border-radius: 20px;
+    border: 1px solid rgba(148, 163, 184, .21);
+    background: linear-gradient(155deg, rgba(26, 43, 72, .96), rgba(18, 31, 52, .96));
+    box-shadow: var(--sombra-cloud);
+}
+#pantallaControl .panel[data-vista].vista-activa { display: flex; flex-direction: column; }
+#pantallaControl .panel[data-vista] h2 {
+    flex: 0 0 auto;
+    margin: 0 0 clamp(5px, 1.4dvh, 12px);
+    font-size: clamp(15px, 2.6vh, 23px);
+    letter-spacing: -.02em;
+}
+
+/* Direccion: respetar .fila-direccion real del HTML */
+#pantallaControl .control-direccion {
+    flex: 1 1 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(4px, 1dvh, 11px);
+    padding: 0;
+}
+#pantallaControl .fila-direccion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(4px, 1vw, 12px);
+}
+#pantallaControl .btn-movimiento,
+#pantallaControl .btn-detener {
+    flex: 0 1 auto;
+    width: clamp(65px, 13vw, 128px);
+    height: clamp(42px, 12dvh, 105px);
+    min-height: 0;
+    padding: clamp(4px, .9dvh, 10px);
+    gap: 3px;
+    border-radius: 15px;
+    background: linear-gradient(160deg, #293e60, #1d304d);
+    border: 1px solid rgba(148, 163, 184, .20);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .15);
+    color: #facc15;
+    font-size: clamp(18px, 3.2dvh, 30px);
+}
+#pantallaControl .btn-movimiento span,
+#pantallaControl .btn-detener span {
+    color: #f1f5f9;
+    font-size: clamp(9px, 1.5dvh, 12px);
+}
+#pantallaControl .btn-detener {
+    background: linear-gradient(145deg, #84273b, #621b2d);
+    border-color: rgba(251, 113, 133, .45);
+    color: #fff;
+}
+
+/* Cuadrícula: Brazo, Extras y DEMO */
+#pantallaControl .cuadricula-controles {
+    flex: 1 1 0;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: minmax(0, 1fr);
+    gap: clamp(6px, 1.5dvh, 14px);
+}
+#pantallaControl .cuadricula-controles button {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    padding: 8px;
+    font-size: clamp(12px, 2.1vh, 17px);
+    font-weight: 700;
+    border-radius: 15px;
+    border: 1px solid rgba(148, 163, 184, .20);
+    background: linear-gradient(155deg, #2a4062, #20334f);
+    color: #f8fafc;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, .15);
+}
+#pantallaControl .cuadricula-controles button.btn-funcion { color: #fde047 !important; }
+#pantallaControl #btnEjecutarDemo { background: linear-gradient(145deg, #176342, #124b34); border-color: #248e61; }
+#pantallaControl #btnCancelarDemo { background: linear-gradient(145deg, #8b2b39, #65202e); border-color: #b04653; }
+
+/* Monitor interno puede desplazarse sin desplazar la pagina */
+#pantallaControl #monitor {
+    flex: 1 1 0;
+    min-height: 0;
+    max-height: none;
+    overflow-y: auto;
+    background: rgba(5, 13, 27, .90);
+    border: 1px solid rgba(148, 163, 184, .20);
+    border-radius: 13px;
+    color: #75f0cb;
+    font-family: Consolas, monospace;
+    font-size: clamp(11px, 1.8vh, 14px);
+    scrollbar-width: thin;
+}
+#pantallaControl .pie { display: none; }
+
+@media (max-width: 560px) {
+    #pantallaControl:not(.oculto) { padding: 6px; gap: 5px; }
+    #pantallaControl .encabezado { padding: 7px 10px; }
+    .encabezado h1 { font-size: clamp(13px, 2.3vh, 18px); }
+    .btn-salir { padding: 6px 10px; font-size: 12px; }
+    #pantallaControl .indicadores { padding: 4px; gap: 4px; }
+    #pantallaControl .indicador { padding: 5px 2px; }
+    .navegacion-armo { gap: 3px; }
+    .navegacion-armo button { padding: 4px 1px; font-size: clamp(9px, 2.6vw, 12px); }
+    #pantallaControl .panel[data-vista] { padding: 10px; border-radius: 15px; }
+    #pantallaControl .btn-movimiento,
+    #pantallaControl .btn-detener { width: clamp(64px, 24vw, 105px); }
+    #pantallaControl .cuadricula-controles button { font-size: clamp(11px, 3vw, 15px); }
+}
+
+@media (max-height: 580px) {
+    #pantallaControl:not(.oculto) { padding: 4px; gap: 3px; }
+    #pantallaControl .encabezado { padding: 5px 9px; }
+    #pantallaControl .indicadores { padding: 3px; }
+    #pantallaControl .indicador { padding: 3px 2px; }
+    .aviso-seguro { padding: 3px; }
+    .navegacion-armo button { min-height: 30px; }
+    #pantallaControl .panel[data-vista] { padding: 8px; }
+    #pantallaControl .panel[data-vista] h2 { margin-bottom: 4px; }
+    #pantallaControl .btn-movimiento,
+    #pantallaControl .btn-detener { height: clamp(35px, 11dvh, 65px); }
+    .login-card .logo { font-size: 30px; }
+    .login-card { padding: 10px 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+
+/* =============================================================
+   EXCAVADORA-ARMO | CONTROL CLOUD CON DOS JOYSTICKS
+   Anexo compatible con el CSS original completo y app.js actual.
+   ============================================================= */
+
+/* El panel principal mantiene los 3 grupos en una sola fila. */
+#pantallaControl .zona-controles-principales {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(140px, .85fr) minmax(0, 1fr);
+    align-items: center;
+    justify-items: stretch;
+    flex: 1 1 auto;
+    min-height: 0;
+    width: 100%;
+    gap: clamp(8px, 2vw, 22px);
+}
+#pantallaControl .bloque-joystick,
+#pantallaControl .bloque-extras-centro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: 0;
+    gap: clamp(5px, 1.5dvh, 12px);
+}
+#pantallaControl .bloque-joystick h3,
+#pantallaControl .bloque-extras-centro h3 {
+    margin: 0;
+    font-size: clamp(11px, 1.7vw, 18px);
+    line-height: 1.2;
+    text-align: center;
+    color: #e2e8f0;
+}
+#pantallaControl .joystick-base {
+    width: min(100%, 31dvh, 265px);
+    aspect-ratio: 1;
+    height: auto;
+    min-width: 0;
+    min-height: 0;
+    position: relative;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    border: 2px solid rgba(250, 204, 21, .58);
+    background: radial-gradient(circle at 40% 30%, #324a6b 0%, #1a2d49 65%, #111e32 100%);
+    box-shadow: inset 0 12px 30px rgba(0,0,0,.35), 0 8px 24px rgba(0,0,0,.22);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+    cursor: grab;
+}
+#pantallaControl .joystick-base:active { cursor: grabbing; }
+#pantallaControl .joystick-base:focus-visible { outline: 3px solid #38bdf8; outline-offset: 3px; }
+#pantallaControl .joystick-base::before,
+#pantallaControl .joystick-base::after {
+    content: '';
+    position: absolute;
+    inset: 17%;
+    border-radius: 50%;
+    border: 1px solid rgba(148, 163, 184, .22);
+    pointer-events: none;
+}
+#pantallaControl .joystick-base::after { inset: 34%; border-style: dashed; }
+#pantallaControl .joystick-flecha {
+    position: absolute;
+    color: #bcd9ff;
+    font-size: clamp(10px, 2.5dvh, 23px);
+    font-weight: 900;
+    line-height: 1;
+    pointer-events: none;
+}
+#pantallaControl .joystick-flecha.arriba { top: 7%; left: 50%; transform: translateX(-50%); }
+#pantallaControl .joystick-flecha.abajo { bottom: 7%; left: 50%; transform: translateX(-50%); }
+#pantallaControl .joystick-flecha.izquierda { left: 7%; top: 50%; transform: translateY(-50%); }
+#pantallaControl .joystick-flecha.derecha { right: 7%; top: 50%; transform: translateY(-50%); }
+#pantallaControl .joystick-perilla {
+    position: absolute;
+    left: 50%; top: 50%;
+    width: 32%; height: 32%;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle at 35% 28%, #fde68a, #facc15 65%, #d49a07);
+    border: 3px solid rgba(255,255,255,.35);
+    box-shadow: 0 7px 16px rgba(0,0,0,.4);
+    pointer-events: none;
+    will-change: left, top;
+}
+#pantallaControl .joystick-estado {
+    display: block;
+    min-height: 18px;
+    max-width: 100%;
+    color: #fde047;
+    font-size: clamp(9px, 1.4vw, 12px);
+    font-weight: 700;
+    line-height: 1.3;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+/* Cuatro botones compactos, realmente entre ambos joysticks. */
+#pantallaControl .extras-mini-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: min(100%, 240px);
+    gap: clamp(5px, 1vw, 12px);
+}
+#pantallaControl .extras-mini-grid .btn-extra-mini {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: clamp(46px, 10dvh, 94px);
+    min-height: 44px;
+    padding: 5px 2px;
+    gap: 3px;
+    border-radius: 13px;
+    background: linear-gradient(155deg, #293d5e, #20334f);
+    border: 1px solid rgba(148,163,184,.25);
+    color: #facc15;
+    font-size: clamp(14px, 2.1dvh, 21px);
+    font-weight: 700;
+}
+#pantallaControl .extras-mini-grid .btn-extra-mini span {
+    font-size: clamp(9px, 1.35vw, 12px);
+    color: #f1f5f9;
+    overflow-wrap: anywhere;
+    text-align: center;
+}
+#pantallaControl .extras-mini-grid .btn-extra-mini:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+}
+#pantallaControl .btn-detener.btn-detener-central {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: min(100%, 160px);
+    height: clamp(44px, 9dvh, 75px);
+    min-height: 44px;
+    padding: 4px;
+    gap: 2px;
+    font-size: clamp(14px, 2.3dvh, 24px);
+    color: #fff;
+    background: linear-gradient(145deg, #89263d, #641e30);
+    border: 1px solid #e0526a;
+    border-radius: 13px;
+}
+#pantallaControl .btn-detener.btn-detener-central span {
+    color: #fff;
+    font-size: clamp(10px, 1.5dvh, 13px);
+}
+#pantallaControl .control-aviso {
+    margin: 0;
+    color: #94a3b8;
+    font-size: clamp(9px, 1.3dvh, 11px);
+    line-height: 1.2;
+    text-align: center;
+}
+/* El cuadro anterior del catálogo se conserva para la futura conexión real. */
+#pantallaControl .panel[data-vista] .nota { margin: 0 0 8px; }
+
+/* Laptop pequeña y tablet: todavía 3 columnas. */
+@media (max-width: 850px) {
+    #pantallaControl .zona-controles-principales {
+        grid-template-columns: minmax(0, 1fr) minmax(108px, .82fr) minmax(0, 1fr);
+        gap: 8px;
+    }
+    #pantallaControl .joystick-base { width: min(100%, 27dvh, 210px); }
+}
+/* Celular vertical: usar el ancho disponible sin apilar joysticks. */
+@media (max-width: 550px) {
+    #pantallaControl .zona-controles-principales {
+        grid-template-columns: minmax(0, 1fr) minmax(88px, .85fr) minmax(0, 1fr);
+        gap: 5px;
+    }
+    #pantallaControl .bloque-joystick,
+    #pantallaControl .bloque-extras-centro { gap: 5px; }
+    #pantallaControl .joystick-base { width: min(100%, 22dvh, 160px); }
+    #pantallaControl .extras-mini-grid { gap: 4px; }
+    #pantallaControl .extras-mini-grid .btn-extra-mini {
+        height: clamp(44px, 7dvh, 62px);
+        font-size: 15px;
+        border-radius: 9px;
+    }
+    #pantallaControl .extras-mini-grid .btn-extra-mini span { font-size: 9px; }
+    #pantallaControl .btn-detener.btn-detener-central {
+        height: 46px;
+        min-height: 44px;
+        width: 100%;
+    }
+    #pantallaControl .control-aviso { font-size: 9px; }
+}
+/* Paisaje en teléfonos: comprimir alturas, nunca apilar. */
+@media (max-height: 560px) {
+    #pantallaControl .joystick-base { width: min(100%, 27dvh, 150px); }
+    #pantallaControl .extras-mini-grid .btn-extra-mini { height: 44px; }
+    #pantallaControl .bloque-joystick h3,
+    #pantallaControl .bloque-extras-centro h3 { font-size: 11px; }
+    #pantallaControl .joystick-estado { font-size: 9px; min-height: 12px; }
+    #pantallaControl .control-aviso { display: none; }
+}
