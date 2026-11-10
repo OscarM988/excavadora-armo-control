@@ -4,167 +4,458 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#0f172a">
-    <meta name="description" content="Panel de control IoT EXCAVADORA-ARMO">
-    <title>EXCAVADORA-ARMO | Control IoT</title>
+    <meta name="description" content="Panel de control y monitoreo IoT EXCAVADORA-ARMO">
+
+    <title>EXCAVADORA-ARMO | Control y Monitoreo IoT</title>
+
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="manifest" href="manifest.json">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+        crossorigin="anonymous"
+    >
+
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="acabados.css">
+    <link rel="stylesheet" href="monitoreo.css">
+
     <script src="app.js" defer></script>
     <script src="js/rds-status.js" defer></script>
+    <script type="module" src="js/monitoreo.js"></script>
 </head>
+
 <body>
-    <!-- Mantener la estructura utilizada por app.js -->
+
+    <!-- LOGIN ORIGINAL -->
     <section id="pantallaLogin" class="pantalla-login">
         <div class="login-card">
-            <div class="logo">🚜</div>
+            <div class="logo">&#128668;</div>
             <h1>EXCAVADORA-ARMO</h1>
             <p class="subtitulo">Sistema de Control IoT</p>
+
             <form id="formLogin">
                 <label for="usuario">Usuario</label>
-                <input type="text" id="usuario" autocomplete="username" maxlength="80" required>
+                <input type="text" id="usuario"
+                       autocomplete="username"
+                       maxlength="80" required>
+
                 <label for="contrasena">Contraseña</label>
-                <input type="password" id="contrasena" autocomplete="current-password" required>
-                <button type="submit" id="btnLogin">INICIAR SESIÓN</button>
+                <input type="password" id="contrasena"
+                       autocomplete="current-password" required>
+
+                <button type="submit" id="btnLogin">INICIAR SESI&Oacute;N</button>
             </form>
+
             <p id="mensajeLogin" role="status"></p>
-            <p class="pie-login">Acceso autorizado · ARMO IoT</p>
+            <p class="pie-login">
+                Acceso autorizado · ARMO IoT
+            </p>
         </div>
     </section>
 
+    <!-- APLICACION PRINCIPAL -->
     <main id="pantallaControl" class="oculto">
+
         <header class="encabezado">
             <div>
-                <h1>🚜 EXCAVADORA-ARMO</h1>
+                <h1>&#128668; EXCAVADORA-ARMO</h1>
                 <p>Panel de control remoto</p>
             </div>
-            <button type="button" id="btnSalir" class="btn-salir">Salir</button>
+
+            <button type="button" id="btnSalir" class="btn-salir">
+                Salir
+            </button>
         </header>
 
-        <!-- 0: Tres indicadores independientes requeridos por la práctica 4.1 -->
-        <section class="panel indicadores" aria-label="Estado de conectividad">
+        <!-- PANEL 0: INDICADORES -->
+        <section class="panel indicadores"
+                 aria-label="Estado de conectividad">
+
             <div class="indicador">
                 <span>WebSocket WSS</span>
-                <strong id="estadoWS" role="status">Desconectado</strong>
+                <strong id="estadoWS" role="status">
+                    Desconectado
+                </strong>
             </div>
+
             <div class="indicador">
                 <span>Servidor AWS · API de 21 servicios</span>
-                <strong id="estadoAPI" role="status">Comprobando</strong>
+                <strong id="estadoAPI" role="status">
+                    Comprobando
+                </strong>
             </div>
+
             <div class="indicador">
                 <span>Amazon RDS</span>
-                <strong id="estadoRDS" role="status">Sin verificar</strong>
+                <strong id="estadoRDS" role="status">
+                    Sin verificar
+                </strong>
             </div>
         </section>
-        <!-- Compatibilidad temporal con app.js: JWT sigue activo, pero no sustituye al estado de RDS. -->
-        <p id="estadoJWT" class="oculto" aria-hidden="true">Inactiva</p>
 
-        <!-- 1: Seguridad; app.js reemplaza visualmente esta tarjeta por aviso compacto -->
+        <!-- JWT ORIGINAL -->
+        <p id="estadoJWT" class="oculto" aria-hidden="true">
+            Inactiva
+        </p>
+
+        <!-- PANEL 1: SEGURIDAD -->
         <section class="panel">
             <h2>Seguridad de operación</h2>
-            <p id="mensajeSeguridad">Modo seguro activado. Los controles físicos están deshabilitados.</p>
-            <p class="nota">La aplicación no enviará movimientos hasta completar las pruebas de integración y habilitar explícitamente el control.</p>
+
+            <p id="mensajeSeguridad">
+                Modo seguro activado.
+                Los controles físicos están deshabilitados.
+            </p>
+
+            <p class="nota">
+                La aplicación no enviará movimientos hasta completar
+                las pruebas de integración y habilitar explícitamente
+                el control.
+            </p>
         </section>
 
-        <!-- 2: Control combinado. No transmite movimientos hasta validar REST. -->
-        <section class="panel" aria-label="Control principal de la excavadora">
+        <!-- PANEL 2: CONTROL PRINCIPAL -->
+        <section class="panel"
+                 aria-label="Control principal de la excavadora">
+
             <h2>Control principal de la excavadora</h2>
+
             <div class="zona-controles-principales">
-                <!-- Joystick izquierdo: dirección y desplazamiento -->
+
+                <!-- JOYSTICK IZQUIERDO -->
                 <div class="bloque-joystick">
                     <h3>Dirección</h3>
-                    <div id="joystick" class="joystick-base" role="group"
+
+                    <div id="joystick"
+                         class="joystick-base"
+                         role="group"
                          aria-label="Joystick de dirección, solo demostración visual"
                          tabindex="0">
-                        <span class="joystick-flecha arriba" aria-hidden="true">▲</span>
-                        <span class="joystick-flecha abajo" aria-hidden="true">▼</span>
-                        <span class="joystick-flecha izquierda" aria-hidden="true">◀</span>
-                        <span class="joystick-flecha derecha" aria-hidden="true">▶</span>
-                        <div id="joystickPerilla" class="joystick-perilla" aria-hidden="true"></div>
+
+                        <span class="joystick-flecha arriba"
+                              aria-hidden="true">&#9650;</span>
+
+                        <span class="joystick-flecha abajo"
+                              aria-hidden="true">&#9660;</span>
+
+                        <span class="joystick-flecha izquierda"
+                              aria-hidden="true">&#9664;</span>
+
+                        <span class="joystick-flecha derecha"
+                              aria-hidden="true">&#9654;</span>
+
+                        <div id="joystickPerilla"
+                             class="joystick-perilla"
+                             aria-hidden="true"></div>
                     </div>
-                    <output id="direccionActual" class="joystick-estado" aria-live="polite">NEUTRAL · Solo visual</output>
+
+                    <output id="direccionActual"
+                            class="joystick-estado"
+                            aria-live="polite">
+                        NEUTRAL · Solo visual
+                    </output>
                 </div>
 
-                <!-- Extras centrales: botones existentes, sin duplicarlos -->
+                <!-- EXTRAS CENTRALES -->
                 <div class="bloque-extras-centro">
                     <h3>Extras</h3>
-                    <div class="extras-mini-grid" aria-label="Funciones especiales">
-                        <button type="button" class="btn-funcion btn-extra-mini" data-codigo="10" disabled>🎵<span>Música</span></button>
-                        <button type="button" class="btn-funcion btn-extra-mini" data-codigo="11" disabled>⚡<span>Velocidad</span></button>
-                        <button type="button" class="btn-funcion btn-extra-mini" data-codigo="12" disabled>💡<span>Luces</span></button>
-                        <button type="button" class="btn-funcion btn-extra-mini" data-codigo="13" disabled>🎬<span>DEMO</span></button>
+
+                    <div class="extras-mini-grid"
+                         aria-label="Funciones especiales">
+
+                        <button type="button"
+                                class="btn-funcion btn-extra-mini"
+                                data-codigo="10" disabled>&#127925;<span>Música</span>
+                        </button>
+
+                        <button type="button"
+                                class="btn-funcion btn-extra-mini"
+                                data-codigo="11" disabled>&#9889;<span>Velocidad</span>
+                        </button>
+
+                        <button type="button"
+                                class="btn-funcion btn-extra-mini"
+                                data-codigo="12" disabled>&#128161;<span>Luces</span>
+                        </button>
+
+                        <button type="button"
+                                class="btn-funcion btn-extra-mini"
+                                data-codigo="13" disabled>&#127916;<span>DEMO</span>
+                        </button>
                     </div>
-                    <button type="button" id="btnDetener" class="btn-detener btn-detener-central" disabled
-                            aria-label="DETENER, pendiente de integración segura">■<span>DETENER</span></button>
-                    <p class="control-aviso">Modo visual · Sin órdenes REST</p>
+
+                    <!-- DETENER ORIGINAL -->
+                    <button type="button"
+                            id="btnDetener"
+                            class="btn-detener btn-detener-central"
+                            disabled
+                            aria-label="DETENER, pendiente de integración segura">&#128721;<span>DETENER</span>
+                    </button>
+
+                    <p class="control-aviso">
+                        Modo visual · Sin órdenes REST
+                    </p>
                 </div>
 
-                <!-- Joystick derecho: brazo y excavación -->
+                <!-- JOYSTICK DERECHO -->
                 <div class="bloque-joystick">
                     <h3>Brazo</h3>
-                    <div id="joystickBrazo" class="joystick-base" role="group"
+
+                    <div id="joystickBrazo"
+                         class="joystick-base"
+                         role="group"
                          aria-label="Joystick de brazo, solo demostración visual"
                          tabindex="0">
-                        <span class="joystick-flecha arriba" aria-hidden="true">▲</span>
-                        <span class="joystick-flecha abajo" aria-hidden="true">▼</span>
-                        <span class="joystick-flecha izquierda" aria-hidden="true">◀</span>
-                        <span class="joystick-flecha derecha" aria-hidden="true">▶</span>
-                        <div id="joystickPerillaBrazo" class="joystick-perilla" aria-hidden="true"></div>
+
+                        <span class="joystick-flecha arriba"
+                              aria-hidden="true">&#9650;</span>
+
+                        <span class="joystick-flecha abajo"
+                              aria-hidden="true">&#9660;</span>
+
+                        <span class="joystick-flecha izquierda"
+                              aria-hidden="true">&#9664;</span>
+
+                        <span class="joystick-flecha derecha"
+                              aria-hidden="true">&#9654;</span>
+
+                        <div id="joystickPerillaBrazo"
+                             class="joystick-perilla"
+                             aria-hidden="true"></div>
                     </div>
-                    <output id="brazoActual" class="joystick-estado" aria-live="polite">NEUTRAL · Solo visual</output>
+
+                    <output id="brazoActual"
+                            class="joystick-estado"
+                            aria-live="polite">
+                        NEUTRAL · Solo visual
+                    </output>
                 </div>
+
             </div>
         </section>
 
-        <!-- 3: Conservado por compatibilidad con la navegación de app.js -->
+        <!-- PANEL 3: BRAZO -->
         <section class="panel">
             <h2>Brazo y excavación</h2>
-            <p class="nota">El joystick del brazo está en la pestaña Dirección. Sus nombres y códigos definitivos se cargarán desde el catálogo real de la API.</p>
+
+            <p class="nota">
+                El joystick del brazo está en la pestaña Dirección.
+                Sus nombres y códigos definitivos se cargarán
+                desde el catálogo real de la API.
+            </p>
+
             <div class="cuadricula-controles">
-                <button type="button" class="btn-movimiento" data-funcion="brazo1" disabled>Movimiento de brazo 1</button>
-                <button type="button" class="btn-movimiento" data-funcion="brazo2" disabled>Movimiento de brazo 2</button>
-                <button type="button" class="btn-movimiento" data-funcion="brazo3" disabled>Movimiento de brazo 3</button>
-                <button type="button" class="btn-movimiento" data-funcion="brazo4" disabled>Movimiento de brazo 4</button>
+                <button type="button"
+                        class="btn-movimiento"
+                        data-funcion="brazo1" disabled>
+                    Movimiento de brazo 1
+                </button>
+
+                <button type="button"
+                        class="btn-movimiento"
+                        data-funcion="brazo2" disabled>
+                    Movimiento de brazo 2
+                </button>
+
+                <button type="button"
+                        class="btn-movimiento"
+                        data-funcion="brazo3" disabled>
+                    Movimiento de brazo 3
+                </button>
+
+                <button type="button"
+                        class="btn-movimiento"
+                        data-funcion="brazo4" disabled>
+                    Movimiento de brazo 4
+                </button>
             </div>
         </section>
 
-        <!-- 4: Información de extras; botones interactivos se colocaron al centro -->
+        <!-- PANEL 4: EXTRAS -->
         <section class="panel">
             <h2>Funciones especiales</h2>
-            <p class="nota">Música, Velocidad, Luces y DEMO aparecen en el centro de los dos joysticks de la pestaña Dirección.</p>
-            <p class="nota">Se habilitarán únicamente cuando validemos los códigos y contratos de la API.</p>
+
+            <p class="nota">
+                Música, Velocidad, Luces y DEMO aparecen en el centro
+                de los dos joysticks de la pestaña Dirección.
+            </p>
+
+            <p class="nota">
+                Se habilitarán únicamente cuando validemos
+                los códigos y contratos de la API.
+            </p>
         </section>
 
-        <!-- 5: DEMO, selector se conectará a los datos reales de AWS -->
+        <!-- PANEL 5: DEMO -->
         <section class="panel">
             <h2>Demostraciones automáticas</h2>
+
             <div class="cuadricula-controles">
-                <button type="button" id="btnEjecutarDemo" disabled>Ejecutar DEMO</button>
-                <button type="button" id="btnCancelarDemo" disabled>Cancelar DEMO</button>
+                <button type="button"
+                        id="btnEjecutarDemo" disabled>
+                    Ejecutar DEMO
+                </button>
+
+                <button type="button"
+                        id="btnCancelarDemo" disabled>
+                    Cancelar DEMO
+                </button>
             </div>
         </section>
 
-        <!-- 6: Retroalimentación inmediata; no es módulo histórico de monitoreo -->
+        <!-- PANEL 6: MONITOR ORIGINAL DE CONTROL -->
         <section class="panel">
             <h2>Eventos del control</h2>
-            <div id="monitor" role="log" aria-live="polite" aria-relevant="additions">
+
+            <div id="monitor"
+                 role="log"
+                 aria-live="polite"
+                 aria-relevant="additions">
                 <p>Esperando conexión...</p>
             </div>
         </section>
 
-        <footer class="pie text-center" aria-label="Creditos del desarrollador">Desarrollado por <strong>Oscar Alexis Muñoz Resendiz</strong> · 2026</footer>
+        <!-- PANEL 7: NUEVO MONITOREO PRACTICA 4.2 -->
+        <section id="vistaMonitoreo"
+                 class="panel"
+                 aria-label="Monitoreo del vehículo"
+                 hidden>
+
+            <div class="contenido-monitoreo">
+
+                <header>
+                    <h2 class="monitoreo-titulo">
+                        MONITOREO EN TIEMPO REAL
+                    </h2>
+
+                    <p id="monitoreoVehiculo"
+                       class="monitoreo-vehiculo">
+                        Consultando vehículo...
+                    </p>
+                </header>
+
+                <!-- ULTIMO MOVIMIENTO -->
+                <article class="monitoreo-tarjeta"
+                         aria-label="&Uacute;ltimo movimiento reportado">
+
+                    <span class="monitoreo-etiqueta">
+                        &Uacute;LTIMO MOVIMIENTO REPORTADO</span>
+
+                    <h3 id="monitoreoMovimiento"
+                        class="monitoreo-movimiento"
+                        aria-live="polite">
+                        Cargando...
+                    </h3>
+
+                    <div class="monitoreo-datos">
+
+                        <div class="monitoreo-dato">
+                            <span class="monitoreo-etiqueta">
+                                FECHA</span>
+                            <strong id="monitoreoFecha">â</strong>
+                        </div>
+
+                        <div class="monitoreo-dato">
+                            <span class="monitoreo-etiqueta">
+                                HORA</span>
+                            <strong id="monitoreoHora">â</strong>
+                        </div>
+
+                        <div class="monitoreo-dato">
+                            <span class="monitoreo-etiqueta">
+                                C&Oacute;DIGO</span>
+                            <strong id="monitoreoCodigo">â</strong>
+                        </div>
+
+                        <div class="monitoreo-dato">
+                            <span class="monitoreo-etiqueta">
+                                ORIGEN</span>
+                            <strong id="monitoreoOrigen">
+                                Sin verificar
+                            </strong>
+                        </div>
+
+                    </div>
+                </article>
+
+                <!-- HISTORIAL REAL -->
+                <section class="monitoreo-seccion"
+                         aria-labelledby="tituloHistorial">
+
+                    <h3 id="tituloHistorial">
+                        &Uacute;ltimos 10 movimientos</h3>
+
+                    <div class="monitoreo-tabla-contenedor">
+                        <table class="monitoreo-tabla">
+
+                            <caption class="visually-hidden">
+                                Diez movimientos individuales
+                                más recientes registrados
+                                para este vehículo.
+                            </caption>
+
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Movimiento</th>
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">Hora</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="monitoreoHistorial">
+                                <tr>
+                                    <td colspan="4">
+                                        Cargando historial...
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                    <p id="monitoreoMensaje"
+                       class="monitoreo-mensaje"
+                       role="status"
+                       aria-live="polite">
+                        Esperando datos de AWS...
+                    </p>
+
+                </section>
+            </div>
+        </section>
+        <!-- FIN DE MONITOREO 4.2 -->
+
+        <!-- CREDITOS ORIGINALES -->
+        <footer class="pie text-center"
+                aria-label="Creditos del desarrollador">
+            Desarrollado por
+            <strong>Oscar Alexis Muñoz Resendiz</strong>
+            · 2026
+        </footer>
+
     </main>
 
-    <!-- Los dos joysticks operan solo visualmente; no hacen fetch ni WebSocket -->
+    <!-- JOYSTICKS: COMPORTAMIENTO VISUAL ORIGINAL -->
     <script>
     (() => {
-        function instalarJoystick(idZona, idPerilla, idEstado, direcciones) {
+        function instalarJoystick(
+            idZona,
+            idPerilla,
+            idEstado,
+            direcciones
+        ) {
             const zona = document.getElementById(idZona);
             const perilla = document.getElementById(idPerilla);
             const salida = document.getElementById(idEstado);
+
             if (!zona || !perilla || !salida) return;
+
             let punteroActivo = null;
+
             const teclaDireccion = {
                 ArrowUp: direcciones.arriba,
                 ArrowDown: direcciones.abajo,
@@ -181,77 +472,147 @@
 
             function actualizar(x, y) {
                 const rect = zona.getBoundingClientRect();
-                const radio = Math.min(rect.width, rect.height) / 2;
+                const radio = Math.min(
+                    rect.width,
+                    rect.height
+                ) / 2;
+
                 if (radio <= 0) return;
+
                 const dx = x - (rect.left + rect.width / 2);
                 const dy = y - (rect.top + rect.height / 2);
+
                 const limite = radio * 0.53;
                 const distancia = Math.hypot(dx, dy);
-                const factor = distancia > limite ? limite / distancia : 1;
-                perilla.style.left = `${50 + (dx * factor / rect.width) * 100}%`;
-                perilla.style.top = `${50 + (dy * factor / rect.height) * 100}%`;
+                const factor = distancia > limite
+                    ? limite / distancia
+                    : 1;
+
+                perilla.style.left =
+                    `${50 + (dx * factor / rect.width) * 100}%`;
+
+                perilla.style.top =
+                    `${50 + (dy * factor / rect.height) * 100}%`;
+
                 let direccion = 'NEUTRAL';
+
                 if (distancia > radio * 0.18) {
                     direccion = Math.abs(dx) > Math.abs(dy)
-                        ? (dx < 0 ? direcciones.izquierda : direcciones.derecha)
-                        : (dy < 0 ? direcciones.arriba : direcciones.abajo);
+                        ? (
+                            dx < 0
+                                ? direcciones.izquierda
+                                : direcciones.derecha
+                          )
+                        : (
+                            dy < 0
+                                ? direcciones.arriba
+                                : direcciones.abajo
+                          );
                 }
-                salida.textContent = `${direccion} · Solo visual`;
+
+                salida.textContent =
+                    `${direccion} · Solo visual`;
             }
 
             zona.addEventListener('pointerdown', (evento) => {
                 if (punteroActivo !== null) return;
+
                 punteroActivo = evento.pointerId;
                 zona.setPointerCapture(evento.pointerId);
-                actualizar(evento.clientX, evento.clientY);
+
+                actualizar(
+                    evento.clientX,
+                    evento.clientY
+                );
             });
+
             zona.addEventListener('pointermove', (evento) => {
-                if (punteroActivo === evento.pointerId) actualizar(evento.clientX, evento.clientY);
+                if (punteroActivo === evento.pointerId) {
+                    actualizar(
+                        evento.clientX,
+                        evento.clientY
+                    );
+                }
             });
+
             zona.addEventListener('pointerup', (evento) => {
-                if (punteroActivo === evento.pointerId) centrar();
+                if (punteroActivo === evento.pointerId) {
+                    centrar();
+                }
             });
+
             zona.addEventListener('pointercancel', centrar);
             zona.addEventListener('lostpointercapture', centrar);
+
             zona.addEventListener('keydown', (evento) => {
                 if (teclaDireccion[evento.key]) {
                     evento.preventDefault();
-                    salida.textContent = `${teclaDireccion[evento.key]} · Solo visual`;
+
+                    salida.textContent =
+                        `${teclaDireccion[evento.key]} · Solo visual`;
                 }
             });
+
             zona.addEventListener('keyup', (evento) => {
-                if (teclaDireccion[evento.key]) centrar();
+                if (teclaDireccion[evento.key]) {
+                    centrar();
+                }
             });
+
             window.addEventListener('blur', centrar);
-            document.addEventListener('visibilitychange', () => {
-                if (document.hidden) centrar();
-            });
+
+            document.addEventListener(
+                'visibilitychange',
+                () => {
+                    if (document.hidden) centrar();
+                }
+            );
         }
 
-        instalarJoystick('joystick', 'joystickPerilla', 'direccionActual', {
-            arriba: 'AVANZAR', abajo: 'RETROCEDER',
-            izquierda: 'IZQUIERDA', derecha: 'DERECHA'
-        });
-        // Etiquetas físicas definitivas pendientes de verificación en Swagger.
-        instalarJoystick('joystickBrazo', 'joystickPerillaBrazo', 'brazoActual', {
-            arriba: 'BRAZO ARRIBA', abajo: 'BRAZO ABAJO',
-            izquierda: 'BRAZO IZQUIERDA', derecha: 'BRAZO DERECHA'
-        });
+        instalarJoystick(
+            'joystick',
+            'joystickPerilla',
+            'direccionActual',
+            {
+                arriba: 'AVANZAR',
+                abajo: 'RETROCEDER',
+                izquierda: 'IZQUIERDA',
+                derecha: 'DERECHA'
+            }
+        );
+
+        instalarJoystick(
+            'joystickBrazo',
+            'joystickPerillaBrazo',
+            'brazoActual',
+            {
+                arriba: 'BRAZO ARRIBA',
+                abajo: 'BRAZO ABAJO',
+                izquierda: 'BRAZO IZQUIERDA',
+                derecha: 'BRAZO DERECHA'
+            }
+        );
     })();
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-<script>
-if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-        navigator.serviceWorker
-            .register("./service-worker.js")
-            .catch(error => console.warn("PWA:", error));
-    });
-}
-</script>
+
+    <!-- BOOTSTRAP -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous">
+    </script>
+
+    <!-- PWA ORIGINAL -->
+    <script>
+    if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+            navigator.serviceWorker
+                .register("./service-worker.js")
+                .catch(error => console.warn("PWA:", error));
+        });
+    }
+    </script>
+
 </body>
 </html>
-
-
-
 

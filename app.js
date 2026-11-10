@@ -1613,6 +1613,8 @@ function procesarEvento(datos) {
         return;
     }
 
+    window.dispatchEvent(new CustomEvent("armo:ws-evento", { detail: datos }));
+
     const tipo =
         typeof datos.tipo === "string"
             ? datos.tipo
