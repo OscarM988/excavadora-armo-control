@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "EXCAVADORA-ARMO | Control IoT",
   "short_name": "EXCAVADORA",
   "description": "Aplicación de control IoT con AWS, FastAPI y WebSocket",
