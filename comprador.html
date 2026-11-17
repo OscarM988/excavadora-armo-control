@@ -1,0 +1,827 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Mis vehículos | EXCAVADORA-ARMO</title>
+
+  <style>
+    :root {
+      font-family: Arial, sans-serif;
+      color-scheme: dark;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #101827;
+      color: #f3f4f6;
+    }
+
+    header {
+      background: #172338;
+      border-bottom: 2px solid #f59e0b;
+      padding: 22px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      color: #f59e0b;
+      font-size: 25px;
+    }
+
+    header p {
+      color: #cbd5e1;
+      margin-bottom: 0;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .panel {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 14px;
+      padding: 25px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      color: #fbbf24;
+      margin-top: 0;
+    }
+
+    label {
+      display: block;
+      margin: 15px 0 7px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 13px;
+      border-radius: 8px;
+      border: 1px solid #64748b;
+      background: #0f172a;
+      color: white;
+      font-size: 15px;
+    }
+
+    button {
+      padding: 13px 20px;
+      border: 0;
+      border-radius: 8px;
+      background: #f59e0b;
+      color: #111827;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
+    .salir {
+      background: #475569;
+      color: white;
+    }
+
+    .oculto {
+      display: none !important;
+    }
+
+    .mensaje {
+      min-height: 24px;
+      margin-top: 15px;
+      color: #fbbf24;
+    }
+
+    .vehiculo {
+      border: 1px solid #475569;
+      border-radius: 10px;
+      background: #111c2e;
+      padding: 20px;
+      margin-top: 15px;
+    }
+
+    .vehiculo h3 {
+      margin: 0 0 12px;
+      color: #fbbf24;
+    }
+
+    .vehiculo p {
+      margin: 7px 0;
+      color: #cbd5e1;
+    }
+
+    .vehiculo ol {
+      padding-left: 25px;
+      line-height: 1.7;
+    }
+
+    .acciones {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .acciones button {
+      margin-top: 15px;
+    }
+
+    .enlace {
+      display: inline-block;
+      margin-top: 20px;
+      color: #fbbf24;
+    }
+
+    .nota {
+      color: #cbd5e1;
+      font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      main {
+        margin-top: 20px;
+        padding: 0 12px;
+      }
+
+      .panel {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>EXCAVADORA-ARMO</h1>
+    <p>Portal de compradores | Mis vehículos</p>
+  </header>
+
+  <main>
+
+    <!-- INICIO DE SESIÓN -->
+    <section id="panelLogin" class="panel">
+      <h2>Iniciar sesión</h2>
+
+      <form id="formLogin">
+
+        <label for="correo">Correo electrónico</label>
+        <input
+          id="correo"
+          type="email"
+          autocomplete="username"
+          required
+        >
+
+        <label for="password">Contraseña</label>
+        <input
+          id="password"
+          type="password"
+          autocomplete="current-password"
+          required
+        >
+
+        <button id="btnLogin" type="submit">
+          Iniciar sesión
+        </button>
+
+      </form>
+
+      <p
+        id="mensajeLogin"
+        class="mensaje"
+        role="status"
+      ></p>
+
+      <a class="enlace" href="portal-43.html">
+        Regresar al portal
+      </a>
+    </section>
+
+    <!-- VEHÍCULOS DEL COMPRADOR -->
+    <section id="panelVehiculos" class="panel oculto">
+
+      <h2>Mis vehículos asignados</h2>
+
+      <p>
+        Aquí aparecen las unidades que tienes
+        asignadas actualmente.
+      </p>
+
+      <div id="listaVehiculos"></div>
+
+      <!-- SELECTOR DE VEHÍCULOS -->
+      <div
+        id="selectorVehiculoPanel"
+        class="vehiculo oculto"
+      >
+        <label for="selectorVehiculo">
+          Seleccionar vehículo
+        </label>
+
+        <select
+          id="selectorVehiculo"
+          aria-label="Seleccionar vehículo"
+        >
+          <option value="">
+            Selecciona un vehículo
+          </option>
+        </select>
+      </div>
+
+      <!-- MONITOREO PROTEGIDO -->
+      <section id="panelMonitoreo" class="oculto">
+
+        <h2>Monitoreo de mi vehículo</h2>
+
+        <div class="vehiculo">
+          <h3>Estado actual</h3>
+
+          <div id="estadoComprador">
+            Sin consultar
+          </div>
+        </div>
+
+        <div class="vehiculo">
+          <h3>Últimos 10 movimientos</h3>
+
+          <div id="historialComprador">
+            Sin consultar
+          </div>
+        </div>
+
+        <button id="btnMonitoreo" type="button">
+          Actualizar monitoreo
+        </button>
+
+      </section>
+
+      <p
+        id="mensajeVehiculos"
+        class="mensaje"
+        role="status"
+      ></p>
+
+      <div class="acciones">
+
+        <button id="btnActualizar" type="button">
+          Actualizar vehículos
+        </button>
+
+        <button
+          id="btnSalir"
+          class="salir"
+          type="button"
+        >
+          Cerrar sesión
+        </button>
+
+      </div>
+
+      <p class="nota">
+        CONTROL funciona únicamente en simulación local.
+        No se ejecutan movimientos físicos.
+      </p>
+
+    </section>
+
+  </main>
+
+  <script>
+    "use strict";
+
+    const API_URL = "https://vehiculo-iot.duckdns.org/v43";
+
+    const panelLogin =
+      document.getElementById("panelLogin");
+
+    const panelVehiculos =
+      document.getElementById("panelVehiculos");
+
+    const formLogin =
+      document.getElementById("formLogin");
+
+    const mensajeLogin =
+      document.getElementById("mensajeLogin");
+
+    const mensajeVehiculos =
+      document.getElementById("mensajeVehiculos");
+
+    const listaVehiculos =
+      document.getElementById("listaVehiculos");
+
+    const btnLogin =
+      document.getElementById("btnLogin");
+
+    const selectorVehiculo =
+      document.getElementById("selectorVehiculo");
+
+    const panelSelector =
+      document.getElementById("selectorVehiculoPanel");
+
+    const panelMonitoreo =
+      document.getElementById("panelMonitoreo");
+
+    let tokenComprador = null;
+    let vehiculosAsignados = [];
+    let versionConsulta = 0;
+
+    // CERRAR SESIÓN
+    function cerrarSesion() {
+      versionConsulta++;
+
+      tokenComprador = null;
+      vehiculosAsignados = [];
+
+      listaVehiculos.replaceChildren();
+      selectorVehiculo.replaceChildren();
+
+      panelSelector.classList.add("oculto");
+      panelMonitoreo.classList.add("oculto");
+
+      document.getElementById("estadoComprador")
+        .textContent = "Sin consultar";
+
+      document.getElementById("historialComprador")
+        .textContent = "Sin consultar";
+
+      document.getElementById("password").value = "";
+
+      panelVehiculos.classList.add("oculto");
+      panelLogin.classList.remove("oculto");
+
+      mensajeLogin.textContent = "";
+      mensajeVehiculos.textContent = "";
+    }
+
+    function sesionVencida() {
+      cerrarSesion();
+
+      mensajeLogin.textContent =
+        "Tu sesión terminó. Inicia sesión nuevamente.";
+    }
+
+    // INICIAR SESIÓN
+    async function iniciarSesion(evento) {
+      evento.preventDefault();
+
+      const correo =
+        document.getElementById("correo").value.trim();
+
+      const password =
+        document.getElementById("password").value;
+
+      btnLogin.disabled = true;
+      mensajeLogin.textContent = "Validando acceso...";
+
+      try {
+        const respuesta = await fetch(
+          API_URL + "/usuario/auth/login",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              correo: correo,
+              password: password
+            })
+          }
+        );
+
+        if (!respuesta.ok) {
+          if (respuesta.status === 429) {
+            throw new Error(
+              "Demasiados intentos. Intenta más tarde."
+            );
+          }
+
+          throw new Error(
+            "No fue posible iniciar sesión. " +
+            "Verifica tus credenciales."
+          );
+        }
+
+        const datos = await respuesta.json();
+
+        if (!datos.access_token) {
+          throw new Error(
+            "No se recibió un token válido."
+          );
+        }
+
+        tokenComprador = datos.access_token;
+
+        document.getElementById("password").value = "";
+
+        panelLogin.classList.add("oculto");
+        panelVehiculos.classList.remove("oculto");
+
+        mensajeLogin.textContent = "";
+
+        await cargarVehiculos();
+
+      } catch (error) {
+        mensajeLogin.textContent = error.message;
+      } finally {
+        btnLogin.disabled = false;
+      }
+    }
+
+    // CONSULTAR VEHÍCULOS ASIGNADOS
+    async function cargarVehiculos() {
+      if (!tokenComprador) {
+        sesionVencida();
+        return;
+      }
+
+      const consulta = ++versionConsulta;
+
+      mensajeVehiculos.textContent =
+        "Consultando vehículos...";
+
+      try {
+        const respuesta = await fetch(
+          API_URL + "/usuario/mis-vehiculos",
+          {
+            method: "GET",
+            headers: {
+              Authorization: "Bearer " + tokenComprador
+            },
+            cache: "no-store"
+          }
+        );
+
+        if (consulta !== versionConsulta) {
+          return;
+        }
+
+        if (respuesta.status === 401) {
+          sesionVencida();
+          return;
+        }
+
+        if (!respuesta.ok) {
+          throw new Error(
+            "Error al consultar los vehículos."
+          );
+        }
+
+        const vehiculos = await respuesta.json();
+
+        if (consulta !== versionConsulta) {
+          return;
+        }
+
+        if (!Array.isArray(vehiculos)) {
+          throw new Error(
+            "Respuesta inesperada de la API."
+          );
+        }
+
+        vehiculosAsignados = vehiculos;
+
+        const vehiculoAnterior =
+          selectorVehiculo.value;
+
+        listaVehiculos.replaceChildren();
+
+        if (vehiculos.length === 0) {
+          selectorVehiculo.replaceChildren();
+
+          panelSelector.classList.add("oculto");
+          panelMonitoreo.classList.add("oculto");
+
+          mensajeVehiculos.textContent =
+            "Actualmente no tienes vehículos asignados.";
+
+          return;
+        }
+
+        // CREAR TARJETAS DE VEHÍCULOS
+        for (const vehiculo of vehiculos) {
+          const tarjeta =
+            document.createElement("article");
+
+          tarjeta.className = "vehiculo";
+
+          const titulo =
+            document.createElement("h3");
+
+          titulo.textContent =
+            vehiculo.identificador || "Vehículo IoT";
+
+          const identificador =
+            document.createElement("p");
+
+          identificador.textContent =
+            "ID del vehículo: " +
+            vehiculo.id_vehiculo;
+
+          const fecha =
+            document.createElement("p");
+
+          fecha.textContent =
+            "Fecha de asignación: " +
+            (vehiculo.fecha_inicio || "No disponible");
+
+          const estado =
+            document.createElement("p");
+
+          estado.textContent =
+            "Asignación vigente";
+
+          tarjeta.append(
+            titulo,
+            identificador,
+            fecha,
+            estado
+          );
+
+          listaVehiculos.appendChild(tarjeta);
+        }
+
+        mensajeVehiculos.textContent =
+          "Vehículos encontrados: " +
+          vehiculos.length;
+
+        // ACTUALIZAR SELECTOR
+        selectorVehiculo.replaceChildren();
+
+        for (const vehiculo of vehiculos) {
+          const opcion =
+            document.createElement("option");
+
+          opcion.value =
+            String(vehiculo.id_vehiculo);
+
+          opcion.textContent =
+            vehiculo.identificador ||
+            "Vehículo " + vehiculo.id_vehiculo;
+
+          selectorVehiculo.appendChild(opcion);
+        }
+
+        panelSelector.classList.remove("oculto");
+
+        const anteriorVigente = vehiculos.some(
+          vehiculo =>
+            String(vehiculo.id_vehiculo) ===
+            vehiculoAnterior
+        );
+
+        if (anteriorVigente) {
+          selectorVehiculo.value = vehiculoAnterior;
+        }
+
+        // ACTUALIZAR MONITOREO
+        const idSeleccionado =
+          Number(selectorVehiculo.value);
+
+        await cargarMonitoreo(idSeleccionado);
+
+        // AVISAR A LOS MÓDULOS DE CONTROL Y WEBSOCKET
+        if (consulta === versionConsulta) {
+          selectorVehiculo.dispatchEvent(
+            new Event("change")
+          );
+        }
+
+      } catch (error) {
+        if (consulta === versionConsulta) {
+          mensajeVehiculos.textContent =
+            error.message;
+        }
+      }
+    }
+
+    // CAMBIAR VEHÍCULO
+    async function cambiarVehiculo() {
+      const idVehiculo =
+        Number(selectorVehiculo.value);
+
+      const autorizado = vehiculosAsignados.some(
+        vehiculo =>
+          Number(vehiculo.id_vehiculo) === idVehiculo
+      );
+
+      if (!autorizado) {
+        panelMonitoreo.classList.add("oculto");
+        return;
+      }
+
+      await cargarMonitoreo(idVehiculo);
+    }
+
+    // MONITOREO PROTEGIDO
+    async function cargarMonitoreo(idVehiculo) {
+      const panel =
+        document.getElementById("panelMonitoreo");
+
+      const estado =
+        document.getElementById("estadoComprador");
+
+      const historial =
+        document.getElementById("historialComprador");
+
+      if (!tokenComprador || !idVehiculo) {
+        panel.classList.add("oculto");
+        return;
+      }
+
+      const consulta = versionConsulta;
+      const tokenActual = tokenComprador;
+
+      panel.classList.remove("oculto");
+
+      estado.textContent = "Consultando estado...";
+      historial.textContent = "Consultando historial...";
+
+      try {
+        const headers = {
+          Authorization: "Bearer " + tokenActual
+        };
+
+        const base =
+          API_URL +
+          "/usuario/vehiculos/" +
+          encodeURIComponent(idVehiculo);
+
+        const [respuestaEstado, respuestaHistorial] =
+          await Promise.all([
+            fetch(base + "/estado", {
+              headers,
+              cache: "no-store"
+            }),
+            fetch(base + "/historial", {
+              headers,
+              cache: "no-store"
+            })
+          ]);
+
+        if (
+          consulta !== versionConsulta ||
+          tokenActual !== tokenComprador ||
+          Number(selectorVehiculo.value) !== idVehiculo
+        ) {
+          return;
+        }
+
+        if (
+          respuestaEstado.status === 401 ||
+          respuestaHistorial.status === 401
+        ) {
+          sesionVencida();
+          return;
+        }
+
+        if (
+          respuestaEstado.status === 403 ||
+          respuestaHistorial.status === 403
+        ) {
+          estado.textContent =
+            "No tienes permiso para este vehículo.";
+
+          historial.textContent =
+            "Acceso al historial denegado.";
+
+          return;
+        }
+
+        if (
+          !respuestaEstado.ok &&
+          respuestaEstado.status !== 404
+        ) {
+          throw new Error(
+            "No se pudo consultar el estado."
+          );
+        }
+
+        if (!respuestaHistorial.ok) {
+          throw new Error(
+            "No se pudo consultar el historial."
+          );
+        }
+
+        // MOSTRAR ESTADO
+        if (respuestaEstado.status === 404) {
+          estado.textContent =
+            "Sin estado registrado.";
+        } else {
+          const datos =
+            await respuestaEstado.json();
+
+          estado.replaceChildren();
+
+          const texto =
+            document.createElement("p");
+
+          texto.textContent =
+            "Último movimiento: " +
+            (datos.comando || "Sin datos") +
+            " | Fecha: " +
+            (datos.fecha_actualizacion || "Sin datos");
+
+          estado.appendChild(texto);
+        }
+
+        // MOSTRAR HISTORIAL
+        const movimientos =
+          await respuestaHistorial.json();
+
+        historial.replaceChildren();
+
+        if (
+          !Array.isArray(movimientos) ||
+          movimientos.length === 0
+        ) {
+          historial.textContent =
+            "No hay movimientos registrados.";
+
+          return;
+        }
+
+        const lista =
+          document.createElement("ol");
+
+        for (const movimiento of movimientos) {
+          const elemento =
+            document.createElement("li");
+
+          elemento.textContent =
+            (movimiento.comando || "Desconocido") +
+            " — " +
+            (movimiento.fecha_hora || "Sin fecha");
+
+          elemento.style.marginBottom = "10px";
+
+          lista.appendChild(elemento);
+        }
+
+        historial.appendChild(lista);
+
+      } catch (error) {
+        if (
+          tokenActual === tokenComprador &&
+          consulta === versionConsulta
+        ) {
+          estado.textContent =
+            "No se pudo actualizar el monitoreo.";
+
+          historial.textContent =
+            error.message;
+        }
+      }
+    }
+
+    // EVENTOS PRINCIPALES
+    formLogin.addEventListener(
+      "submit",
+      iniciarSesion
+    );
+
+    selectorVehiculo.addEventListener(
+      "change",
+      cambiarVehiculo
+    );
+
+    document.getElementById("btnActualizar")
+      .addEventListener("click", cargarVehiculos);
+
+    document.getElementById("btnSalir")
+      .addEventListener("click", cerrarSesion);
+
+    document.getElementById("btnMonitoreo")
+      .addEventListener("click", () => {
+        const idVehiculo =
+          Number(selectorVehiculo.value);
+
+        if (idVehiculo > 0) {
+          cargarMonitoreo(idVehiculo);
+        }
+      });
+
+  </script>
+  
+<script src="js/comprador-simulacion.js"></script>
+<script src="js/comprador-wss.js"></script>
+<script src="js/comprador-demos.js"></script>
+
+</body>
+</html>
