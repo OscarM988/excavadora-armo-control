@@ -1,0 +1,87 @@
+﻿/* EXCAVADORA-ARMO - Clientes 4.3 */
+
+.form-clientes {
+  background: #13233c;
+  color: #e9f1ff;
+  border: 1px solid #435d80;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 15px 0;
+}
+
+.form-clientes[hidden] {
+  display: none;
+}
+
+.form-clientes h3 {
+  color: #ffcc00;
+  margin-top: 0;
+}
+
+.clientes-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.clientes-campo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.clientes-campo label {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.clientes-campo input,
+.clientes-campo select {
+  width: 100%;
+  min-width: 0;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #547095;
+  background: #0c192d;
+  color: #ffffff;
+  font: inherit;
+}
+
+.clientes-campo input:focus-visible,
+.clientes-campo select:focus-visible {
+  outline: 2px solid #ffcc00;
+  outline-offset: 2px;
+}
+
+.clientes-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.clientes-acciones button {
+  padding: 12px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.clientes-cancelar {
+  background: #304665;
+  color: white;
+  border: 1px solid #7189aa;
+}
+
+.clientes-nota {
+  color: #ffdc85;
+  font-size: 13px;
+}
+
+@media (max-width: 650px) {
+  .clientes-grid {
+    grid-template-columns: 1fr;
+  }
+  .form-clientes {
+    padding: 14px;
+  }
+}

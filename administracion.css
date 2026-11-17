@@ -1,0 +1,333 @@
+
+:root {
+  --fondo: #f3f5fa;
+  --blanco: #ffffff;
+  --oscuro: #172033;
+  --principal: #2456d3;
+  --borde: #e0e5ee;
+  --texto: #263247;
+  --secundario: #627087;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--fondo);
+  color: var(--texto);
+}
+
+.encabezado {
+  background: var(--oscuro);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding: 18px 24px;
+}
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.marca h1 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.marca p {
+  font-size: 12px;
+  margin: 5px 0 0;
+  color: #cbd5e1;
+}
+
+.sesion {
+  font-size: 13px;
+  color: #e2e8f0;
+}
+
+.navegacion {
+  background: white;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 12px 24px;
+  border-bottom: 1px solid var(--borde);
+}
+
+.navegacion a {
+  text-decoration: none;
+  color: var(--texto);
+  font-size: 13px;
+  font-weight: bold;
+  padding: 10px 14px;
+  border-radius: 7px;
+}
+
+.navegacion a.activo {
+  background: var(--principal);
+  color: white;
+}
+
+.contenedor {
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr);
+  min-height: 75vh;
+}
+
+.menu-lateral {
+  background: white;
+  padding: 20px 12px;
+  border-right: 1px solid var(--borde);
+}
+
+.menu-lateral h2 {
+  font-size: 16px;
+  padding: 0 12px;
+  margin-bottom: 20px;
+}
+
+.menu-btn {
+  width: 100%;
+  display: block;
+  text-align: left;
+  padding: 13px;
+  margin-bottom: 6px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--texto);
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.menu-btn:hover {
+  background: #edf2ff;
+}
+
+.menu-btn.activo {
+  background: #e8efff;
+  color: #1744a3;
+  font-weight: bold;
+}
+
+main {
+  min-width: 0;
+  padding: 25px;
+}
+
+.vista {
+  display: none;
+}
+
+.vista.activa {
+  display: block;
+}
+
+.titulo-seccion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.titulo-seccion h2 {
+  margin: 0;
+  font-size: 25px;
+}
+
+.titulo-seccion p {
+  color: var(--secundario);
+  font-size: 14px;
+}
+
+.tarjetas {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.tarjeta,
+.panel {
+  background: white;
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.tarjeta h3 {
+  color: var(--secundario);
+  font-size: 14px;
+  margin: 0 0 15px;
+}
+
+.tarjeta strong {
+  display: block;
+  font-size: 32px;
+  color: var(--oscuro);
+}
+
+.tarjeta small {
+  color: var(--secundario);
+}
+
+.panel {
+  margin-top: 15px;
+}
+
+.panel h3 {
+  margin-top: 0;
+}
+
+.indicadores {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+}
+
+.indicadores p {
+  font-size: 14px;
+}
+
+.nota {
+  font-size: 12px;
+  color: var(--secundario);
+}
+
+.tabla-contenedor {
+  overflow-x: auto;
+  margin-top: 16px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+  font-size: 13px;
+}
+
+th {
+  text-align: left;
+  background: #edf2fa;
+  color: var(--oscuro);
+  padding: 13px;
+}
+
+td {
+  padding: 13px;
+  border-bottom: 1px solid var(--borde);
+}
+
+.vacio {
+  text-align: center;
+  color: var(--secundario);
+  padding: 30px;
+}
+
+.accion {
+  background: var(--principal);
+  color: white;
+  border: none;
+  border-radius: 7px;
+  padding: 11px 15px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.accion:hover {
+  background: #173fa5;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 2px;
+}
+
+.mensaje {
+  background: #fff8e7;
+  border: 1px solid #ead8a8;
+  color: #684b13;
+  border-radius: 8px;
+  padding: 12px 15px;
+  margin-bottom: 20px;
+  font-size: 13px;
+}
+
+.pie {
+  text-align: center;
+  padding: 20px;
+  background: var(--oscuro);
+  color: #dce3ee;
+  font-size: 12px;
+}
+
+@media (max-width: 1000px) {
+  .tarjetas {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .contenedor {
+    grid-template-columns: 1fr;
+  }
+
+  .menu-lateral {
+    display: flex;
+    gap: 7px;
+    overflow-x: auto;
+    padding: 12px;
+    border-right: 0;
+    border-bottom: 1px solid var(--borde);
+  }
+
+  .menu-lateral h2 {
+    display: none;
+  }
+
+  .menu-btn {
+    width: auto;
+    flex: 0 0 auto;
+    white-space: nowrap;
+    margin: 0;
+  }
+
+  main {
+    padding: 15px;
+  }
+
+  .tarjetas {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .tarjeta,
+  .panel {
+    padding: 15px;
+  }
+
+  .tarjeta strong {
+    font-size: 25px;
+  }
+
+  .titulo-seccion h2 {
+    font-size: 21px;
+  }
+}
+
+@media (max-width: 380px) {
+  .tarjetas {
+    grid-template-columns: 1fr;
+  }
+}

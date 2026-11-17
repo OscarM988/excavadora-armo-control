@@ -1,0 +1,185 @@
+﻿/* ADMINISTRACION 4.3 - EXCAVADORA-ARMO */
+
+:root {
+  --oscuro: #101d34;
+  --principal: #243d63;
+  --amarillo: #ffcc00;
+  --fondo: #0a1426;
+  --texto: #e9f1ff;
+}
+
+body {
+  background: var(--fondo);
+  color: var(--texto);
+}
+
+.encabezado,
+.pie {
+  background: #101b2f;
+}
+
+.navegacion,
+.menu-lateral {
+  background: #14243c;
+  border-color: #344767;
+}
+
+.navegacion a,
+.menu-btn {
+  color: #e9f1ff;
+}
+
+.navegacion a.activo,
+.menu-btn.activo {
+  background: var(--amarillo);
+  color: #101a2e;
+}
+
+.menu-btn:hover {
+  background: #304868;
+  color: white;
+}
+
+.menu-lateral h2 {
+  color: white;
+}
+
+.tarjeta,
+.panel {
+  background: #1b2e4b;
+  color: white;
+  border-color: #364c70;
+}
+
+.tarjeta h3,
+.tarjeta strong,
+.panel h3,
+.titulo-seccion h2 {
+  color: white;
+}
+
+.tarjeta small,
+.titulo-seccion p,
+.nota {
+  color: #b8c9e5;
+}
+
+.accion {
+  background: var(--amarillo);
+  color: #101a2e;
+  font-weight: bold;
+}
+
+.accion:hover {
+  background: #ffe15a;
+}
+
+th {
+  background: #273e60;
+  color: var(--amarillo);
+}
+
+td {
+  color: #e9f1ff;
+  border-color: #364c70;
+}
+
+.vacio {
+  color: #b8c9e5;
+}
+
+.mensaje {
+  background: #293c57;
+  border-color: #566b88;
+  color: #ffdf70;
+}
+
+.form-admin {
+  margin: 20px 0;
+  padding: 20px;
+  border-radius: 12px;
+  background: #13233c;
+  border: 1px solid #435d80;
+}
+
+.form-admin[hidden] {
+  display: none;
+}
+
+.form-admin h3 {
+  margin: 0 0 18px;
+  color: var(--amarillo);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.campo-admin {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.campo-admin label {
+  color: #e9f1ff;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.campo-admin input,
+.campo-admin select,
+.campo-admin textarea {
+  width: 100%;
+  background: #0c192d;
+  border: 1px solid #547095;
+  color: white;
+  border-radius: 8px;
+  padding: 12px;
+  font: inherit;
+}
+
+.campo-admin input:focus,
+.campo-admin select:focus,
+.campo-admin textarea:focus {
+  outline: 2px solid var(--amarillo);
+}
+
+.form-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.btn-secundario {
+  border: 1px solid #7189aa;
+  background: #304665;
+  color: white;
+  border-radius: 8px;
+  padding: 11px 16px;
+  cursor: pointer;
+}
+
+.etiqueta-borrador {
+  color: #ffdb54;
+  font-weight: bold;
+}
+
+.advertencia-admin {
+  color: #ffdc85;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+@media(max-width: 650px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-admin {
+    padding: 14px;
+  }
+}
