@@ -1,0 +1,280 @@
+
+/*
+ * EXCAVADORA-ARMO
+ * Practica 4.2 - MONITOREO
+ * Estilos independientes de CONTROL
+ */
+
+#vistaMonitoreo[hidden] {
+    display: none !important;
+}
+
+#vistaMonitoreo {
+    min-width: 0;
+    min-height: 0;
+    color: #f8fafc;
+}
+
+#vistaMonitoreo .contenido-monitoreo {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    gap: 14px;
+    padding: 2px;
+    scrollbar-width: thin;
+}
+
+#vistaMonitoreo .monitoreo-titulo {
+    margin: 0;
+    font-size: clamp(18px, 3vw, 25px);
+    font-weight: 700;
+    color: #facc15;
+}
+
+#vistaMonitoreo .monitoreo-vehiculo {
+    margin: 0;
+    color: #aabbd2;
+    font-size: 13px;
+}
+
+#vistaMonitoreo .monitoreo-tarjeta {
+    background: linear-gradient(145deg, #223858, #14233d);
+    border: 1px solid #354765;
+    border-radius: 16px;
+    padding: clamp(14px, 3vw, 24px);
+}
+
+#vistaMonitoreo .monitoreo-etiqueta {
+    color: #aabbd2;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}
+
+#vistaMonitoreo .monitoreo-movimiento {
+    margin: 12px 0;
+    color: #fde047;
+    font-size: clamp(23px, 5vw, 36px);
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+#vistaMonitoreo .monitoreo-datos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+#vistaMonitoreo .monitoreo-dato {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+#vistaMonitoreo .monitoreo-dato strong {
+    color: #f8fafc;
+    font-size: 14px;
+    overflow-wrap: anywhere;
+}
+
+#vistaMonitoreo .monitoreo-seccion {
+    background: rgba(19, 34, 57, .94);
+    border: 1px solid #354765;
+    border-radius: 16px;
+    padding: 14px;
+    min-width: 0;
+}
+
+#vistaMonitoreo .monitoreo-seccion h3 {
+    margin: 0 0 12px;
+    color: #f8fafc;
+    font-size: 17px;
+}
+
+#vistaMonitoreo .monitoreo-tabla-contenedor {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+#vistaMonitoreo .monitoreo-tabla {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    font-size: clamp(10px, 1.8vw, 13px);
+}
+
+#vistaMonitoreo .monitoreo-tabla th {
+    background: #223858;
+    color: #fde047;
+    padding: 10px 5px;
+    text-align: left;
+}
+
+#vistaMonitoreo .monitoreo-tabla td {
+    padding: 10px 5px;
+    border-bottom: 1px solid #354765;
+    color: #e2e8f0;
+    overflow-wrap: anywhere;
+}
+
+#vistaMonitoreo .monitoreo-tabla th:first-child {
+    width: 9%;
+}
+
+#vistaMonitoreo .monitoreo-tabla th:nth-child(2) {
+    width: 39%;
+}
+
+#vistaMonitoreo .monitoreo-tabla th:nth-child(3) {
+    width: 30%;
+}
+
+#vistaMonitoreo .monitoreo-tabla th:nth-child(4) {
+    width: 22%;
+}
+
+#vistaMonitoreo .monitoreo-mensaje {
+    margin: 0;
+    padding: 10px;
+    color: #aabbd2;
+    text-align: center;
+    font-size: 13px;
+}
+
+@media (max-width: 480px) {
+    #vistaMonitoreo .contenido-monitoreo {
+        gap: 9px;
+    }
+
+    #vistaMonitoreo .monitoreo-tarjeta,
+    #vistaMonitoreo .monitoreo-seccion {
+        padding: 10px;
+        border-radius: 12px;
+    }
+
+    #vistaMonitoreo .monitoreo-datos {
+        gap: 8px;
+    }
+
+    #vistaMonitoreo .monitoreo-tabla th,
+    #vistaMonitoreo .monitoreo-tabla td {
+        padding: 8px 3px;
+    }
+}
+
+
+/* Navegación principal CONTROL / MONITOREO */
+
+.navegacion-modos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.navegacion-modos button {
+    min-height: 40px;
+    padding: 7px 12px;
+    border: 1px solid #354765;
+    border-radius: 10px;
+    background: #223858;
+    color: #f8fafc;
+    font-size: clamp(11px, 2.4vw, 14px);
+    font-weight: 700;
+}
+
+.navegacion-modos button.activo {
+    background: #facc15;
+    border-color: #facc15;
+    color: #111827;
+}
+
+.navegacion-modos button:focus-visible {
+    outline: 2px solid #38bdf8;
+    outline-offset: 2px;
+}
+
+.navegacion-armo[hidden] {
+    display: none !important;
+}
+
+@media (max-height: 580px) {
+    .navegacion-modos button {
+        min-height: 34px;
+        padding: 5px;
+    }
+}
+
+
+/* ==========================================
+   PRACTICA 4.2 - AJUSTE DE MONITOREO
+   Un solo desplazamiento vertical
+   ========================================== */
+
+#vistaMonitoreo {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#vistaMonitoreo .monitoreo-tabla-contenedor {
+    flex: 0 0 auto;
+    height: auto;
+    max-height: none;
+    overflow: visible;
+}
+
+#vistaMonitoreo .monitoreo-tabla {
+    width: 100%;
+    table-layout: fixed;
+}
+
+#vistaMonitoreo .monitoreo-tabla th,
+#vistaMonitoreo .monitoreo-tabla td {
+    overflow-wrap: anywhere;
+}
+
+
+
+/* ==========================================
+   PRACTICA 4.2 - DESPLAZAMIENTO CORREGIDO
+   Un solo scroll vertical en MONITOREO
+   ========================================== */
+
+/* El panel exterior no debe desplazarse */
+#vistaMonitoreo {
+    min-height: 0;
+    overflow: hidden !important;
+}
+
+/* Unico contenedor con desplazamiento vertical */
+#vistaMonitoreo .contenido-monitoreo {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+}
+
+/* La tabla debe mostrar todas sus filas */
+#vistaMonitoreo .monitoreo-tabla-contenedor {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+}
+
+/* Evitar recortes dentro de la tarjeta */
+#vistaMonitoreo .monitoreo-seccion {
+    height: auto;
+    max-height: none;
+    flex-shrink: 0;
+    overflow: visible;
+}
+
+#vistaMonitoreo .monitoreo-tarjeta {
+    flex-shrink: 0;
+}

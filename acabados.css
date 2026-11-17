@@ -56,3 +56,73 @@
         padding: 1px;
     }
 }
+
+
+/* PRACTICA 4.2 - FIX MOVIL REAL */
+
+/* Vertical: eliminar espacio vacio */
+@media (max-width: 600px) and (orientation: portrait) {
+    html, body {
+        height: auto;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    #pantallaControl:not(.oculto) {
+        height: auto;
+        min-height: 100dvh;
+        overflow: visible;
+    }
+
+    #pantallaControl .panel[data-vista]:not(#vistaMonitoreo) {
+        flex: 0 0 auto;
+        height: auto;
+        min-height: 0;
+        overflow: visible;
+    }
+
+    #pantallaControl .zona-controles-principales {
+        flex: none;
+        height: auto;
+        min-height: 0;
+        align-items: center;
+    }
+}
+
+/* Horizontal: evitar controles recortados */
+@media (orientation: landscape) and (max-height: 600px) and (pointer: coarse) {
+    html, body {
+        height: auto;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    #pantallaControl:not(.oculto) {
+        height: auto;
+        min-height: 100dvh;
+        overflow: visible;
+        padding-bottom: max(8px, env(safe-area-inset-bottom));
+    }
+
+    #pantallaControl .panel[data-vista]:not(#vistaMonitoreo) {
+        flex: 0 0 auto;
+        height: auto;
+        min-height: 0;
+        overflow: visible;
+    }
+
+    #pantallaControl .zona-controles-principales {
+        flex: none;
+        height: auto;
+        min-height: 0;
+        align-items: center;
+    }
+
+    #pantallaControl .joystick-base {
+        width: min(100%, 30dvh, 140px);
+    }
+
+    #pantallaControl .panel[data-vista] h2 {
+        margin-bottom: 8px;
+    }
+}

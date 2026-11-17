@@ -1,4 +1,4 @@
-﻿
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -32,9 +32,12 @@
 
     <!-- ESTILO EXISTENTE DE ADMINISTRACION -->
     <link rel="stylesheet" href="admin-nav.css">
+    <link rel="stylesheet" href="armo-pantalla-fija.css?v=1">
 
     <!-- SCRIPTS ORIGINALES -->
-    <script src="app.js" defer></script>
+    <script src="app.js?v=43-directo-1" defer></script>
+    <script src="js/control-fisico-local.js" defer></script>
+    <script src="js/control-voz-local.js" defer></script>
     <script src="js/estado-extras.js" defer></script>
     <script src="js/rds-status.js" defer></script>
     <script type="module" src="js/monitoreo.js"></script>
@@ -42,13 +45,14 @@
     <!-- NAVEGACION PRINCIPAL PRACTICA 4.3 -->
     <!-- Se carga una sola vez -->
     <script src="js/navegacion-43.js?v=43-3" defer></script>
+    <script src="js/armo-layout-fijo.js?v=1" defer></script>
 </head>
 
 <body>
 
-    <!-- LOGIN ORIGINAL -->
+    <!-- Formulario legado oculto: CONTROL abre directo sin credenciales -->
     <section id="pantallaLogin"
-             class="pantalla-login oculto">
+             class="pantalla-login oculto" hidden style="display:none">
 
         <div class="login-card">
 
@@ -197,9 +201,8 @@
             </p>
 
             <p class="nota">
-                La aplicación no enviará movimientos hasta
-                completar las pruebas de integración y habilitar
-                explícitamente el control.
+                Los joysticks y botones funcionan como simulación visual.
+                El control físico requiere autorización segura independiente.
             </p>
 
         </section>
@@ -647,21 +650,21 @@
         </section>
         <!-- FIN DE MONITOREO 4.2 -->
 
-        <!-- CREDITOS ORIGINALES -->
-        <footer
-            class="pie text-center"
-            aria-label="Creditos del desarrollador">
+        <!-- CREDITOS DEL DESARROLLADOR -->
 
-            Desarrollado por
 
-            <strong>
-                Oscar Alexis Muñoz Resendiz
-            </strong>
 
-            · 2026
 
-        </footer>
-
+        <footer class="armo-creditos" aria-label="Créditos de EXCAVADORA-ARMO">
+    <strong class="armo-creditos-titulo">EXCAVADORA-ARMO</strong>
+    <p>Desarrollado por <strong>Oscar Alexis Muñoz Reséndiz</strong></p>
+    <p>Ingeniería en Sistemas Computacionales · Tecnológico Nacional de México — Campus Pachuca</p>
+    <p>Implementación de Soluciones IoT · 2026</p>
+    <div class="armo-creditos-links">
+      <a href="https://github.com/OscarM988/excavadora-armo-control" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://www.linkedin.com/in/oscar-alexis-muñoz-resendiz-275098431/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    </div>
+  </footer>
     </main>
 
     <!-- JOYSTICKS: COMPORTAMIENTO VISUAL ORIGINAL -->
@@ -917,6 +920,7 @@
         No cargar js/admin-nav.js porque genera
         una segunda navegación.
     -->
+
 
 </body>
 </html>

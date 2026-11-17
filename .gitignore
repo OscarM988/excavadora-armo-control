@@ -1,0 +1,27 @@
+﻿
+# EXCAVADORA-ARMO - Archivos privados y temporales
+__pycache__/
+*.pyc
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Puente local y scripts privados
+servidor_control_local.py
+servidor_control_local.py.*
+acceso_directo_v3.py
+configurar_acceso_directo*.py
+instalar_indicadores.py
+
+# Respaldos
+*.respaldo*
+*.bak
+respaldo-*/
+respaldos/
+
+# Archivos temporales locales
+.gitignore.respaldo-local

@@ -1,0 +1,308 @@
+/* EXCAVADORA-ARMO | Vista fija adaptativa (solo presentacion visual)
+   No cambia las funciones de REST, WSS, voz, joystick ni DEMO. */
+:root { --armo-topbar: 48px; }
+html, body {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    overscroll-behavior: none !important;
+}
+body {
+    box-sizing: border-box;
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    min-height: 0 !important;
+}
+/* Barra de navegacion 4.3: es el unico menu principal visible. */
+body > #navegacion-principal-43 {
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex: 0 0 var(--armo-topbar) !important;
+    height: var(--armo-topbar) !important;
+    min-height: 0 !important;
+    max-height: var(--armo-topbar) !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-wrap: nowrap !important;
+    gap: 8px !important;
+    padding: 5px 8px !important;
+    overflow: hidden !important;
+}
+body > #navegacion-principal-43 button,
+body > #navegacion-principal-43 a {
+    box-sizing: border-box !important;
+    flex: 0 1 170px !important;
+    min-width: 0 !important;
+    max-height: 100% !important;
+    height: 36px !important;
+    padding: 5px 7px !important;
+    font-size: clamp(10px, 1.5vw, 13px) !important;
+}
+/* Una sola pantalla: topbar + contenido, sin scroll del documento. */
+body > #pantallaControl:not(.oculto) {
+    box-sizing: border-box !important;
+    position: relative !important;
+    display: flex !important;
+    flex: 1 1 0 !important;
+    flex-direction: column !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    height: auto !important;
+    width: min(100%, 1040px) !important;
+    max-width: 1040px !important;
+    margin: 0 auto !important;
+    padding: 5px 9px 7px !important;
+    gap: 5px !important;
+    overflow: hidden !important;
+}
+/* Se mantiene la logica original de pestañas. */
+#pantallaControl > .encabezado {
+    flex: 0 0 auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 7px 12px !important;
+    margin: 0 !important;
+}
+#pantallaControl > .encabezado h1 { font-size: clamp(14px, 2.2dvh, 20px) !important; margin: 0 !important; }
+#pantallaControl > .encabezado p { font-size: 11px !important; margin: 2px 0 0 !important; }
+#pantallaControl > .indicadores {
+    flex: 0 0 auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 5px !important;
+}
+#pantallaControl > .indicadores .indicador { min-height: 0 !important; padding: 4px !important; }
+#pantallaControl > .indicadores .indicador span { font-size: clamp(9px, 1.2dvh, 12px) !important; margin: 0 !important; }
+#pantallaControl > .indicadores .indicador strong { font-size: clamp(10px, 1.5dvh, 13px) !important; }
+#pantallaControl #leyendaControl {
+    flex: 0 0 auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 4px 6px !important;
+    font-size: clamp(9px, 1.25dvh, 11px) !important;
+    line-height: 1.2 !important;
+}
+#pantallaControl .navegacion-modos { display: none !important; }
+#pantallaControl .navegacion-armo {
+    flex: 0 0 auto !important;
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0,1fr)) !important;
+    gap: 5px !important;
+    margin: 0 !important;
+}
+#pantallaControl .navegacion-armo button {
+    box-sizing: border-box !important;
+    min-height: 0 !important;
+    height: clamp(29px, 4.6dvh, 39px) !important;
+    padding: 3px 2px !important;
+    font-size: clamp(9px, 1.4vw, 13px) !important;
+}
+#pantallaControl > .panel.seguridad-armo { display: none !important; }
+#pantallaControl > .panel[data-vista] {
+    display: none;
+    flex: 1 1 0 !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    height: auto !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    padding: 8px 12px !important;
+}
+#pantallaControl > .panel[data-vista].vista-activa:not([hidden]) { display: flex !important; flex-direction: column !important; }
+#pantallaControl > .panel[data-vista] > h2 { font-size: clamp(13px, 2dvh, 19px) !important; margin: 0 0 3px !important; flex: 0 0 auto !important; }
+#pantallaControl > .panel[aria-label="Control principal de la excavadora"] .zona-controles-principales {
+    box-sizing: border-box !important;
+    display: grid !important;
+    flex: 1 1 0 !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    height: auto !important;
+    grid-template-columns: minmax(0,1fr) minmax(125px,.8fr) minmax(0,1fr) !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: clamp(5px, 1.3vw, 16px) !important;
+    overflow: hidden !important;
+}
+#pantallaControl .bloque-joystick,
+#pantallaControl .bloque-extras-centro {
+    box-sizing: border-box !important;
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    flex: 0 1 auto !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    gap: clamp(2px, .5dvh, 5px) !important;
+    overflow: hidden !important;
+}
+#pantallaControl .bloque-joystick h3,
+#pantallaControl .bloque-extras-centro h3 { flex: 0 0 auto !important; font-size: clamp(10px, 1.7dvh, 15px) !important; margin: 0 !important; }
+#pantallaControl .joystick-base {
+    box-sizing: border-box !important;
+    width: min(100%, 29dvh, 230px) !important;
+    height: auto !important;
+    min-height: 0 !important;
+    aspect-ratio: 1 !important;
+    flex: 0 1 auto !important;
+    margin: 0 auto !important;
+    touch-action: none !important;
+}
+#pantallaControl .joystick-estado {
+    flex: 0 0 auto !important;
+    min-height: 0 !important;
+    font-size: clamp(8px, 1.35dvh, 11px) !important;
+    line-height: 1.15 !important;
+    margin: 0 !important;
+}
+#pantallaControl .extras-mini-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+    gap: 4px !important;
+    width: min(100%, 208px) !important;
+    margin: 0 !important;
+}
+#pantallaControl .extras-mini-grid .btn-extra-mini {
+    box-sizing: border-box !important;
+    min-height: 0 !important;
+    height: clamp(38px, 6.6dvh, 65px) !important;
+    padding: 3px 2px !important;
+    font-size: clamp(12px, 1.9dvh, 16px) !important;
+    gap: 2px !important;
+}
+#pantallaControl .extras-mini-grid .btn-extra-mini span { font-size: clamp(8px,1.1dvh,10px) !important; }
+#pantallaControl .btn-detener.btn-detener-central {
+    min-height: 0 !important;
+    height: clamp(37px, 6dvh, 55px) !important;
+    width: min(100%, 135px) !important;
+    padding: 2px !important;
+    margin: 0 !important;
+    flex: 0 0 auto !important;
+}
+#pantallaControl .btn-detener.btn-detener-central span { font-size: clamp(9px, 1.2dvh, 11px) !important; }
+#pantallaControl .control-aviso { display: none !important; }
+/* Micrófono dentro del panel activo, sin crear otra seccion de página. */
+#pantallaControl #armo-voz-dock {
+    box-sizing: border-box !important;
+    flex: 0 0 auto !important;
+    display: grid !important;
+    grid-template-columns: auto minmax(0,1fr) !important;
+    align-items: center !important;
+    gap: 2px 10px !important;
+    min-height: 0 !important;
+    max-height: clamp(58px, 10dvh, 82px) !important;
+    overflow: hidden !important;
+    margin: 4px 0 0 !important;
+    padding: 5px 8px !important;
+    border-radius: 10px !important;
+}
+#pantallaControl #armo-voz-dock > h3 { grid-column: 1; grid-row: 1; font-size: clamp(10px, 1.4dvh, 13px) !important; margin: 0 !important; }
+#pantallaControl #armo-voz-dock > button { grid-row: 2 !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; width: fit-content !important; margin: 0 !important; padding: 6px 8px !important; font-size: clamp(9px, 1.2dvh, 12px) !important; white-space: nowrap !important; }
+#pantallaControl #armo-voz-dock > button:nth-of-type(1) { grid-column: 1; justify-self: start !important; }
+#pantallaControl #armo-voz-dock > button:nth-of-type(2) { grid-column: 1; justify-self: end !important; transform: translateX(calc(100% + 7px)); }
+#pantallaControl #armo-voz-dock > p[role="status"] { grid-column: 2; grid-row: 1 / span 2; min-width: 0 !important; margin: 0 !important; font-size: clamp(9px,1.25dvh,12px) !important; line-height: 1.3 !important; overflow: hidden !important; text-overflow: ellipsis; }
+#pantallaControl #armo-voz-dock > p:last-child { display: none !important; }
+/* Franja fija de créditos, siempre visible sin añadir altura de página. */
+#pantallaControl > .armo-creditos {
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex: 0 0 auto !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+    gap: 3px 9px !important;
+    width: 100% !important;
+    min-height: 0 !important;
+    max-height: 56px !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 5px 8px !important;
+    overflow: hidden !important;
+    border-radius: 10px !important;
+    font-size: 11px !important;
+    line-height: 1.25 !important;
+}
+#pantallaControl > .armo-creditos .armo-creditos-titulo { display: none !important; }
+#pantallaControl > .armo-creditos p { margin: 0 !important; font-size: clamp(9px,1.15vw,11px) !important; line-height: 1.2 !important; }
+#pantallaControl > .armo-creditos p:nth-of-type(3) { display: none !important; }
+#pantallaControl > .armo-creditos .armo-creditos-links { display: inline-flex !important; align-items: center !important; gap: 8px !important; margin: 0 !important; }
+#pantallaControl > .armo-creditos a { font-size: 11px !important; }
+/* El historial puede desplazar sus filas internamente; nunca la ventana completa. */
+#pantallaControl .monitoreo-tabla-contenedor { min-height: 0 !important; max-height: 33dvh !important; overflow: auto !important; }
+#pantallaControl #vistaMonitoreo { min-height: 0 !important; }
+#pantallaControl #vistaMonitoreo .monitoreo-contenido { min-height: 0 !important; overflow: hidden !important; }
+@media (max-width: 600px) {
+    :root { --armo-topbar: 40px; }
+    body > #navegacion-principal-43 { gap: 3px !important; padding: 4px !important; }
+    body > #navegacion-principal-43 button,
+    body > #navegacion-principal-43 a { flex: 1 1 0 !important; height: 31px !important; font-size: 9px !important; padding: 3px 2px !important; }
+    body > #pantallaControl:not(.oculto) { padding: 3px 4px 4px !important; gap: 3px !important; }
+    #pantallaControl > .encabezado { padding: 4px 7px !important; }
+    #pantallaControl > .encabezado h1 { font-size: 14px !important; }
+    #pantallaControl > .encabezado p { font-size: 10px !important; }
+    #pantallaControl > .indicadores { padding: 2px !important; }
+    #pantallaControl > .indicadores .indicador { padding: 3px 1px !important; }
+    #pantallaControl > .indicadores .indicador span { font-size: 8px !important; }
+    #pantallaControl > .indicadores .indicador strong { font-size: 9px !important; }
+    #pantallaControl .navegacion-armo button { height: 30px !important; font-size: 9px !important; }
+    #pantallaControl > .panel[data-vista] { padding: 5px !important; }
+    #pantallaControl > .panel[data-vista] > h2 { font-size: 12px !important; }
+    #pantallaControl > .panel[aria-label="Control principal de la excavadora"] .zona-controles-principales {
+        grid-template-columns: minmax(0,1fr) minmax(90px,.9fr) minmax(0,1fr) !important;
+        gap: 3px !important;
+    }
+    #pantallaControl .joystick-base { width: min(100%, 20dvh, 140px) !important; }
+    #pantallaControl .joystick-estado { font-size: 8px !important; }
+    #pantallaControl .bloque-joystick h3,
+    #pantallaControl .bloque-extras-centro h3 { font-size: 10px !important; }
+    #pantallaControl .extras-mini-grid .btn-extra-mini { height: clamp(34px,5.2dvh,43px) !important; }
+    #pantallaControl .btn-detener.btn-detener-central { height: 37px !important; }
+    #pantallaControl #armo-voz-dock { display: flex !important; flex-wrap: wrap !important; gap: 3px 5px !important; max-height: 80px !important; }
+    #pantallaControl #armo-voz-dock > button:nth-of-type(2) { transform: none !important; }
+    #pantallaControl #armo-voz-dock > p[role="status"] { flex: 1 1 100% !important; font-size: 9px !important; }
+    #pantallaControl > .armo-creditos { max-height: 55px !important; padding: 3px 4px !important; gap: 2px 5px !important; }
+    #pantallaControl > .armo-creditos p { font-size: 9px !important; }
+    #pantallaControl > .armo-creditos a { font-size: 10px !important; }
+}
+@media (max-height: 530px) {
+    :root { --armo-topbar: 35px; }
+    #pantallaControl > .indicadores .indicador { padding: 2px 1px !important; }
+    #pantallaControl .navegacion-armo button { height: 27px !important; }
+    #pantallaControl .joystick-base { width: min(100%, 18dvh, 120px) !important; }
+    #pantallaControl .extras-mini-grid .btn-extra-mini { height: 32px !important; }
+    #pantallaControl #armo-voz-dock { max-height: 58px !important; }
+    #pantallaControl > .armo-creditos { max-height: 42px !important; }
+}
+/* Distribución compacta sin solapar botones del micrófono. */
+#pantallaControl #armo-voz-dock {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 3px 8px !important;
+}
+#pantallaControl #armo-voz-dock > h3,
+#pantallaControl #armo-voz-dock > button {
+    flex: 0 0 auto !important;
+    transform: none !important;
+}
+#pantallaControl #armo-voz-dock > p[role="status"] {
+    flex: 1 1 100% !important;
+    min-width: 0 !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+}
+@media (max-width: 370px) {
+    #pantallaControl #armo-voz-dock { gap: 2px 4px !important; }
+    #pantallaControl #armo-voz-dock > h3 { font-size: 9px !important; }
+    #pantallaControl #armo-voz-dock > button { padding: 4px !important; font-size: 9px !important; }
+}

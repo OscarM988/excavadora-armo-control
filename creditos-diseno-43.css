@@ -1,0 +1,137 @@
+/* EXCAVADORA-ARMO | Ajuste visual 4.3. Sin logica de movimiento. */
+#pantallaControl > section[aria-label="Control principal de la excavadora"] {
+  display: block !important;
+  position: relative !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+  padding-bottom: 24px !important;
+}
+#pantallaControl > section[aria-label="Control principal de la excavadora"] > h2 {
+  position: static !important;
+  margin: 0 0 20px !important;
+  transform: none !important;
+}
+#pantallaControl .zona-controles-principales {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 0.9fr) minmax(0, 1fr) !important;
+  align-items: start !important;
+  justify-items: center !important;
+  gap: 22px !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+  padding: 16px 6px 20px !important;
+  margin: 0 !important;
+}
+#pantallaControl .zona-controles-principales > .bloque-joystick,
+#pantallaControl .zona-controles-principales > .bloque-extras-centro {
+  position: static !important;
+  inset: auto !important;
+  transform: none !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  height: auto !important;
+  overflow: visible !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: center !important;
+}
+#pantallaControl .zona-controles-principales h3 {
+  position: static !important;
+  transform: none !important;
+  margin: 0 0 15px !important;
+  text-align: center !important;
+}
+#pantallaControl .zona-controles-principales .joystick-base {
+  position: relative !important;
+  inset: auto !important;
+  transform: none !important;
+  margin: 0 auto 14px !important;
+  width: min(100%, 250px) !important;
+  height: auto !important;
+  aspect-ratio: 1 / 1 !important;
+  max-width: 250px !important;
+  max-height: none !important;
+  box-sizing: border-box !important;
+  touch-action: none;
+}
+#pantallaControl .zona-controles-principales .joystick-estado {
+  position: static !important;
+  transform: none !important;
+  display: block !important;
+  width: 100% !important;
+  margin: 8px auto 0 !important;
+  text-align: center !important;
+}
+#pantallaControl .zona-controles-principales .bloque-extras-centro {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+#pantallaControl .zona-controles-principales .extras-mini-grid {
+  position: static !important;
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  width: 100% !important;
+  max-width: 270px !important;
+  gap: 12px !important;
+  margin: 0 auto !important;
+}
+#pantallaControl .zona-controles-principales .extras-mini-grid .btn-extra-mini {
+  position: relative !important;
+  transform: none !important;
+  min-height: 88px !important;
+  min-width: 0 !important;
+  width: 100% !important;
+}
+#pantallaControl .zona-controles-principales .btn-detener-central,
+#pantallaControl .zona-controles-principales .control-aviso {
+  position: static !important;
+  inset: auto !important;
+  transform: none !important;
+  margin: 0 auto !important;
+  max-width: 100% !important;
+}
+#pantallaControl [aria-label="Control por voz"] {
+  position: static !important;
+  transform: none !important;
+  clear: both;
+  height: auto !important;
+  overflow: visible !important;
+  margin-top: 20px !important;
+}
+.armo-creditos {
+  margin: 26px auto 20px !important;
+  padding: 20px 18px !important;
+  max-width: 1120px;
+  border: 1px solid #3b526f;
+  border-radius: 14px;
+  background: #15253e;
+  color: #e8eff9;
+  text-align: center;
+  line-height: 1.6;
+  font: 14px/1.6 Arial, sans-serif;
+}
+.armo-creditos strong { color: #facc15; }
+.armo-creditos p { margin: 4px 0; }
+.armo-creditos .armo-enlaces {display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:10px}
+.armo-creditos a {color:#facc15 !important;text-decoration:underline}
+.armo-creditos a:focus-visible {outline:2px solid #fff;outline-offset:3px}
+@media (max-width: 900px) {
+  #pantallaControl .zona-controles-principales {
+    grid-template-columns: minmax(0,1fr) minmax(190px,.9fr) minmax(0,1fr) !important;
+    gap: 10px !important;
+  }
+  #pantallaControl .zona-controles-principales .joystick-base {width:min(100%,205px) !important}
+}
+@media (max-width: 680px) {
+  #pantallaControl .zona-controles-principales {grid-template-columns:minmax(0,1fr) !important;gap:30px !important}
+  #pantallaControl .zona-controles-principales .joystick-base {width:min(100%,250px) !important}
+  #pantallaControl .zona-controles-principales .bloque-extras-centro {max-width:310px !important}
+}

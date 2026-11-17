@@ -120,16 +120,23 @@
       return true;
     }
 
+    function cambiarVista43(indice, alternativa) {
+      // Botones funcionales de monitoreo.js, ocultos visualmente.
+      // Se usan para preservar actualizacion de datos y estado de la vista.
+      const botones = document.querySelectorAll('.navegacion-modos button');
+      if (botones.length >= 2) {
+        botones[indice].click();
+        return;
+      }
+      abrirPestana(alternativa);
+    }
+
     control.addEventListener("click", () => {
-      abrirPestana("Dirección");
+      cambiarVista43(0, "Dirección");
     });
 
     monitoreo.addEventListener("click", () => {
-      if (!abrirPestana("Monitor")) {
-        alert(
-          "No se encontro la pestaña Monitor existente."
-        );
-      }
+      cambiarVista43(1, "Monitor");
     });
 
     console.log(
