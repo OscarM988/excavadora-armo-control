@@ -1,0 +1,331 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Invitado | EXCAVADORA-ARMO</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: #f8fafc;
+  background: #101827;
+}
+
+header {
+  text-align: center;
+  padding: 28px 15px;
+  background: #172338;
+  border-bottom: 2px solid #f59e0b;
+}
+
+h1, h2, h3 { color: #f59e0b; }
+
+h1 { margin: 0; }
+
+main {
+  max-width: 950px;
+  margin: 30px auto;
+  padding: 0 18px;
+}
+
+.panel {
+  padding: 25px;
+  margin-bottom: 20px;
+  border: 1px solid #334155;
+  background: #1e293b;
+  border-radius: 12px;
+}
+
+.modelo {
+  padding: 18px;
+  margin-top: 12px;
+  border-radius: 9px;
+  background: #0f172a;
+  border: 1px solid #475569;
+}
+
+button {
+  background: #f59e0b;
+  color: #111827;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 18px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 12px;
+}
+
+button:disabled { opacity: .5; }
+
+#movimiento {
+  font-size: 25px;
+  font-weight: bold;
+  color: #fbbf24;
+  margin: 18px 0;
+}
+
+#mensaje { color: #fbbf24; }
+
+.oculto { display: none; }
+
+a { color: #fbbf24; }
+
+.barra {
+  width: 100%;
+  height: 12px;
+  overflow: hidden;
+  background: #334155;
+  border-radius: 10px;
+}
+
+#progreso {
+  height: 100%;
+  width: 0%;
+  background: #f59e0b;
+  transition: width .2s linear;
+}
+</style>
+</head>
+
+<body>
+<header>
+  <h1>EXCAVADORA-ARMO</h1>
+  <p>Catálogo público | Acceso de invitado</p>
+</header>
+
+<main>
+  <section class="panel">
+    <h2>Modelos comerciales</h2>
+    <p>
+      Explora los modelos disponibles sin registrarte.
+    </p>
+
+    <div id="catalogo">Cargando catálogo...</div>
+    <p id="mensaje" role="status"></p>
+  </section>
+
+  <section class="panel oculto" id="demo">
+    <h2>Demostración virtual</h2>
+
+    <p id="modeloElegido"></p>
+
+    <p>
+      Simulación de 20 segundos.
+      No envía comandos a ninguna excavadora.
+    </p>
+
+    <div id="movimiento" role="status">LISTO</div>
+
+    <div class="barra">
+      <div id="progreso"></div>
+    </div>
+
+    <p id="tiempo">Tiempo restante: 20 s</p>
+
+    <button id="iniciar" type="button">
+      Iniciar demostración
+    </button>
+
+    <button id="detener" type="button" disabled>
+      Detener simulación
+    </button>
+  </section>
+
+  <section class="panel">
+    <h2>Acceso a la plataforma</h2>
+    <p>
+      Si ya tienes una unidad asignada,
+      puedes ingresar al portal de compradores.
+    </p>
+
+    <a href="comprador.html">Portal de compradores</a>
+  </section>
+</main>
+
+<script>
+"use strict";
+
+const API = "https://vehiculo-iot.duckdns.org/v43";
+
+const $ = id => document.getElementById(id);
+
+let temporizador = null;
+let fechaInicio = 0;
+let modeloSeleccionado = null;
+
+const duracion = 20000;
+
+// Secuencia ilustrativa, independiente del hardware.
+const secuencia = [
+  "AVANZAR",
+  "DETENER",
+  "GIRAR_IZQUIERDA",
+  "DETENER",
+  "EXCAVAR",
+  "DETENER",
+  "DESCARGAR_PALA",
+  "DETENER",
+  "RETROCEDER",
+  "DETENER"
+];
+
+async function cargarCatalogo() {
+  try {
+    const respuesta = await fetch(
+      API + "/invitado/catalogo",
+      { cache: "no-store" }
+    );
+
+    if (!respuesta.ok) {
+      throw new Error(
+        "No se pudo consultar el catálogo: " +
+        respuesta.status
+      );
+    }
+
+    const datos = await respuesta.json();
+
+    if (!Array.isArray(datos.modelos)) {
+      throw new Error("Respuesta de catálogo inválida.");
+    }
+
+    $("catalogo").replaceChildren();
+
+    if (datos.modelos.length === 0) {
+      $("catalogo").textContent =
+        "No hay modelos disponibles actualmente.";
+      return;
+    }
+
+    for (const modelo of datos.modelos) {
+      const tarjeta = document.createElement("article");
+      tarjeta.className = "modelo";
+
+      const titulo = document.createElement("h3");
+      titulo.textContent = modelo.nombre;
+
+      const codigo = document.createElement("p");
+      codigo.textContent = "Código: " + modelo.codigo;
+
+      const descripcion = document.createElement("p");
+      descripcion.textContent =
+        modelo.descripcion || "Sin descripción";
+
+      const boton = document.createElement("button");
+      boton.type = "button";
+      boton.textContent = "Ver demostración virtual";
+
+      boton.addEventListener("click", () => {
+        detenerSimulacion();
+
+        modeloSeleccionado = modelo;
+
+        $("modeloElegido").textContent =
+          "Modelo seleccionado: " + modelo.nombre;
+
+        $("demo").classList.remove("oculto");
+
+        $("demo").scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      });
+
+      tarjeta.append(
+        titulo, codigo, descripcion, boton
+      );
+
+      $("catalogo").appendChild(tarjeta);
+    }
+
+  } catch (error) {
+    $("mensaje").textContent = error.message;
+  }
+}
+
+function detenerSimulacion() {
+  if (temporizador !== null) {
+    clearInterval(temporizador);
+    temporizador = null;
+  }
+
+  $("iniciar").disabled = false;
+  $("detener").disabled = true;
+
+  $("movimiento").textContent = "DETENER";
+}
+
+function iniciarSimulacion() {
+  if (!modeloSeleccionado || temporizador !== null) {
+    return;
+  }
+
+  fechaInicio = performance.now();
+
+  $("iniciar").disabled = true;
+  $("detener").disabled = false;
+
+  $("progreso").style.width = "0%";
+
+  function actualizar() {
+    const transcurrido =
+      Math.min(performance.now() - fechaInicio, duracion);
+
+    const fraccion = transcurrido / duracion;
+
+    $("progreso").style.width =
+      (fraccion * 100) + "%";
+
+    $("tiempo").textContent =
+      "Tiempo restante: " +
+      Math.ceil((duracion - transcurrido) / 1000) +
+      " s";
+
+    const indice = Math.min(
+      Math.floor(fraccion * secuencia.length),
+      secuencia.length - 1
+    );
+
+    $("movimiento").textContent = secuencia[indice];
+
+    if (transcurrido >= duracion) {
+      detenerSimulacion();
+      $("movimiento").textContent =
+        "DEMOSTRACIÓN FINALIZADA";
+    }
+  }
+
+  actualizar();
+
+  temporizador = setInterval(actualizar, 100);
+}
+
+$("iniciar").addEventListener(
+  "click",
+  iniciarSimulacion
+);
+
+$("detener").addEventListener(
+  "click",
+  detenerSimulacion
+);
+
+document.addEventListener(
+  "visibilitychange",
+  () => {
+    if (document.hidden) {
+      detenerSimulacion();
+    }
+  }
+);
+
+cargarCatalogo();
+</script>
+</body>
+</html>
