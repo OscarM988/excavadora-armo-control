@@ -577,6 +577,8 @@ async function cargarModulos() {
                 sesionActiva() ? token : null,
 
             informar: evento => {
+                // Indicadores visuales de Extras.
+                window.dispatchEvent(new CustomEvent("armo:control-api-evento", { detail: evento }));
                 if (evento.etapa === "solicitado") {
                     registrar(
                         `Solicitado: ${evento.nombre}`
@@ -1324,7 +1326,6 @@ async function cancelarDemoActual() {
 
 async function verificarAPI() {
     if (
-        !sesionActiva() ||
         consultaAPIPendiente ||
         document.hidden
     ) {
@@ -1444,7 +1445,6 @@ function cerrarWS() {
 function reintentarWS() {
     if (
         finalizando ||
-        !sesionActiva() ||
         timerWS !== null
     ) {
         return;
@@ -1471,7 +1471,6 @@ function reintentarWS() {
 function conectarWS() {
     if (
         finalizando ||
-        !sesionActiva() ||
         document.hidden ||
         (
             ws &&
@@ -1541,8 +1540,7 @@ function conectarWS() {
         "message",
         evento => {
             if (
-                ws !== conexion ||
-                !sesionActiva()
+                ws !== conexion
             ) {
                 return;
             }
@@ -1684,7 +1682,7 @@ function iniciarServicios() {
     conectarWS();
 
     timerSesion = setInterval(() => {
-        if (!sesionActiva()) {
+        if (token && !sesionActiva()) {
             void cerrarSesion(
                 "Sesión expirada: inicia sesión nuevamente."
             );
@@ -2012,5 +2010,120 @@ function inicializar() {
         }
     );
 }
+/* ==========================================
+   PRACTICA 4.3 - ACCESO DIRECTO PUBLICO
 
+   Los controles son una simulacion VISUAL local.
+   Sin credenciales y sin envio de comandos REST.
+   El control fisico requiere un canal independiente
+   con autorizacion segura en el servidor.
+   ========================================== */
+
+// Evitar duplicar tareas al volver de otras vistas.
+const _armoServiciosOriginal = iniciarServicios;
+iniciarServicios = function () {
+    if (timerAPI !== null) return;
+    return _armoServiciosOriginal();
+};
+
+// Preservar las restricciones internas del REST y presentar
+// controles de simulacion listos desde la primera visita.
+const _armoPintarOriginal = pintarControles;
+pintarControles = function () {
+    _armoPintarOriginal();
+
+    document.querySelectorAll(
+        ".extras-mini-grid .btn-extra-mini"
+    ).forEach(boton => {
+        boton.disabled = false;
+        boton.title = "Simulacion visual local; no envia movimientos";
+    });
+
+    if (UI.btnDetener) {
+        UI.btnDetener.disabled = false;
+        UI.btnDetener.title = "DETENER simulacion local";
+    }
+
+    // No activar DEMOS de hardware desde acceso publico.
+    if (UI.btnDemo) UI.btnDemo.disabled = true;
+    if (UI.btnCancelar) UI.btnCancelar.disabled = true;
+
+    if (UI.seguridad) {
+        UI.seguridad.textContent =
+            "Control visual disponible sin iniciar sesion. " +
+            "Los movimientos fisicos permanecen protegidos.";
+    }
+
+    if (controlAviso) {
+        controlAviso.textContent =
+            "Simulacion visual · Sin ordenes REST";
+    }
+};
+
+// Primera entrada: conservar la navegacion y el monitoreo.
 inicializar();
+mostrarPanel();
+
+// El formulario original se conserva solo como referencia
+// estructural de scripts antiguos, pero nunca se muestra.
+UI.login.hidden = true;
+UI.login.style.display = "none";
+UI.salir.hidden = true;
+UI.salir.style.display = "none";
+
+// Quitar el boton que activaba REST, sin activar REST.
+botonArmar?.remove();
+botonArmar = null;
+const textoControl = document.getElementById("leyendaControl");
+if (textoControl) {
+    textoControl.textContent = "SIMULACION LOCAL · Disponible";
+}
+
+// No existe inicio de sesion automatico ni token incrustado.
+// coordinador.habilitar() no se invoca; armado permanece false.
+registrar("Acceso directo. Simulacion local lista; control fisico protegido.");
+if (mensajeDemo) {
+    mensajeDemo.textContent =
+        "Consulta de DEMOS disponible desde el portal del comprador; " +
+        "no se ejecutan desde el acceso publico.";
+}
+
+const nombresExtrasSimulados = [
+    "MUSICA", "CAMBIAR_VELOCIDAD", "LUZ_LED", "DEMO"
+];
+
+document.querySelectorAll(
+    ".extras-mini-grid .btn-extra-mini"
+).forEach((boton, indice) => {
+    boton.addEventListener("click", () => {
+        const nombre = nombresExtrasSimulados[indice] || "EXTRA";
+        registrar(`SIMULACION LOCAL: ${nombre} (sin envio REST).`);
+        if (nombre === "DEMO") {
+            const pestaña = [...document.querySelectorAll(
+                ".navegacion-armo button"
+            )].find(b => b.textContent.trim() === "Demo");
+            pestaña?.click();
+        }
+    });
+});
+
+UI.btnDetener?.addEventListener("click", () => {
+    ["direccionActual", "brazoActual"].forEach(id => {
+        const salida = document.getElementById(id);
+        if (salida) salida.textContent = "NEUTRAL · Simulacion detenida";
+    });
+    registrar("SIMULACION LOCAL: DETENER (sin envio REST).");
+});
+
+// Las vistas publicas siguen actualizando indicadores remotos
+// sin necesidad de credenciales.
+document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) {
+        void verificarAPI();
+        conectarWS();
+    }
+});
+window.addEventListener("online", () => {
+    void verificarAPI();
+    conectarWS();
+});

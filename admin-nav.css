@@ -1,0 +1,49 @@
+﻿/* EXCAVADORA-ARMO - Navegacion 4.3 */
+
+.navegacion-admin-43 {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 8px !important;
+}
+
+.navegacion-admin-43 > button,
+.navegacion-admin-43 > [role="tab"] {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+.pestana-administracion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  padding: 13px 8px;
+  border-radius: 10px;
+  background: #263e62;
+  color: #ffffff !important;
+  font-weight: 700;
+  font-size: 14px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.pestana-administracion:hover {
+  background: #ffc900;
+  color: #101a2e !important;
+}
+
+.pestana-administracion:focus-visible {
+  outline: 3px solid #ffc900;
+  outline-offset: 2px;
+}
+
+@media (max-width: 480px) {
+  .navegacion-admin-43 {
+    gap: 5px !important;
+  }
+
+  .pestana-administracion {
+    font-size: 11px;
+    padding: 12px 3px;
+  }
+}

@@ -1,0 +1,431 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <meta name="theme-color" content="#172033">
+
+  <title>Administración | EXCAVADORA-ARMO</title>
+
+  <link rel="icon" href="assets/favicon.svg">
+  <link rel="stylesheet" href="administracion.css">
+  <link rel="stylesheet" href="armo-creditos-layout.css?v=1">
+
+  <script type="module"
+          src="js/administracion.js"></script>
+  <link rel="stylesheet" href="administracion-extras.css">
+  <link rel="stylesheet" href="admin-clientes.css">
+
+  <link rel="stylesheet" href="armo-responsive-final.css?v=20261117-2">
+</head>
+
+<body>
+
+  <header class="encabezado">
+    <div class="marca">
+      <img src="assets/favicon.svg"
+           alt=""
+           width="40"
+           height="40">
+
+      <div>
+        <h1>EXCAVADORA-ARMO</h1>
+        <p>Plataforma comercial IoT</p>
+      </div>
+    </div>
+
+    <div class="sesion">
+      <span id="estadoSesion">
+        Sesión administrativa sin verificar
+      </span>
+    </div>
+  </header>
+
+  <nav class="navegacion" aria-label="Navegación principal">
+    <a href="index.html">CONTROL / MONITOREO</a>
+    <a href="administracion.html"
+       class="activo"
+       aria-current="page">
+      ADMINISTRACIÓN
+    </a>
+  </nav>
+
+  <div class="contenedor">
+
+    <aside class="menu-lateral"
+           aria-label="Secciones administrativas">
+
+      <h2>Administración</h2>
+
+      <button type="button"
+              class="menu-btn activo"
+              data-vista="dashboard">
+        Dashboard
+      </button>
+
+      <button type="button"
+              class="menu-btn"
+              data-vista="modelos">
+        Modelos comerciales
+      </button>
+
+      <button type="button"
+              class="menu-btn"
+              data-vista="vehiculos">
+        Unidades IoT
+      </button>
+
+      <button type="button"
+              class="menu-btn"
+              data-vista="clientes">
+        Clientes
+      </button>
+
+      <button type="button"
+              class="menu-btn"
+              data-vista="asignaciones">
+        Asignaciones
+      </button>
+
+      <button type="button"
+              class="menu-btn"
+              data-vista="demos">
+        Demostraciones
+      </button>
+
+      <button type="button"
+              class="menu-btn"
+              data-vista="auditoria">
+        Auditoría
+      </button>
+    </aside>
+
+    <main id="contenidoPrincipal">
+
+      <div id="mensajeGlobal"
+           class="mensaje"
+           role="status"
+           aria-live="polite">
+        Panel de administración preparado.
+        Los datos estarán disponibles cuando
+        se integre el acceso autorizado.
+      </div>
+
+      <!-- DASHBOARD -->
+
+      <section id="dashboard" class="vista activa">
+
+        <div class="titulo-seccion">
+          <div>
+            <h2>Dashboard</h2>
+            <p>Resumen de la plataforma comercial</p>
+          </div>
+        </div>
+
+        <div class="tarjetas">
+
+          <article class="tarjeta">
+            <h3>Modelos comerciales</h3>
+            <strong id="totalModelos">--</strong>
+            <small>Sin verificar</small>
+          </article>
+
+          <article class="tarjeta">
+            <h3>Unidades IoT</h3>
+            <strong id="totalVehiculos">--</strong>
+            <small>Sin verificar</small>
+          </article>
+
+          <article class="tarjeta">
+            <h3>Clientes</h3>
+            <strong id="totalClientes">--</strong>
+            <small>Sin verificar</small>
+          </article>
+
+          <article class="tarjeta">
+            <h3>Demostraciones</h3>
+            <strong id="totalDemos">--</strong>
+            <small>Sin verificar</small>
+          </article>
+
+        </div>
+
+        <div class="panel">
+          <h3>Estado de infraestructura</h3>
+
+          <div class="indicadores">
+            <p>API AWS: <span id="estadoAPI">Sin verificar</span></p>
+            <p>WebSocket: <span id="estadoWSS">Sin verificar</span></p>
+            <p>Amazon RDS: <span id="estadoRDS">Sin verificar</span></p>
+          </div>
+
+          <p class="nota">
+            La conexión del navegador a WebSocket
+            no confirma que el ESP8266 esté conectado.
+          </p>
+        </div>
+
+      </section>
+
+      <!-- MODELOS -->
+
+      <section id="modelos" class="vista">
+
+        <div class="titulo-seccion">
+          <h2>Modelos comerciales</h2>
+          <button class="accion" type="button"
+                  data-accion="crear-modelo">
+            Nuevo modelo
+          </button>
+        </div>
+
+        <div class="panel">
+          <p>
+            Administración del catálogo de modelos IoT.
+          </p>
+
+          <div class="tabla-contenedor">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Modelo</th>
+                  <th>Descripción</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tablaModelos">
+                <tr>
+                  <td colspan="5" class="vacio">
+                    Sin datos disponibles
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- UNIDADES -->
+
+      <section id="vehiculos" class="vista">
+
+        <div class="titulo-seccion">
+          <h2>Unidades IoT</h2>
+          <button class="accion" type="button"
+                  data-accion="crear-unidad">
+            Nueva unidad
+          </button>
+        </div>
+
+        <div class="panel">
+          <p>Inventario físico de vehículos IoT.</p>
+
+          <div class="tabla-contenedor">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Identificador</th>
+                  <th>Modelo</th>
+                  <th>Estado comercial</th>
+                  <th>Propietario</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tablaVehiculos">
+                <tr>
+                  <td colspan="6" class="vacio">
+                    Sin datos disponibles
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- CLIENTES -->
+
+      <section id="clientes" class="vista">
+
+        <div class="titulo-seccion">
+          <h2>Clientes</h2>
+          <button class="accion" type="button"
+                  data-accion="crear-cliente">
+            Nuevo cliente
+          </button>
+        </div>
+
+        <div class="panel">
+          <div class="tabla-contenedor">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nombre</th>
+                  <th>Correo</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tablaClientes">
+                <tr>
+                  <td colspan="5" class="vacio">
+                    Sin datos disponibles
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ASIGNACIONES -->
+
+      <section id="asignaciones" class="vista">
+
+        <div class="titulo-seccion">
+          <h2>Asignaciones</h2>
+          <button class="accion" type="button"
+                  data-accion="asignar-unidad">
+            Asignar vehículo
+          </button>
+        </div>
+
+        <div class="panel">
+          <p>
+            Relación entre compradores y unidades físicas.
+          </p>
+
+          <div class="tabla-contenedor">
+            <table>
+              <thead>
+                <tr>
+                  <th>Unidad</th>
+                  <th>Cliente</th>
+                  <th>Fecha</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody id="tablaAsignaciones">
+                <tr>
+                  <td colspan="4" class="vacio">
+                    Sin datos disponibles
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- DEMOSTRACIONES -->
+
+      <section id="demos" class="vista">
+
+        <div class="titulo-seccion">
+          <h2>Demostraciones IoT</h2>
+          <button class="accion" type="button"
+                  data-accion="crear-demo">
+            Nueva demo
+          </button>
+        </div>
+
+        <div class="panel">
+          <p>
+            Demostraciones de empresa y demostraciones
+            privadas de compradores.
+          </p>
+
+          <div class="tabla-contenedor">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nombre</th>
+                  <th>Tipo</th>
+                  <th>Vehículo / Modelo</th>
+                  <th>Duración</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tablaDemos">
+                <tr>
+                  <td colspan="6" class="vacio">
+                    Sin datos disponibles
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- AUDITORIA -->
+
+      <section id="auditoria" class="vista">
+
+        <div class="titulo-seccion">
+          <h2>Auditoría</h2>
+        </div>
+
+        <div class="panel">
+          <p>
+            Registro de operaciones administrativas
+            y eventos de seguridad.
+          </p>
+
+          <div class="tabla-contenedor">
+            <table>
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Actor</th>
+                  <th>Acción</th>
+                  <th>Recurso</th>
+                  <th>Resultado</th>
+                </tr>
+              </thead>
+              <tbody id="tablaAuditoria">
+                <tr>
+                  <td colspan="5" class="vacio">
+                    Sin datos disponibles
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+  </div>
+
+
+  <script type="module" src="js/admin-inventario.js"></script>
+  <script type="module" src="js/admin-clientes.js"></script>
+<script defer src="js/admin-integracion.js?v=43-1024"></script>
+
+<footer class="armo-creditos" aria-label="Créditos de EXCAVADORA-ARMO">
+    <strong class="armo-creditos-titulo">EXCAVADORA-ARMO</strong>
+    <p>Desarrollado por <strong>Oscar Alexis Muñoz Reséndiz</strong></p>
+    <p>Ingeniería en Sistemas Computacionales · Tecnológico Nacional de México — Campus Pachuca</p>
+    <p>Implementación de Soluciones IoT · 2026</p>
+    <div class="armo-creditos-links">
+      <a href="https://github.com/OscarM988/excavadora-armo-control" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://www.linkedin.com/in/oscar-alexis-muñoz-resendiz-275098431/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    </div>
+  </footer>
+</body>
+</html>

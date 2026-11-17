@@ -482,6 +482,10 @@ function configurarNavegacion() {
     );
 
     navegacionControl.before(navegacion);
+    // La barra visible es la de navegacion-43.js. Este par de botones
+    // conserva las funciones de cambio de vista sin duplicar el menu.
+    navegacion.style.setProperty('display', 'none', 'important');
+    navegacion.setAttribute('aria-hidden', 'true');
 
     function seleccionarBoton(modo) {
         const esControl = modo === "control";
@@ -597,7 +601,7 @@ function configurarNavegacion() {
         procesarEventoWSS
     );
 
-    abrirControl();
+    abrirMonitoreo();
 }
 
 configurarNavegacion();

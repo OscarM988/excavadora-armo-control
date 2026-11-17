@@ -10,7 +10,7 @@
  * La API AWS y el WebSocket no se interceptan.
  */
 
-const CACHE = "armoiot-pwa-v5";
+const CACHE = "armoiot-pwa-v7";
 
 const ARCHIVOS = [
     "./",
@@ -27,7 +27,8 @@ const ARCHIVOS = [
     "./js/control-service.js",
     "./js/rds-status.js",
     "./js/monitoreo-service.js",
-    "./js/monitoreo.js"
+    "./js/monitoreo.js",
+    "./js/estado-extras.js",
 ];
 
 /* ==========================================

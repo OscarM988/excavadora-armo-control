@@ -1,0 +1,104 @@
+/* EXCAVADORA-ARMO - correccion responsiva sin modificar JS fisico */
+html, body {
+  width:100% !important;
+  height:auto !important;
+  min-height:100% !important;
+  overflow-x:hidden !important;
+  overflow-y:auto !important;
+  overscroll-behavior-y:auto !important;
+}
+body { display:block !important; }
+/* La página debe crecer con los paneles y el footer. */
+#pantallaControl:not(.oculto) {
+  position:relative !important;
+  display:flex !important;
+  flex-direction:column !important;
+  box-sizing:border-box !important;
+  height:auto !important;
+  min-height:100dvh !important;
+  max-height:none !important;
+  overflow:visible !important;
+  margin-inline:auto !important;
+  padding-bottom:20px !important;
+}
+#pantallaControl .panel[data-vista].vista-activa,
+#pantallaControl > .panel[aria-label="Control principal de la excavadora"] {
+  display:flex !important;
+  flex-direction:column !important;
+  flex:0 0 auto !important;
+  height:auto !important;
+  min-height:0 !important;
+  max-height:none !important;
+  overflow:visible !important;
+}
+#pantallaControl .zona-controles-principales {
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) minmax(150px,.9fr) minmax(0,1fr) !important;
+  align-items:center !important;
+  gap:clamp(10px,2vw,20px) !important;
+  width:100% !important;
+  height:auto !important;
+  min-height:0 !important;
+  max-height:none !important;
+  overflow:visible !important;
+}
+#pantallaControl .bloque-joystick,
+#pantallaControl .bloque-extras-centro { min-width:0 !important; height:auto !important; min-height:0 !important; position:relative !important; }
+#pantallaControl .joystick-base {
+  width:min(100%,245px) !important;
+  height:auto !important;
+  aspect-ratio:1 / 1 !important;
+  flex-shrink:0 !important;
+}
+#pantallaControl .extras-mini-grid { width:min(100%,225px) !important; }
+#pantallaControl .extras-mini-grid .btn-extra-mini { height:clamp(60px,7vw,90px) !important; }
+#pantallaControl .btn-detener-central { min-height:58px !important; height:auto !important; }
+/* Pie fuera del área limitada por la pantalla original. */
+body > .armo-creditos {
+  display:block !important;
+  box-sizing:border-box;
+  width:min(calc(100% - 28px),1100px) !important;
+  max-width:1100px !important;
+  height:auto !important;
+  max-height:none !important;
+  margin:26px auto 24px !important;
+  padding:24px 18px !important;
+  position:relative !important;
+  visibility:visible !important;
+  overflow:visible !important;
+  clear:both;
+  border:1px solid #405575;
+  border-radius:16px;
+  background:#192b47;
+  color:#fff;
+  text-align:center;
+  font-family:Arial,Helvetica,sans-serif;
+}
+.armo-creditos-titulo {display:block;color:#ffcc00;font-weight:800;margin-bottom:9px;font-size:1.14rem;}
+.armo-creditos p {margin:7px 0;font-size:clamp(12px,1.6vw,15px);line-height:1.5;}
+.armo-creditos-links {display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-top:12px;}
+.armo-creditos-links a {color:#ffde48;font-weight:bold;text-decoration:underline;text-underline-offset:3px;}
+@media (max-width:750px) {
+  #pantallaControl .zona-controles-principales {
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:14px 10px !important;
+    align-items:start !important;
+  }
+  #pantallaControl .bloque-joystick:first-child {grid-column:1;grid-row:1;}
+  #pantallaControl .bloque-joystick:last-child {grid-column:2;grid-row:1;}
+  #pantallaControl .bloque-extras-centro {grid-column:1/-1;grid-row:2;}
+  #pantallaControl .joystick-base {width:min(100%,220px) !important;}
+  #pantallaControl .extras-mini-grid {width:min(100%,320px) !important;}
+  #pantallaControl .extras-mini-grid .btn-extra-mini {height:68px !important;}
+  #pantallaControl .navegacion-armo {flex-wrap:wrap;}
+  body > .armo-creditos {padding:18px 12px !important;}
+}
+@media (max-width:410px) {
+  #pantallaControl .joystick-base {width:min(100%,165px) !important;}
+  #pantallaControl .zona-controles-principales {gap:12px 6px !important;}
+  #pantallaControl .bloque-joystick h3 {font-size:12px !important;}
+  #pantallaControl .joystick-estado {font-size:10px !important;}
+}
+@media (max-height:500px) and (orientation:landscape) {
+  #pantallaControl .joystick-base {width:min(100%,150px) !important;}
+}
