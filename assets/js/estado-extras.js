@@ -46,7 +46,7 @@
             {
                 estimado: null,
                 cambios: 0,
-                mensaje: "Sin confirmación del estado físico",
+                mensaje: "Sin confirmar; el indicador visual inicia sin referencia física",
                 color: "neutro"
             }
         ])
@@ -83,6 +83,15 @@
 
         boton.dataset.indicadorExtra = estado.color;
 
+        // El pulsador del juguete alterna su función; el indicador visual
+        // no representa una lectura eléctrica del ESP8266.
+        if (nombre === "MUSICA" || nombre === "LUZ_LED") {
+            boton.setAttribute(
+                "aria-pressed",
+                estado.estimado === null ? "false" : String(estado.estimado)
+            );
+        }
+
         boton.title =
             `${ETIQUETAS[nombre]}: ${estado.mensaje}`;
 
@@ -98,15 +107,23 @@
             "CAMBIAR_VELOCIDAD"
         );
 
-        // No presentar ON/OFF como si fuera lectura del ESP8266.
+        // Indicador visual alternado por comando aceptado. Al abrir la
+        // página no conocemos el estado físico inicial: primera orden
+        // aceptada se representa como encendido, siempre ESTIMADO.
+        const mostrar = (estado, encendida, apagada) =>
+            estado.estimado === null
+                ? "SIN VERIFICAR"
+                : (estado.estimado ? encendida : apagada) + "*";
+
         resumen.textContent =
-            `Música: sin verificar (${musica.cambios} orden(es)) · ` +
-            `Luces: sin verificar (${luces.cambios} orden(es)) · ` +
+            `Música: ${mostrar(musica, "ENCENDIDA", "APAGADA")} · ` +
+            `Luces: ${mostrar(luces, "ENCENDIDAS", "APAGADAS")} · ` +
             `Velocidad: ${velocidad.cambios} cambio(s)`;
 
         resumen.title =
-            "Se muestran órdenes aceptadas por API, no estados físicos. " +
-            "El ESP8266 no confirma si Música o Luces están encendidas.";
+            "* Estado VISUAL estimado por pulsaciones aceptadas desde esta carga. " +
+            "Para que coincida con el físico, inicia con Música y Luces apagadas. " +
+            "La API no recibe una medición real de encendido/apagado del ESP8266.";
     }
 
     function mostrarAviso(
@@ -194,13 +211,19 @@
                 nombre === "MUSICA" ||
                 nombre === "LUZ_LED"
             ) {
-                // La API no confirma ON/OFF del accesorio.
-                // Mantener punto gris para no representar falsamente ENCENDIDO.
-                estado.estimado = null;
+                // El control remoto físico usa un botón alternante.
+                // El indicador pasa a verde/gris solo cuando AWS acepta la orden.
+                // Primera pulsación desde esta carga: se presume OFF -> ON.
+                // No es telemetría física y puede desincronizarse si alguien
+                // pulsa el control original o recarga la página.
+                estado.estimado = estado.estimado !== true;
+                const encendido = estado.estimado;
                 actualizar(
                     nombre,
-                    `Orden ${estado.cambios} aceptada por API; estado físico sin verificar`,
-                    "neutro"
+                    encendido
+                        ? "ENCENDIDO visual (estimado, no confirmado por ESP8266)"
+                        : "APAGADO visual (estimado, no confirmado por ESP8266)",
+                    encendido ? "aceptado" : "apagado"
                 );
             } else {
                 actualizar(
@@ -480,7 +503,7 @@
         );
 
         console.info(
-            "ARMO Extras V6: sin ON/OFF estimado; solo órdenes confirmadas por API."
+            "ARMO Extras V7: Música/Luces alternan indicador visual con cada orden aceptada."
         );
     }
 
