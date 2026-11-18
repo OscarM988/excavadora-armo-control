@@ -1,0 +1,16 @@
+/* EXCAVADORA-ARMO - administracion de altura fija, sin scroll de pagina. */
+@media (min-width: 701px) {
+  html, body { height: 100%; overflow: hidden; }
+  body { height: 100vh; height: 100dvh; display: flex; flex-direction: column; min-height: 0; }
+  .encabezado, .navegacion, .armo-creditos, .pie { flex-shrink: 0; }
+  .encabezado { padding-top: 10px; padding-bottom: 10px; }
+  .navegacion { padding-top: 7px; padding-bottom: 7px; }
+  .contenedor { flex: 1 1 auto; min-height: 0 !important; overflow: hidden; }
+  .menu-lateral { min-height: 0; overflow-y: auto; }
+  .contenedor > main { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding-top: 14px; padding-bottom: 12px; }
+  .armo-creditos { padding-top: 4px !important; padding-bottom: 4px !important; }
+}
+@media (max-width: 700px) {
+  html, body { min-height: 100%; }
+  body { overflow-x: hidden; }
+}

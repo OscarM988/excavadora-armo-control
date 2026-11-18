@@ -1,8 +1,8 @@
 "use strict";
-/* EXCAVADORA-ARMO: sesion del comprador y validacion remota.
+/* EXCAVADORA-ARMO: sesion del comprador y control remoto con renovacion segura.
  * No modifica ni habilita el puente fisico de localhost.
  * Nunca persiste contrasenas ni JWT. El backend determina permisos y
- * mantiene ARMO_REMOTE_CONTROL_ENABLED=0 durante esta etapa.
+ * requiere configuracion segura del servidor y parada automatica del firmware.
  */
 (() => {
   if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') return;
@@ -25,6 +25,7 @@
   let token = null, vehiculo = null, sesion = 0, movimiento = null, puntero = null;
   let ocupado = false, vozActiva = false, enviarDetencion = false;
   let demoActiva = false, demoCancelada = false;
+  let sostenido = null;
   function mostrar(s, malo=false) {
     if (aviso) aviso.textContent = s;
     if (leyenda) { leyenda.textContent = s; leyenda.style.color = malo ? '#fca5a5' : '#facc15'; }
@@ -103,11 +104,11 @@
       const b=document.getElementById('btnDetener');if(b)b.disabled=false;
       document.querySelectorAll('.extras-mini-grid .btn-extra-mini').forEach(b=>b.disabled=false);
       for(const id of ['btnEjecutarDemo','btnCancelarDemo']){const b=document.getElementById(id);if(b)b.disabled=false;}
-      mostrar('Comprador autorizado · Prueba remota; motores desactivados');
+      mostrar('Comprador autorizado · Mantén presionado el joystick para moverte');
     }catch(err){clave.value='';mostrar('Acceso rechazado: '+err.message,true);}
     finally{ingresar.disabled=false;}
   });
-  // Esta etapa prueba la ruta de ejecución con la bandera física apagada en AWS.
+  // El servidor valida el acceso y la duracion de cada orden renovada.
   // La confirmación de la API no equivale a confirmación eléctrica del ESP8266.
   async function enviar(nombre,duracion=200){
     if(!token||vehiculo!==1)throw new Error('Inicia sesión como comprador');
@@ -127,6 +128,7 @@
   }
   async function detener(cancelarDemo=true){
     if(cancelarDemo) demoCancelada=true;
+    if(sostenido){sostenido.activo=false;sostenido=null;}
     movimiento=null;puntero=null;
     if(!token || enviarDetencion)return;
     enviarDetencion=true;
@@ -139,19 +141,63 @@
     if(Math.hypot(x,y)<Math.min(r.width,r.height)*0.09)return null;
     return Math.abs(x)>Math.abs(y)?(x<0?'izquierda':'derecha'):(y<0?'arriba':'abajo');
   }
+  // Movimiento sostenido: no existe limite TOTAL de pulsacion.
+  // Cada orden es una concesion corta (450 ms), nunca una orden sin vencimiento.
+  // El backend y el firmware conservan sus limites individuales de seguridad.
+  const pausaSostenida=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+  async function cicloJoystick(control){
+    try{
+      while(control.activo && token && sesion===control.version && !document.hidden){
+        const nombre=control.nombre;
+        if(!nombre){await pausaSostenida(40);continue;}
+        // Una sola solicitud en vuelo. La respuesta incluye el STOP del backend.
+        await enviar(nombre,450);
+      }
+    }catch(err){
+      mostrar('Joystick detenido: '+err.message,true);
+    }finally{
+      control.activo=false;
+      if(sostenido===control){sostenido=null;movimiento=null;puntero=null;}
+      ocupado=false;
+      // STOP adicional incluso si el puntero se solto durante un request.
+      if(token && sesion===control.version) await detener();
+    }
+  }
   for(const [id,tipo] of [['joystick','direccion'],['joystickBrazo','brazo']]){
     const el=document.getElementById(id);if(!el)continue;
+    el.style.touchAction='none';
     el.addEventListener('pointerdown',e=>{
-      if(!token){mostrar('Inicia sesión para validar órdenes',true);return;}
-      if(puntero!==null||ocupado||vozActiva||demoActiva||document.hidden)return;
-      puntero=e.pointerId;try{el.setPointerCapture(e.pointerId);}catch{}
-      const dir=direccion(el,e),nombre=dir?mapa[tipo][dir]:null;
-      if(!nombre)return;
-      movimiento=nombre;ocupado=true;
-      void enviar(nombre).catch(err=>mostrar(err.message,true)).finally(()=>{ocupado=false;});
-      if(estados[tipo])estados[tipo].textContent=nombre+' · Validando AWS';
+      if(!token){mostrar('Inicia sesión para controlar la excavadora',true);return;}
+      if(sostenido || ocupado || vozActiva || demoActiva || document.hidden)return;
+      if(e.pointerType==='mouse' && e.button!==0)return;
+      e.preventDefault();
+      try{el.setPointerCapture(e.pointerId);}catch{}
+      const dir=direccion(el,e);
+      const nombre=dir?mapa[tipo][dir]:null;
+      const control={activo:true,id:e.pointerId,tipo,nombre,version:sesion};
+      sostenido=control;puntero=e.pointerId;movimiento=nombre;ocupado=true;
+      if(estados[tipo])estados[tipo].textContent=nombre||'NEUTRAL';
+      void cicloJoystick(control);
     },true);
-    const soltar=e=>{if(puntero===null)return;if(e.pointerId!==undefined&&e.pointerId!==puntero)return;void detener();};
+    el.addEventListener('pointermove',e=>{
+      const control=sostenido;
+      if(!control || !control.activo || control.id!==e.pointerId || control.tipo!==tipo)return;
+      e.preventDefault();
+      const dir=direccion(el,e),nuevo=dir?mapa[tipo][dir]:null;
+      if(nuevo===control.nombre)return;
+      control.nombre=nuevo;movimiento=nuevo;
+      if(estados[tipo])estados[tipo].textContent=nuevo||'NEUTRAL';
+      // Se detiene la direccion anterior antes de la siguiente renovacion.
+      // Al llegar a NEUTRAL tambien enviamos STOP inmediatamente.
+      void enviar('DETENER',1).catch(err=>mostrar('DETENER no confirmado: '+err.message,true));
+    },true);
+    const soltar=e=>{
+      const control=sostenido;
+      if(!control || control.id!==e.pointerId || control.tipo!==tipo)return;
+      control.activo=false;
+      if(estados[tipo])estados[tipo].textContent='NEUTRAL';
+      void detener();
+    };
     for(const ev of ['pointerup','pointercancel','lostpointercapture'])el.addEventListener(ev,soltar,true);
   }
   document.querySelectorAll('.extras-mini-grid .btn-extra-mini').forEach((el,i)=>{

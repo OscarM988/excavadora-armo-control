@@ -10,7 +10,7 @@
  * La API AWS y el WebSocket no se interceptan.
  */
 
-const CACHE = "armoiot-pwa-v12-comprador-remoto-final";
+const CACHE = "armoiot-pwa-v13-joystick-admin";
 
 const ARCHIVOS = [
     "./",
@@ -24,6 +24,7 @@ const ARCHIVOS = [
     "./css/admin-nav.css",
     "./css/administracion-extras.css",
     "./css/administracion.css",
+    "./css/armo-admin-sin-scroll.css",
     "./css/armo-creditos-layout.css",
     "./css/armo-pantalla-fija.css",
     "./css/armo-responsive-final.css",
