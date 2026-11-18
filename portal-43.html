@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EXCAVADORA-ARMO | Plataforma IoT 4.3</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #101827;
+  color: #f8fafc;
+  font-family: Arial, sans-serif;
+}
+header {
+  background: #172338;
+  text-align: center;
+  padding: 35px 20px;
+  border-bottom: 2px solid #f59e0b;
+}
+h1 { color: #f59e0b; margin: 0 0 10px; }
+header p { color: #cbd5e1; }
+main {
+  max-width: 1100px;
+  margin: 45px auto;
+  padding: 0 20px;
+}
+h2 { color: #fbbf24; }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+.card {
+  padding: 28px;
+  border: 1px solid #334155;
+  border-radius: 14px;
+  background: #1e293b;
+}
+.card h3 { color: #f59e0b; }
+.card p { color: #cbd5e1; line-height: 1.6; }
+.boton {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 13px 18px;
+  border-radius: 8px;
+  background: #f59e0b;
+  color: #111827;
+  font-weight: bold;
+  text-decoration: none;
+}
+footer {
+  padding: 30px;
+  text-align: center;
+  color: #94a3b8;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>EXCAVADORA-ARMO</h1>
+  <p>Plataforma de Administración, Control y Monitoreo IoT</p>
+</header>
+
+<main>
+  <h2>Selecciona tu acceso</h2>
+
+  <div class="grid">
+    <section class="card">
+      <h3>Administrador</h3>
+      <p>
+        Gestión de modelos, unidades, clientes,
+        asignaciones, auditoría y demostraciones.
+      </p>
+      <a class="boton" href="administracion.html">
+        Entrar a Administración
+      </a>
+    </section>
+
+    <section class="card">
+      <h3>Comprador</h3>
+      <p>
+        Consulta tus unidades asignadas,
+        monitoreo protegido y validación
+        de comandos en simulación.
+      </p>
+      <a class="boton" href="comprador.html">
+        Entrar a Mis vehículos
+      </a>
+    </section>
+
+    <section class="card">
+      <h3>Invitado</h3>
+      <p>
+        Consulta el catálogo público
+        y visualiza una demostración
+        virtual sin registro.
+      </p>
+      <a class="boton" href="invitado.html">
+        Explorar catálogo
+      </a>
+    </section>
+  </div>
+</main>
+
+<footer>
+  EXCAVADORA-ARMO | Práctica 4.3
+</footer>
+
+</body>
+</html>

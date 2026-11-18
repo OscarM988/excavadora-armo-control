@@ -5,7 +5,7 @@
     if (document.querySelector('.armo-creditos')) return;
     const hoja = document.createElement('link');
     hoja.rel = 'stylesheet';
-    hoja.href = 'creditos-diseno-43.css?v=2';
+    hoja.href = 'css/creditos-diseno-43.css?v=2';
     document.head.appendChild(hoja);
 
     const anterior = document.querySelector('#pantallaControl footer[aria-label="Creditos del desarrollador"]');

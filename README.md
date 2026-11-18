@@ -49,22 +49,14 @@ wss://vehiculo-iot.duckdns.org/ws/vehiculo/1
 
 ```text
 excavadora-armo-control/
-├── index.html
-├── styles.css
-├── acabados.css
-├── app.js
-├── manifest.json
-├── service-worker.js
+├── index.html, administracion.html, comprador.html, editor-demos.html, invitado.html
 ├── assets/
 │   ├── favicon.svg
-│   └── icons/
-│       ├── icon-192.png
-│       └── icon-512.png
-├── js/
-│   ├── api-client.js
-│   ├── control-service.js
-│   └── rds-status.js
-├── .nojekyll
+│   ├── icons/ (icon-192.png, icon-512.png)
+│   └── js/ (app.js y módulos JavaScript)
+├── css/ (hojas de estilo CSS)
+├── manifest.json
+├── service-worker.js (raíz para mantener alcance PWA)
 └── README.md
 ```
 
