@@ -10,7 +10,7 @@
  * La API AWS y el WebSocket no se interceptan.
  */
 
-const CACHE = "armoiot-pwa-v19-extras-v8";
+const CACHE = "armoiot-pwa-v20-calibracion-9";
 
 const ARCHIVOS = [
     "./",
@@ -52,6 +52,7 @@ const ARCHIVOS = [
     "./assets/js/creditos-diseno-43.js",
     "./assets/js/estado-extras.js",
     "./assets/js/estado-extras-v8.js",
+    "./assets/js/estado-extras-v9.js",
     "./assets/js/monitoreo-service.js",
     "./assets/js/monitoreo.js",
     "./assets/js/navegacion-43.js",
