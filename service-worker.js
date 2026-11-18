@@ -10,7 +10,7 @@
  * La API AWS y el WebSocket no se interceptan.
  */
 
-const CACHE = "armoiot-pwa-v8-reorg-43";
+const CACHE = "armoiot-pwa-v9-voz-publica";
 
 const ARCHIVOS = [
     "./",
@@ -18,10 +18,7 @@ const ARCHIVOS = [
     "./administracion.html",
     "./comprador.html",
     "./editor-demos.html",
-    "./index_respaldo_antes_reparacion.html",
-    "./index_respaldo_emoji.html",
     "./invitado.html",
-    "./portal-43.html",
     "./css/acabados.css",
     "./css/admin-clientes.css",
     "./css/admin-nav.css",

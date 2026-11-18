@@ -4,7 +4,9 @@
    Micrófono solo al pulsar; cada orden requiere "excavadora".
 */
 (() => {
-  if (!['localhost', '127.0.0.1'].includes(location.hostname)) return;
+  const modoLocal = ['localhost', '127.0.0.1'].includes(location.hostname);
+  // El reconocimiento es visible en GitHub Pages; las ordenes fisicas
+  // permanecen limitadas al puente local autenticado.
   const Reconocimiento = window.SpeechRecognition || window.webkitSpeechRecognition;
   const panelControl = document.querySelector('[aria-label="Control principal de la excavadora"]');
   if (!panelControl) return;
@@ -31,6 +33,13 @@
   ejemplos.textContent='Di: «Excavadora, avanza», «retrocede», «excava», «enciende luces» o «detente». Una orden por pulsación.';
   seccion.append(titulo,boton,detener,estado,ejemplos);
   panelControl.insertAdjacentElement('afterend',seccion);
+  if (!modoLocal) {
+    boton.textContent='🎤 Reconocer voz';
+    detener.disabled=true;
+    detener.title='DETENER fisico no disponible desde esta pagina';
+    detener.style.opacity='0.5';
+    estado.textContent='Reconocimiento disponible · Control fisico remoto pendiente de autorizacion';
+  }
 
   if (!Reconocimiento) {
     estado.textContent='Este navegador no ofrece reconocimiento de voz. Prueba Chrome con micrófono habilitado.';
@@ -76,7 +85,7 @@
   function control() { return window.ARMOControlVoz; }
   boton.addEventListener('click',()=>{
     if (escuchando || procesando) return;
-    if (!control()) { publicar('Puente local no autorizado. Inicia servidor_control_local.py.',true);return; }
+    if (modoLocal && !control()) { publicar('Puente local no autorizado. Inicia servidor_control_local.py.',true);return; }
     const r=new Reconocimiento();
     reconocimiento=r;
     r.lang='es-MX';r.continuous=false;r.interimResults=false;r.maxAlternatives=1;
@@ -89,6 +98,11 @@
       const orden=interpretar(frase);
       if (!orden) {publicar('No se reconoció una orden válida: «'+frase+'». Sin movimiento.',true);procesando=false;return;}
       publicar('Reconocido: «'+frase+'» → '+orden);
+      if (!modoLocal) {
+        publicar('Voz reconocida: '+orden+' · Sin movimiento fisico: falta autorizacion remota');
+        procesando=false;
+        return;
+      }
       try {
         await control().ejecutar(orden);
         publicar('Orden enviada: '+orden+' · Finalizada con DETENER');
@@ -99,6 +113,7 @@
     try {r.start();}catch(err){publicar('No se pudo abrir el micrófono: '+err.message,true);boton.disabled=false;}
   });
   detener.addEventListener('click',async()=>{
+    if (!modoLocal) { publicar('DETENER fisico no disponible: control remoto sin autorizar',true); return; }
     try {reconocimiento?.abort();}catch{}
     if (!control()) {publicar('Puente local no autorizado.',true);return;}
     try {await control().ejecutar('DETENER');publicar('DETENER enviado');}
