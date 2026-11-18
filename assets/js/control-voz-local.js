@@ -116,14 +116,14 @@
       const orden=interpretar(frase);
       if (!orden) {publicar('No se reconoció una orden válida: «'+frase+'». Sin movimiento.',true);procesando=false;return;}
       publicar('Reconocido: «'+frase+'» → '+orden);
-      if (!modoLocal) {
-        publicar('Voz reconocida: '+orden+' · Sin movimiento fisico: falta autorizacion remota');
-        procesando=false;
-        return;
-      }
       try {
-        await control().ejecutar(orden);
-        publicar('Orden enviada: '+orden+' · Finalizada con DETENER');
+        if (!control()) throw new Error('Control no disponible');
+        const resultado = await control().ejecutar(orden);
+        publicar(modoLocal
+          ? 'Orden enviada: '+orden+' · Finalizada con DETENER'
+          : (resultado?.ejecutado === true
+              ? 'AWS reporta ejecución de '+orden+' · Comprueba DETENER'
+              : 'AWS validó '+orden+' · Sin movimiento físico'));
       } catch(err) {publicar('Error de control: '+err.message,true);}
       finally {procesando=false;}
     };

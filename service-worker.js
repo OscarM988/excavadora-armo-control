@@ -10,7 +10,7 @@
  * La API AWS y el WebSocket no se interceptan.
  */
 
-const CACHE = "armoiot-pwa-v10-voz-visible";
+const CACHE = "armoiot-pwa-v11-comprador-remoto-validacion";
 
 const ARCHIVOS = [
     "./",
@@ -44,6 +44,7 @@ const ARCHIVOS = [
     "./assets/js/control-fisico-local.js",
     "./assets/js/control-service.js",
     "./assets/js/control-voz-local.js",
+    "./assets/js/control-remoto-comprador.js",
     "./assets/js/creditos-diseno-43.js",
     "./assets/js/estado-extras.js",
     "./assets/js/monitoreo-service.js",
