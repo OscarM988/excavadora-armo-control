@@ -10,7 +10,7 @@
  * La API AWS y el WebSocket no se interceptan.
  */
 
-const CACHE = "armoiot-pwa-v9-voz-publica";
+const CACHE = "armoiot-pwa-v10-voz-visible";
 
 const ARCHIVOS = [
     "./",

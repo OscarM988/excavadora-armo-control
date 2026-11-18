@@ -32,7 +32,25 @@
   ejemplos.style.cssText='color:#bdcbe0;font-size:.88rem;margin:10px 0 0';
   ejemplos.textContent='Di: «Excavadora, avanza», «retrocede», «excava», «enciende luces» o «detente». Una orden por pulsación.';
   seccion.append(titulo,boton,detener,estado,ejemplos);
-  panelControl.insertAdjacentElement('afterend',seccion);
+  if (modoLocal) {
+    // Conservar exactamente la ubicacion anterior en localhost.
+    panelControl.insertAdjacentElement('afterend', seccion);
+  } else {
+    // La pantalla publica NO tiene scroll: el panel fuera de la vista se oculta.
+    // Anclar la voz dentro del bloque central, visible junto a Extras/DETENER.
+    const extras = panelControl.querySelector('.bloque-extras-centro');
+    if (extras) {
+      extras.appendChild(seccion);
+      seccion.style.cssText = 'box-sizing:border-box;width:100%;max-width:220px;margin:3px 0 0;padding:5px 6px;border:1px solid #435674;border-radius:8px;background:#14243d;color:#fff;text-align:center;flex:0 0 auto';
+      titulo.style.cssText = 'font-size:11px;color:#ffd21a;margin:0 0 3px';
+      boton.style.cssText = 'padding:5px 8px;background:#ffd21a;color:#101827;border:0;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;width:100%';
+      estado.style.cssText = 'margin:3px 0 0;font-size:9px;line-height:1.15';
+      ejemplos.style.display = 'none';
+      detener.style.display = 'none'; // No insinuar parada fisica disponible sin autorizacion
+    } else {
+      panelControl.appendChild(seccion);
+    }
+  }
   if (!modoLocal) {
     boton.textContent='🎤 Reconocer voz';
     detener.disabled=true;
