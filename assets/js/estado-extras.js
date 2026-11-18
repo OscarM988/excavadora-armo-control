@@ -46,7 +46,7 @@
             {
                 estimado: null,
                 cambios: 0,
-                mensaje: "Estado físico desconocido",
+                mensaje: "Sin confirmación del estado físico",
                 color: "neutro"
             }
         ])
@@ -98,9 +98,10 @@
             "CAMBIAR_VELOCIDAD"
         );
 
+        // No presentar ON/OFF como si fuera lectura del ESP8266.
         resumen.textContent =
-            `Música: ${musica.cambios} orden(es) · ` +
-            `Luces: ${luces.cambios} orden(es) · ` +
+            `Música: sin verificar (${musica.cambios} orden(es)) · ` +
+            `Luces: sin verificar (${luces.cambios} orden(es)) · ` +
             `Velocidad: ${velocidad.cambios} cambio(s)`;
 
         resumen.title =
@@ -193,13 +194,13 @@
                 nombre === "MUSICA" ||
                 nombre === "LUZ_LED"
             ) {
-                // La API acepta un comando, pero no confirma ON/OFF físico.
-                // No invertir ni suponer el estado de Música o Luces.
+                // La API no confirma ON/OFF del accesorio.
+                // Mantener punto gris para no representar falsamente ENCENDIDO.
                 estado.estimado = null;
                 actualizar(
                     nombre,
-                    `Orden ${estado.cambios} aceptada (estado físico no confirmado)`,
-                    "aceptado"
+                    `Orden ${estado.cambios} aceptada por API; estado físico sin verificar`,
+                    "neutro"
                 );
             } else {
                 actualizar(
@@ -479,7 +480,7 @@
         );
 
         console.info(
-            "Indicadores Extras preparados."
+            "ARMO Extras V6: sin ON/OFF estimado; solo órdenes confirmadas por API."
         );
     }
 
