@@ -10,7 +10,7 @@
  * La API AWS y el WebSocket no se interceptan.
  */
 
-const CACHE = "armoiot-pwa-v14-admin-extras";
+const CACHE = "armoiot-pwa-v16-central-v5";
 
 const ARCHIVOS = [
     "./",
@@ -27,6 +27,8 @@ const ARCHIVOS = [
     "./css/armo-admin-sin-scroll.css",
     "./css/armo-creditos-layout.css",
     "./css/armo-pantalla-fija.css",
+    "./css/armo-control-monitoreo-v4.css",
+    "./css/armo-control-central-v5.css",
     "./css/armo-responsive-final.css",
     "./css/creditos-diseno-43.css",
     "./css/monitoreo.css",
@@ -39,6 +41,7 @@ const ARCHIVOS = [
     "./assets/js/administracion.js",
     "./assets/js/api-client.js",
     "./assets/js/armo-layout-fijo.js",
+    "./assets/js/armo-control-central-v5.js",
     "./assets/js/comprador-demos.js",
     "./assets/js/comprador-simulacion.js",
     "./assets/js/comprador-wss.js",

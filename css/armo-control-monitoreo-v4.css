@@ -1,0 +1,139 @@
+/* EXCAVADORA-ARMO - V4: presentacion CONTROL / MONITOREO solamente.
+   Sin cambios a joysticks, API, WSS ni Administracion. */
+
+/* El contenido central nunca se desplaza por encima del encabezado. */
+#pantallaControl > .panel[aria-label="Control principal de la excavadora"] .zona-controles-principales {
+  min-height: 0 !important;
+  overflow: hidden !important;
+  align-items: stretch !important;
+  grid-template-columns: minmax(0,1fr) minmax(155px, 1.12fr) minmax(0,1fr) !important;
+}
+#pantallaControl .bloque-extras-centro {
+  justify-content: center !important;
+  align-self: stretch !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  gap: 2px !important;
+  overflow: visible !important;
+}
+#pantallaControl .bloque-extras-centro h3 { font-size: 10px !important; line-height: 1 !important; }
+#pantallaControl .extras-mini-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+  width: min(100%,240px) !important;
+  gap: 3px !important;
+  flex: 0 1 auto !important;
+}
+#pantallaControl .extras-mini-grid .btn-extra-mini {
+  height: clamp(25px, 4.1dvh, 39px) !important;
+  min-height: 25px !important;
+  padding: 2px 5px !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 3px !important;
+  font-size: clamp(11px,1.9dvh,15px) !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+}
+#pantallaControl .extras-mini-grid .btn-extra-mini span {
+  font-size: clamp(9px,1.5dvh,12px) !important;
+  white-space: nowrap !important;
+  line-height: 1.1 !important;
+}
+#pantallaControl .btn-detener.btn-detener-central {
+  flex: 0 0 auto !important;
+  height: clamp(27px, 4.7dvh, 40px) !important;
+  min-height: 27px !important;
+  max-width: 140px !important;
+}
+/* El dock de voz existe dentro del panel; no recortar su mensaje por encima. */
+#pantallaControl #armo-voz-dock {
+  flex: 0 0 auto !important;
+  min-height: 0 !important;
+  max-height: 60px !important;
+  padding: 3px 6px !important;
+  gap: 2px 6px !important;
+  margin-top: 2px !important;
+  overflow: auto !important;
+}
+#pantallaControl #armo-voz-dock > button {padding: 3px 6px !important; line-height: 1.1 !important;}
+#pantallaControl #armo-voz-dock > p[role="status"] {white-space: normal !important; line-height: 1.15 !important;}
+
+/* Historial y resumen se visualizan simultaneamente en laptop. */
+#pantallaControl #vistaMonitoreo.vista-activa:not([hidden]) {
+  padding: 8px 10px !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+#vistaMonitoreo .contenido-monitoreo {
+  display: grid !important;
+  grid-template-columns: minmax(190px, .85fr) minmax(0, 1.55fr) !important;
+  grid-template-rows: auto minmax(0,1fr) !important;
+  align-items: stretch !important;
+  gap: 7px 10px !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+}
+#vistaMonitoreo .contenido-monitoreo > header {
+  grid-column: 1 / -1 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+#vistaMonitoreo .monitoreo-titulo {font-size: clamp(12px,1.7dvh,18px) !important; margin: 0 !important;}
+#vistaMonitoreo .monitoreo-vehiculo {font-size: 11px !important; margin: 0 !important;}
+#vistaMonitoreo .monitoreo-tarjeta,
+#vistaMonitoreo .monitoreo-seccion {
+  box-sizing: border-box !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: 100% !important;
+  margin: 0 !important;
+  padding: clamp(7px, 1.4dvh, 12px) !important;
+  border-radius: 10px !important;
+  overflow: auto !important;
+}
+#vistaMonitoreo .monitoreo-etiqueta {font-size: 10px !important; letter-spacing: 0 !important;}
+#vistaMonitoreo .monitoreo-movimiento {font-size: clamp(19px,3.3dvh,31px) !important; margin: 5px 0 9px !important;}
+#vistaMonitoreo .monitoreo-datos {display:grid !important; grid-template-columns: repeat(2,minmax(0,1fr)) !important; gap: 6px !important;}
+#vistaMonitoreo .monitoreo-dato {gap:1px !important;}
+#vistaMonitoreo .monitoreo-dato strong {font-size: 11px !important;}
+#vistaMonitoreo .monitoreo-seccion {display:flex !important; flex-direction:column !important; overflow:hidden !important;}
+#vistaMonitoreo .monitoreo-seccion h3 {font-size: 12px !important; flex:0 0 auto !important; margin:0 0 5px !important;}
+#vistaMonitoreo .monitoreo-tabla-contenedor {
+  flex: 1 1 0 !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: auto !important;
+}
+#vistaMonitoreo .monitoreo-tabla th,
+#vistaMonitoreo .monitoreo-tabla td {padding: 5px 4px !important; font-size: 10px !important;}
+#vistaMonitoreo .monitoreo-tabla thead {position: sticky; top:0; z-index:1;}
+#vistaMonitoreo .monitoreo-mensaje {flex: 0 0 auto !important; padding:3px 0 !important; font-size:10px !important;}
+
+/* Moviles: una columna y desplazamiento solo dentro del panel. */
+@media (max-width: 620px) {
+  #pantallaControl > .panel[aria-label="Control principal de la excavadora"] .zona-controles-principales {
+    grid-template-columns: minmax(0,1fr) minmax(108px,1.15fr) minmax(0,1fr) !important;
+    gap: 3px !important;
+  }
+  #pantallaControl .extras-mini-grid .btn-extra-mini {height: 29px !important; min-height: 26px !important; font-size: 10px !important; padding:2px !important;}
+  #pantallaControl .extras-mini-grid .btn-extra-mini span {font-size: 8px !important;}
+  #pantallaControl #vistaMonitoreo .contenido-monitoreo {
+    display: flex !important;
+    flex-direction: column !important;
+    overflow-y: auto !important;
+  }
+  #vistaMonitoreo .monitoreo-tarjeta,
+  #vistaMonitoreo .monitoreo-seccion {height:auto !important; max-height:none !important; flex:0 0 auto !important; overflow:visible !important;}
+  #vistaMonitoreo .monitoreo-tabla-contenedor {max-height: 38dvh !important; overflow-y:auto !important;}
+}
+/* Pantallas extremadamente bajas: centro con scroll interno en lugar de cortar extras. */
+@media (max-height: 440px) {
+ #pantallaControl .bloque-extras-centro {justify-content: flex-start !important; overflow-y: auto !important; scrollbar-width:thin;}
+ #pantallaControl #armo-voz-dock {max-height: 48px !important;}
+}

@@ -98,24 +98,14 @@
             "CAMBIAR_VELOCIDAD"
         );
 
-        const textoEstimado = estado => {
-            if (estado.estimado === null) {
-                return "?";
-            }
-
-            return estado.estimado
-                ? "ON?"
-                : "OFF?";
-        };
-
         resumen.textContent =
-            `Música: ${textoEstimado(musica)} · ` +
-            `Luces: ${textoEstimado(luces)} · ` +
+            `Música: ${musica.cambios} orden(es) · ` +
+            `Luces: ${luces.cambios} orden(es) · ` +
             `Velocidad: ${velocidad.cambios} cambio(s)`;
 
         resumen.title =
-            "ON? y OFF? son estados estimados. " +
-            "No existe confirmación física del ESP8266.";
+            "Se muestran órdenes aceptadas por API, no estados físicos. " +
+            "El ESP8266 no confirma si Música o Luces están encendidas.";
     }
 
     function mostrarAviso(
@@ -203,30 +193,13 @@
                 nombre === "MUSICA" ||
                 nombre === "LUZ_LED"
             ) {
-                /*
-                 * Estado estimado.
-                 * Se supone que el accesorio
-                 * comienza apagado.
-                 *
-                 * No confirma el estado
-                 * físico del hardware.
-                 */
-
-                estado.estimado =
-                    estado.estimado === null
-                        ? true
-                        : !estado.estimado;
-
-                const texto = estado.estimado
-                    ? "ENCENDIDA"
-                    : "APAGADA";
-
+                // La API acepta un comando, pero no confirma ON/OFF físico.
+                // No invertir ni suponer el estado de Música o Luces.
+                estado.estimado = null;
                 actualizar(
                     nombre,
-                    `${texto} (estimado; estado inicial supuesto apagado)`,
-                    estado.estimado
-                        ? "aceptado"
-                        : "apagado"
+                    `Orden ${estado.cambios} aceptada (estado físico no confirmado)`,
+                    "aceptado"
                 );
             } else {
                 actualizar(

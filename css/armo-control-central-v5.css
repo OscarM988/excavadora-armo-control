@@ -1,0 +1,197 @@
+/* EXCAVADORA-ARMO V5 | Solo reparacion de controles centrales.
+   Reubica VISUALMENTE el panel de voz junto a los extras.
+   No modifica comandos, joysticks, WSS, API o Administracion. */
+
+/* Distribuimos un poco mas de ancho al centro sin desplazar los joysticks. */
+#pantallaControl > .panel[aria-label="Control principal de la excavadora"] .zona-controles-principales {
+  grid-template-columns: minmax(0,1fr) minmax(290px,1.55fr) minmax(0,1fr) !important;
+  gap: clamp(3px, .8vw, 12px) !important;
+  align-items: center !important;
+}
+
+/* Extras y micrófono comparten la altura disponible, no se apilan. */
+#pantallaControl .zona-controles-principales > .bloque-extras-centro {
+  display: grid !important;
+  grid-template-columns: minmax(0,1.06fr) minmax(0,1fr) !important;
+  grid-template-rows: auto auto auto !important;
+  align-content: center !important;
+  justify-content: stretch !important;
+  justify-items: center !important;
+  align-items: center !important;
+  align-self: stretch !important;
+  column-gap: 7px !important;
+  row-gap: 3px !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  overflow: visible !important;
+  min-width: 0 !important;
+  padding: 0 !important;
+}
+#pantallaControl .zona-controles-principales > .bloque-extras-centro > h3 {
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+  align-self: end !important;
+  line-height: 1.1 !important;
+  font-size: 11px !important;
+  margin: 0 !important;
+}
+#pantallaControl .zona-controles-principales > .bloque-extras-centro > .extras-mini-grid {
+  grid-column: 1 !important;
+  grid-row: 2 !important;
+  display: grid !important;
+  grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+  width: 100% !important;
+  max-width: none !important;
+  gap: 3px !important;
+  margin: 0 !important;
+  align-self: center !important;
+}
+#pantallaControl .zona-controles-principales .extras-mini-grid > button.btn-extra-mini {
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+  height: clamp(28px,4.4dvh,38px) !important;
+  min-height: 28px !important;
+  padding: 2px 1px !important;
+  gap: 0 !important;
+  font-size: 12px !important;
+  line-height: 1 !important;
+  overflow: visible !important;
+  white-space: nowrap !important;
+}
+#pantallaControl .zona-controles-principales .extras-mini-grid > button.btn-extra-mini > span {
+  display: block !important;
+  font-size: 10px !important;
+  line-height: 1 !important;
+}
+#pantallaControl .zona-controles-principales > .bloque-extras-centro > .btn-detener-central {
+  grid-column: 1 !important;
+  grid-row: 3 !important;
+  width: min(100%,120px) !important;
+  height: 29px !important;
+  min-height: 29px !important;
+  margin: 0 !important;
+  padding: 2px 3px !important;
+}
+/* En la pagina publicada voz se crea sin id y dentro de Extras.
+   Usar aria-label real evita que los estilos dependan de un id inexistente. */
+#pantallaControl .bloque-extras-centro > section[aria-label="Control por voz"],
+#pantallaControl .bloque-extras-centro > #armo-voz-dock {
+  grid-column: 2 !important;
+  grid-row: 1 / 4 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  flex-wrap: nowrap !important;
+  align-self: center !important;
+  justify-self: stretch !important;
+  align-items: stretch !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: 100% !important;
+  margin: 0 !important;
+  padding: 5px 5px !important;
+  gap: 3px !important;
+  overflow: hidden !important;
+}
+#pantallaControl .bloque-extras-centro > section[aria-label="Control por voz"] > h3,
+#pantallaControl .bloque-extras-centro > #armo-voz-dock > h3 {
+  margin: 0 !important;
+  font-size: 10px !important;
+  line-height: 1.1 !important;
+}
+#pantallaControl .bloque-extras-centro > section[aria-label="Control por voz"] > button:not([style*="display: none"]),
+#pantallaControl .bloque-extras-centro > #armo-voz-dock > button:not([style*="display: none"]) {
+  display: block !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  height: auto !important;
+  min-height: 25px !important;
+  margin: 0 !important;
+  padding: 5px 2px !important;
+  font-size: 10px !important;
+  line-height: 1.1 !important;
+  white-space: normal !important;
+}
+#pantallaControl .bloque-extras-centro > section[aria-label="Control por voz"] > p[role="status"],
+#pantallaControl .bloque-extras-centro > #armo-voz-dock > p[role="status"] {
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 9px !important;
+  line-height: 1.15 !important;
+  white-space: normal !important;
+  text-overflow: clip !important;
+  overflow: hidden !important;
+  overflow-wrap: anywhere !important;
+  max-height: 40px !important;
+}
+#pantallaControl .bloque-extras-centro > section[aria-label="Control por voz"] > p:last-child,
+#pantallaControl .bloque-extras-centro > #armo-voz-dock > p:last-child {
+  display: none !important;
+}
+
+/* Si el telefono es estrecho, el area central pasa a una columna.
+   El contenido del panel puede desplazarse internamente: nunca se corta. */
+@media (max-width: 560px) {
+  #pantallaControl > .panel[aria-label="Control principal de la excavadora"].vista-activa {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    scrollbar-width: thin;
+  }
+  #pantallaControl > .panel[aria-label="Control principal de la excavadora"] .zona-controles-principales {
+    grid-template-columns: minmax(0,1fr) minmax(112px,1.4fr) minmax(0,1fr) !important;
+    min-height: 175px !important;
+    flex: 0 0 auto !important;
+    gap: 3px !important;
+    overflow: visible !important;
+  }
+  #pantallaControl .zona-controles-principales > .bloque-extras-centro {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    gap: 3px !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+  #pantallaControl .zona-controles-principales > .bloque-extras-centro > .extras-mini-grid {
+    width: 100% !important;
+  }
+  #pantallaControl .zona-controles-principales .extras-mini-grid > button.btn-extra-mini {
+    min-height: 30px !important;
+    height: 30px !important;
+  }
+  #pantallaControl .bloque-extras-centro > section[aria-label="Control por voz"],
+#pantallaControl .bloque-extras-centro > #armo-voz-dock {
+    max-height: none !important;
+    padding: 3px !important;
+    width: 100% !important;
+  }
+}
+
+/* Alturas muy pequeñas: scroll exclusivamente dentro del panel de Control. */
+@media (max-height: 430px) {
+  #pantallaControl > .panel[aria-label="Control principal de la excavadora"].vista-activa {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    scrollbar-width: thin;
+  }
+  #pantallaControl > .panel[aria-label="Control principal de la excavadora"] .zona-controles-principales {
+    min-height: 120px !important;
+    flex: 0 0 auto !important;
+    overflow: visible !important;
+  }
+  #pantallaControl .zona-controles-principales > .bloque-extras-centro {
+    min-height: 116px !important;
+    max-height: none !important;
+    height: auto !important;
+  }
+}
