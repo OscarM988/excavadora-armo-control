@@ -566,8 +566,8 @@ async function alternarControl() {
 async function cargarModulos() {
     try {
         const [control, api] = await Promise.all([
-            import("./js/control-service.js"),
-            import("./js/api-client.js")
+            import("./control-service.js"),
+            import("./api-client.js")
         ]);
 
         modulos = { api };
