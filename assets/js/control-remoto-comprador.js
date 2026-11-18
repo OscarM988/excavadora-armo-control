@@ -19,10 +19,12 @@
     direccion: {arriba:'AVANZAR', abajo:'RETROCEDER', izquierda:'GIRAR_IZQUIERDA', derecha:'GIRAR_DERECHA'},
     brazo: {arriba:'DESCARGAR_PALA', abajo:'EXCAVAR', izquierda:'GIRAR_VEHICULO_IZQUIERDA', derecha:'GIRAR_VEHICULO_DERECHA'}
   };
-  const extras = {'MUSICA':10,'CAMBIAR_VELOCIDAD':11,'LUZ_LED':12};
+  // Los codigos se obtienen del catalogo autorizado en RDS, no se adivinan.
+  const extras = ['MUSICA','CAMBIAR_VELOCIDAD','LUZ_LED'];
   const nombreACodigo = new Map();
   let token = null, vehiculo = null, sesion = 0, movimiento = null, puntero = null;
   let ocupado = false, vozActiva = false, enviarDetencion = false;
+  let demoActiva = false, demoCancelada = false;
   function mostrar(s, malo=false) {
     if (aviso) aviso.textContent = s;
     if (leyenda) { leyenda.textContent = s; leyenda.style.color = malo ? '#fca5a5' : '#facc15'; }
@@ -53,9 +55,13 @@
   formulario.append(correo,clave,ingresar,cerrarForm);
   caja.append(acceso,estado,formulario); centro.append(caja);
   const cerrar = () => {
+    demoCancelada=true;
+    if(token) void detener();
     sesion++;token=null;vehiculo=null;nombreACodigo.clear();movimiento=null;puntero=null;
     clave.value='';formulario.hidden=true;acceso.textContent='🔐 Acceso comprador';
     const b=document.getElementById('btnDetener');if(b)b.disabled=true;
+    document.querySelectorAll('.extras-mini-grid .btn-extra-mini').forEach(b=>b.disabled=true);
+    for(const id of ['btnEjecutarDemo','btnCancelarDemo']){const b=document.getElementById(id);if(b)b.disabled=true;}
     mostrar('Sesión cerrada · Sin control físico');
   };
   acceso.addEventListener('click',()=>{
@@ -95,6 +101,8 @@
       token=jwt;vehiculo=1;sesion++;clave.value='';formulario.hidden=true;
       acceso.textContent='🔒 Cerrar sesión';
       const b=document.getElementById('btnDetener');if(b)b.disabled=false;
+      document.querySelectorAll('.extras-mini-grid .btn-extra-mini').forEach(b=>b.disabled=false);
+      for(const id of ['btnEjecutarDemo','btnCancelarDemo']){const b=document.getElementById(id);if(b)b.disabled=false;}
       mostrar('Comprador autorizado · Prueba remota; motores desactivados');
     }catch(err){clave.value='';mostrar('Acceso rechazado: '+err.message,true);}
     finally{ingresar.disabled=false;}
@@ -111,13 +119,14 @@
     },token);
     if(version!==sesion)throw new Error('Sesión cambiada');
     if(resultado.ejecutado===true){
-      mostrar('ATENCIÓN: AWS reporta ejecución. Verifica DETENER y la parada física.',true);
+      mostrar('AWS aceptó '+nombre+' · Comando enviado (sin acuse del ESP8266)');
     } else {
       mostrar('AWS validó '+nombre+' · Sin movimiento físico');
     }
     return resultado;
   }
-  async function detener(){
+  async function detener(cancelarDemo=true){
+    if(cancelarDemo) demoCancelada=true;
     movimiento=null;puntero=null;
     if(!token || enviarDetencion)return;
     enviarDetencion=true;
@@ -134,7 +143,7 @@
     const el=document.getElementById(id);if(!el)continue;
     el.addEventListener('pointerdown',e=>{
       if(!token){mostrar('Inicia sesión para validar órdenes',true);return;}
-      if(puntero!==null||ocupado||vozActiva||document.hidden)return;
+      if(puntero!==null||ocupado||vozActiva||demoActiva||document.hidden)return;
       puntero=e.pointerId;try{el.setPointerCapture(e.pointerId);}catch{}
       const dir=direccion(el,e),nombre=dir?mapa[tipo][dir]:null;
       if(!nombre)return;
@@ -146,25 +155,58 @@
     for(const ev of ['pointerup','pointercancel','lostpointercapture'])el.addEventListener(ev,soltar,true);
   }
   document.querySelectorAll('.extras-mini-grid .btn-extra-mini').forEach((el,i)=>{
-    if(i>2)return;
     el.addEventListener('click',e=>{
       if(!token)return;
       e.preventDefault();e.stopImmediatePropagation();
-      if(ocupado||vozActiva){mostrar('Control ocupado',true);return;}
-      const nombre=Object.keys(extras)[i];ocupado=true;
+      if(i===3){void ejecutarDemo();return;}
+      if(ocupado||vozActiva||demoActiva){mostrar('Control ocupado',true);return;}
+      const nombre=extras[i];ocupado=true;
       void enviar(nombre).catch(err=>mostrar(err.message,true)).finally(()=>{ocupado=false;});
     },true);
   });
   document.getElementById('btnDetener')?.addEventListener('click',()=>{void detener();},true);
+  // DEMO programada: secuencia de movimientos cortos; NO pulsa DEMO autonoma
+  // del juguete. Cada paso tiene DETENER y un retardo para evitar solapamiento.
+  const pasosDemo = ['AVANZAR','GIRAR_DERECHA','EXCAVAR','DESCARGAR_PALA','RETROCEDER'];
+  const pausa = ms => new Promise(resolve=>setTimeout(resolve,ms));
+  async function ejecutarDemo(){
+    if(!token || ocupado || vozActiva || demoActiva || movimiento || document.hidden){
+      mostrar('Inicia sesion y libera los controles antes de DEMO',true);return;
+    }
+    const version=sesion;
+    for(const nombre of pasosDemo){
+      if(!nombreACodigo.has(nombre)) {mostrar('DEMO no permitida: '+nombre,true);return;}
+    }
+    demoActiva=true;demoCancelada=false;
+    try{
+      for(const nombre of pasosDemo){
+        if(demoCancelada || version!==sesion || document.hidden) break;
+        await enviar(nombre,180);
+        // Se detiene siempre antes de continuar; el firmware limita a 900 ms.
+        await detener(false);
+        if(demoCancelada || version!==sesion || document.hidden) break;
+        await pausa(250);
+      }
+      mostrar(demoCancelada ? 'DEMO cancelada' : 'DEMO terminada · DETENER');
+    }catch(err){mostrar('DEMO interrumpida: '+err.message,true);}
+    finally{
+      // No enviar con token de otra sesion.
+      if(token && version===sesion) await detener(false);
+      demoActiva=false;
+    }
+  }
+  document.getElementById('btnEjecutarDemo')?.addEventListener('click',e=>{e.preventDefault();void ejecutarDemo();},true);
+  document.getElementById('btnCancelarDemo')?.addEventListener('click',e=>{e.preventDefault();demoCancelada=true;void detener();},true);
   // La voz comparte la misma sesión y autorización. Una orden por pulsación.
   // No se habilitan pulsos de tres segundos hasta verificar la parada física.
   window.ARMOControlVoz=Object.freeze({ejecutar:async nombre=>{
     if(!token)throw new Error('Inicia sesión como comprador');
     if(nombre==='DETENER'){await detener();return;}
-    if(ocupado||vozActiva||movimiento)throw new Error('Control ocupado');
+    if(nombre==='DEMO'){await ejecutarDemo();return;}
+    if(ocupado||vozActiva||movimiento||demoActiva)throw new Error('Control ocupado');
     vozActiva=true;
     try{return await enviar(nombre,200);}finally{vozActiva=false;}
   }});
-  for(const ev of ['blur','pagehide'])window.addEventListener(ev,()=>{if(movimiento)void detener();});
-  document.addEventListener('visibilitychange',()=>{if(document.hidden&&movimiento)void detener();});
+  for(const ev of ['blur','pagehide'])window.addEventListener(ev,()=>{if(movimiento||demoActiva)void detener();});
+  document.addEventListener('visibilitychange',()=>{if(document.hidden&&(movimiento||demoActiva))void detener();});
 })();
