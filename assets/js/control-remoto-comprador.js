@@ -120,6 +120,7 @@
     },token);
     if(version!==sesion)throw new Error('Sesión cambiada');
     if(resultado.ejecutado===true){
+      if(extras.includes(nombre)) window.dispatchEvent(new CustomEvent("armo:control-api-evento",{detail:{nombre,etapa:"ACEPTADO_POR_API"}}));
       mostrar('AWS aceptó '+nombre+' · Comando enviado (sin acuse del ESP8266)');
     } else {
       mostrar('AWS validó '+nombre+' · Sin movimiento físico');
@@ -224,6 +225,7 @@
       if(!nombreACodigo.has(nombre)) {mostrar('DEMO no permitida: '+nombre,true);return;}
     }
     demoActiva=true;demoCancelada=false;
+    window.dispatchEvent(new CustomEvent("armo:demo-comprador-estado",{detail:{activo:true}}));
     try{
       for(const nombre of pasosDemo){
         if(demoCancelada || version!==sesion || document.hidden) break;
@@ -239,6 +241,7 @@
       // No enviar con token de otra sesion.
       if(token && version===sesion) await detener(false);
       demoActiva=false;
+      window.dispatchEvent(new CustomEvent("armo:demo-comprador-estado",{detail:{activo:false}}));
     }
   }
   document.getElementById('btnEjecutarDemo')?.addEventListener('click',e=>{e.preventDefault();void ejecutarDemo();},true);

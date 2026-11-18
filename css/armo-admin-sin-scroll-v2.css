@@ -1,0 +1,44 @@
+/* ARMO: pagina fija. Solo el contenido de secciones extensas puede desplazarse. */
+@media (min-width: 701px) {
+  html, html body { height: 100% !important; max-height: 100% !important; overflow: hidden !important; }
+  html body {
+    margin: 0 !important;
+    min-height: 0 !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    display: grid !important;
+    grid-template-rows: auto auto minmax(0, 1fr) auto !important;
+    overflow: hidden !important;
+  }
+  body > .encabezado, body > .navegacion, body > .armo-creditos { min-height: 0; margin: 0 !important; }
+  body > .encabezado { padding-top: 7px !important; padding-bottom: 7px !important; }
+  body > .navegacion { padding-top: 6px !important; padding-bottom: 6px !important; }
+  body > .contenedor {
+    height: 100% !important;
+    min-height: 0 !important;
+    max-height: 100% !important;
+    display: grid !important;
+    grid-template-columns: 188px minmax(0,1fr) !important;
+    overflow: hidden !important;
+  }
+  body > .contenedor > .menu-lateral { height: 100%; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+  body > .contenedor > main {
+    height: 100% !important;
+    min-height: 0 !important;
+    max-height: 100% !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+    padding: 12px 18px !important;
+  }
+  body > .armo-creditos { padding: 5px 10px !important; max-height: 100px; overflow: hidden; }
+  body > .armo-creditos p { margin: 2px !important; }
+  body > .armo-creditos .armo-creditos-links { margin-top: 3px !important; }
+  #dashboard .tarjetas { gap: 10px; margin-bottom: 12px; }
+  #dashboard .tarjeta { padding: 12px !important; }
+  #dashboard .titulo-seccion { margin-bottom: 10px; }
+}
+@media (max-width: 700px) {
+  html, body { overflow-x: hidden; }
+  /* En pantallas pequenas se permite desplazamiento para conservar accesibilidad. */
+}

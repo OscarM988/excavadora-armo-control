@@ -10,7 +10,7 @@
  * La API AWS y el WebSocket no se interceptan.
  */
 
-const CACHE = "armoiot-pwa-v13-joystick-admin";
+const CACHE = "armoiot-pwa-v14-admin-extras";
 
 const ARCHIVOS = [
     "./",
