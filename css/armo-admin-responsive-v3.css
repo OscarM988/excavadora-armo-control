@@ -1,0 +1,187 @@
+/* EXCAVADORA-ARMO | Administración adaptable v3
+   Sin scroll de documento; contenido interno navegable si es más largo. */
+html:has(body > .contenedor),
+html:has(body > .contenedor) body {
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: 100% !important;
+  width: 100% !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  overscroll-behavior: none;
+}
+html:has(body > .contenedor) body {
+  display: grid !important;
+  grid-template-columns: minmax(0,1fr) !important;
+  grid-template-rows: auto auto minmax(0,1fr) auto !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  background: #091629 !important;
+}
+body > .encabezado {
+  grid-row: 1 !important;
+  grid-column: 1 !important;
+  min-height: 0 !important;
+  padding: 7px 14px !important;
+  margin: 0 !important;
+  gap: 8px !important;
+  flex-wrap: nowrap !important;
+}
+body > .encabezado .marca { min-width: 0; }
+body > .encabezado .marca img { width: 30px !important; height: 30px !important; }
+body > .encabezado .marca h1 { font-size: clamp(13px,1.4vw,18px) !important; }
+body > .encabezado .marca p { margin: 1px 0 0 !important; font-size: 10px !important; }
+body > .encabezado .sesion { text-align: right; font-size: 11px !important; max-width: 38%; }
+body > .navegacion {
+  grid-row: 2 !important;
+  grid-column: 1 !important;
+  margin: 0 !important;
+  min-height: 0 !important;
+  padding: 4px 12px !important;
+  gap: 6px !important;
+  align-items: center;
+  flex-wrap: nowrap !important;
+  overflow-x: auto;
+}
+body > .navegacion a { white-space: nowrap; padding: 8px 12px !important; font-size: 11px !important; }
+body > .contenedor {
+  grid-row: 3 !important;
+  grid-column: 1 !important;
+  display: grid !important;
+  grid-template-columns: 160px minmax(0,1fr) !important;
+  grid-template-rows: minmax(0,1fr) !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  min-height: 0 !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+body > .contenedor > .menu-lateral {
+  min-height: 0 !important;
+  min-width: 0 !important;
+  max-height: 100% !important;
+  height: 100% !important;
+  overflow: auto !important;
+  padding: 9px 6px !important;
+  background: #132540 !important;
+  scrollbar-width: none;
+}
+body > .contenedor > .menu-lateral::-webkit-scrollbar,
+body > .contenedor > main::-webkit-scrollbar { display: none; }
+body > .contenedor > .menu-lateral h2 { font-size: 13px !important; padding: 0 8px; margin: 4px 0 8px !important; }
+body > .contenedor > .menu-lateral .menu-btn {
+  min-width: 0 !important;
+  margin: 2px 0 !important;
+  padding: 9px 10px !important;
+  font-size: 12px !important;
+}
+body > .contenedor > main {
+  min-width: 0 !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  padding: 10px 14px !important;
+  margin: 0 !important;
+}
+/* El pie antiguo duplicado no ocupa espacio. Los créditos permanecen visibles. */
+body > footer.pie { display: none !important; }
+body > footer.armo-creditos {
+  grid-row: 4 !important;
+  grid-column: 1 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 2px 12px !important;
+  min-width: 0 !important;
+  width: 100% !important;
+  max-width: none !important;
+  min-height: 0 !important;
+  max-height: 62px !important;
+  overflow: hidden !important;
+  padding: 5px 10px !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  border: 0 !important;
+  font-size: 10px !important;
+  line-height: 1.15 !important;
+}
+body > footer.armo-creditos p { display: inline !important; margin: 0 !important; padding: 0 !important; font-size: inherit !important; }
+body > footer.armo-creditos p a { margin: 0 4px !important; }
+/* Compactar dashboard sin recortar información ni formularios. */
+body > .contenedor main .panel,
+body > .contenedor main .tarjeta { padding: 11px 13px !important; }
+body > .contenedor main .panel { margin-top: 8px !important; }
+body > .contenedor main .titulo-seccion { margin-bottom: 8px !important; }
+body > .contenedor main .titulo-seccion h2 { font-size: 19px !important; }
+body > .contenedor main .titulo-seccion p { margin: 4px 0 !important; font-size: 12px !important; }
+body > .contenedor main .tarjetas { gap: 9px !important; margin-bottom: 8px !important; }
+body > .contenedor main .tarjeta h3 { margin-bottom: 7px !important; font-size: 12px !important; }
+body > .contenedor main .tarjeta strong { font-size: 24px !important; }
+body > .contenedor main .indicadores { gap: 5px 14px !important; }
+body > .contenedor main .indicadores p { margin: 5px 0 !important; font-size: 12px !important; }
+body > .contenedor main .nota { margin: 7px 0 !important; }
+body > .contenedor main .mensaje { padding: 9px 12px !important; margin: 0 0 8px !important; }
+body > .contenedor main :is(input,select,textarea,button) { max-width: 100%; }
+body > .contenedor main .tabla-contenedor { max-width: 100%; overflow-x: auto !important; -webkit-overflow-scrolling: touch; }
+@media (max-width: 900px) {
+ body > .contenedor { grid-template-columns: 132px minmax(0,1fr) !important; }
+ body > .contenedor main .tarjetas { grid-template-columns: repeat(2,minmax(0,1fr)) !important; }
+ body > .contenedor main { padding: 8px 10px !important; }
+}
+@media (max-width: 600px) {
+ body > .encabezado { padding: 5px 8px !important; }
+ body > .encabezado .marca { gap: 5px !important; }
+ body > .encabezado .marca h1 { font-size: 13px !important; }
+ body > .encabezado .marca p { font-size: 9px !important; }
+ body > .encabezado .sesion { font-size: 9px !important; max-width: 34%; }
+ body > .navegacion { padding: 3px 6px !important; }
+ body > .navegacion a { padding: 7px 8px !important; font-size: 10px !important; }
+ body > .contenedor { grid-template-columns: minmax(0,1fr) !important; grid-template-rows: auto minmax(0,1fr) !important; }
+ body > .contenedor > .menu-lateral {
+   height: auto !important;
+   max-height: 62px !important;
+   display: flex !important;
+   align-items: center !important;
+   flex-wrap: nowrap !important;
+   overflow-x: auto !important;
+   overflow-y: hidden !important;
+   gap: 4px !important;
+   padding: 5px 7px !important;
+ }
+ body > .contenedor > .menu-lateral h2 { display:none !important; }
+ body > .contenedor > .menu-lateral .menu-btn {
+   display: inline-flex !important;
+   flex: 0 0 auto !important;
+   width: auto !important;
+   white-space: nowrap !important;
+   padding: 8px 10px !important;
+   font-size: 11px !important;
+ }
+ body > .contenedor > main { padding: 8px !important; overflow-y: auto !important; }
+ body > .contenedor main .tarjetas { grid-template-columns: repeat(2,minmax(0,1fr)) !important; gap: 6px !important; }
+ body > .contenedor main .tarjeta { padding: 8px !important; }
+ body > .contenedor main .titulo-seccion { gap: 5px !important; }
+ body > .contenedor main .titulo-seccion h2 { font-size: 17px !important; }
+ body > footer.armo-creditos { max-height: 55px !important; padding: 4px !important; gap: 1px 8px !important; font-size: 9px !important; }
+ body > footer.armo-creditos p:nth-of-type(3),
+ body > footer.armo-creditos p:nth-of-type(4),
+ body > footer.armo-creditos p:nth-of-type(5) { display:none !important; }
+}
+@media (max-width: 350px) {
+ body > .contenedor main .tarjetas { grid-template-columns: minmax(0,1fr) !important; }
+ body > .encabezado .sesion { max-width: 30%; }
+}
+@media (max-height: 690px) and (min-width: 601px) {
+ body > footer.armo-creditos { max-height: 38px !important; }
+ body > footer.armo-creditos p:nth-of-type(3),
+ body > footer.armo-creditos p:nth-of-type(4),
+ body > footer.armo-creditos p:nth-of-type(5) { display:none !important; }
+}
