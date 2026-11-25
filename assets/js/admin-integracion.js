@@ -3,12 +3,12 @@
 
 /*
  * EXCAVADORA-ARMO
- * PRACTICA 4.3 - ADMINISTRACION LOCAL
+ * PRACTICA 4.3 - ADMINISTRACION AWS/RDS
  *
  * API: https://vehiculo-iot.duckdns.org/v43
- * Base: MySQL local
+ * Base: Amazon RDS MySQL
  *
- * No modifica AWS ni Amazon RDS.
+ * Las operaciones autorizadas pueden modificar RDS.
  * No ejecuta movimientos de la excavadora.
  * JWT administrativo solamente en memoria.
  */
@@ -399,7 +399,7 @@
     );
 
     mensaje(
-      "Datos administrativos actualizados desde MySQL local."
+      "Datos administrativos consultados desde Amazon RDS."
     );
   }
 
@@ -410,7 +410,7 @@
   function actualizarSesion() {
     if ($("estadoSesion")) {
       $("estadoSesion").textContent = token
-        ? "Administrador autenticado (local)"
+        ? "Administrador autenticado · AWS/RDS"
         : "Sesión administrativa sin verificar";
     }
 
@@ -442,7 +442,7 @@
 
     const titulo = document.createElement("h3");
     titulo.textContent =
-      "Administración local · Práctica 4.3";
+      "Administración · Práctica 4.3";
 
     contenedor.appendChild(titulo);
 
@@ -603,6 +603,7 @@
       asignaciones = [];
 
       mensaje("Sesión administrativa cerrada.");
+      window.location.replace("index.html");
     });
 
     actualizarSesion();
@@ -1041,7 +1042,7 @@
 
       label.htmlFor = "adminIdVehiculo";
       label.textContent =
-        "ID del vehículo existente en MySQL local";
+        "ID del vehículo existente en Amazon RDS";
 
       const input = document.createElement("input");
 
@@ -1070,8 +1071,7 @@
         ".advertencia-admin,.clientes-nota"
       ).forEach(nota => {
         nota.textContent =
-          "Los cambios se guardan en MySQL LOCAL " +
-          "de pruebas; no en AWS ni RDS.";
+          "Las operaciones autorizadas se realizan en Amazon RDS.";
       });
 
       const submit = form.querySelector(
@@ -1080,7 +1080,7 @@
 
       if (submit) {
         submit.textContent =
-          "Guardar en MySQL local";
+          "Guardar en Amazon RDS";
       }
     });
   }
@@ -1091,6 +1091,16 @@
 
   function iniciar() {
     crearAcceso();
+    // Token de un solo uso transferido tras validación de FastAPI.
+    try {
+      const t = JSON.parse(sessionStorage.getItem("armo:acceso-43-handoff") || "null");
+      sessionStorage.removeItem("armo:acceso-43-handoff");
+      if (t?.rol === "administrador" && typeof t.jwt === "string" && Date.now() < t.vence) {
+        token = t.jwt;
+        actualizarSesion();
+        cargarDatos().catch(e => {token = null; actualizarSesion(); mensaje(e.message);});
+      }
+    } catch (_) {token = null;}
     prepararFormularioDemos43();
     configurarEventos();
 

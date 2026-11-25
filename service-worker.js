@@ -10,11 +10,18 @@
  * La API AWS y el WebSocket no se interceptan.
  */
 
-const CACHE = "armoiot-pwa-v20-calibracion-9";
+const CACHE = "armoiot-pwa-v16-control-original";
 
 const ARCHIVOS = [
     "./",
     "./index.html",
+    "./control.html",
+    "./portal-43.html",
+    "./css/acceso-43.css",
+    "./assets/js/armo-guard-43.js",
+    "./assets/js/armo-cliente-guard-43.js",
+    "./assets/js/armo-acceso-43.js",
+    "./assets/js/armo-invitado-demo-43.js",
     "./administracion.html",
     "./comprador.html",
     "./editor-demos.html",

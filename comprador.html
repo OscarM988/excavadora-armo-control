@@ -164,6 +164,7 @@
       }
     }
   </style>
+  <script src="assets/js/armo-guard-43.js?v=20261125"></script>
 </head>
 
 <body>
@@ -209,7 +210,7 @@
         role="status"
       ></p>
 
-      <a class="enlace" href="portal-43.html">
+      <a class="enlace" href="index.html">
         Regresar al portal
       </a>
     </section>
@@ -225,6 +226,12 @@
       </p>
 
       <div id="listaVehiculos"></div>
+      <div id="panelOriginal43" class="vehiculo oculto">
+        <h3>CONTROL y MONITOREO originales</h3>
+        <p>Utiliza los joysticks, botones y el monitoreo de la aplicación original.
+        El CONTROL físico sólo se habilita si AWS autoriza a este comprador.</p>
+        <button id="btnAbrirOriginal43" type="button">ABRIR CONTROL Y MONITOREO</button>
+      </div>
 
       <!-- SELECTOR DE VEHÍCULOS -->
       <div
@@ -368,6 +375,11 @@
 
       mensajeLogin.textContent = "";
       mensajeVehiculos.textContent = "";
+      try {
+        sessionStorage.removeItem("armo:acceso-43-handoff");
+        sessionStorage.removeItem("armo:cliente-sesion-43");
+      } catch (_) {}
+      window.location.replace("index.html");
     }
 
     function sesionVencida() {
@@ -507,6 +519,7 @@
 
           panelSelector.classList.add("oculto");
           panelMonitoreo.classList.add("oculto");
+          document.getElementById("panelOriginal43").classList.add("oculto");
 
           mensajeVehiculos.textContent =
             "Actualmente no tienes vehículos asignados.";
@@ -594,6 +607,9 @@
         const idSeleccionado =
           Number(selectorVehiculo.value);
 
+        document.getElementById("panelOriginal43").classList.toggle(
+          "oculto", idSeleccionado !== 1
+        );
         await cargarMonitoreo(idSeleccionado);
 
         // AVISAR A LOS MÓDULOS DE CONTROL Y WEBSOCKET
@@ -626,6 +642,9 @@
         return;
       }
 
+      document.getElementById("panelOriginal43").classList.toggle(
+        "oculto", idVehiculo !== 1
+      );
       await cargarMonitoreo(idVehiculo);
     }
 
@@ -789,6 +808,36 @@
         }
       }
     }
+
+
+    // Recupera el JWT generado desde la entrada central y lo consume una sola vez.
+    (async () => {
+      try {
+        const t = JSON.parse(sessionStorage.getItem("armo:acceso-43-handoff") || "null") || (() => {
+          const s = JSON.parse(sessionStorage.getItem("armo:cliente-sesion-43") || "null");
+          return s ? {rol:"comprador", jwt:s.jwt, jwtControl:s.jwtControl, vence:s.vence} : null;
+        })();
+        sessionStorage.removeItem("armo:acceso-43-handoff");
+        if (t?.rol !== "comprador" || !t.jwt || Date.now() >= t.vence) throw new Error("Sesión vencida");
+        tokenComprador = t.jwt;
+        sessionStorage.setItem("armo:cliente-sesion-43", JSON.stringify({
+          jwt: t.jwt, jwtControl: t.jwtControl || null, vence: Date.now() + 45 * 60 * 1000
+        }));
+        panelLogin.classList.add("oculto");
+        panelVehiculos.classList.remove("oculto");
+        await cargarVehiculos();
+      } catch (_) { cerrarSesion(); }
+    })();
+
+    document.getElementById("btnAbrirOriginal43").addEventListener("click", () => {
+      const id = Number(selectorVehiculo.value);
+      const asignado = vehiculosAsignados.some(v => Number(v.id_vehiculo) === id);
+      if (!tokenComprador || !asignado || id !== 1) {
+        mensajeVehiculos.textContent = "Esta unidad no está autorizada para el Control original.";
+        return;
+      }
+      location.href = "control.html";
+    });
 
     // EVENTOS PRINCIPALES
     formLogin.addEventListener(

@@ -1,0 +1,31 @@
+/* EXCAVADORA-ARMO 4.3 — Acceso unificado, accesible, responsive */
+:root{font-family:Arial,Helvetica,sans-serif;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 25% 10%,#1c3555 0%,#0b1424 66%);color:#f8fafc}
+header{border-bottom:2px solid #facc15;background:#101c31;padding:18px 20px}
+.brand{display:flex;align-items:center;justify-content:center;gap:12px}
+.brand img{width:44px;height:44px}
+.brand strong{display:block;color:#facc15;letter-spacing:.5px;font-size:1.18rem}
+.brand small{display:block;color:#cbd5e1;margin-top:5px}
+main{max-width:940px;margin:0 auto;padding:34px 18px 48px}
+.shell{display:grid;grid-template-columns:1.05fr .95fr;gap:24px;align-items:stretch}
+.panel{background:#17263e;border:1px solid #344766;border-radius:20px;padding:30px;box-shadow:0 15px 30px #0002}
+h1{font-size:1.65rem;margin:0 0 12px;color:#facc15}
+h2{font-size:1.13rem;color:#facc15;margin:0 0 12px}
+p{color:#cbd5e1;line-height:1.65}
+label{display:block;margin:16px 0 7px;font-weight:700;font-size:.93rem}
+input{width:100%;padding:13px 14px;background:#0a1528;color:#fff;border:1px solid #5e759a;border-radius:10px;font-size:1rem}
+input:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid #facc15;outline-offset:3px}
+button{cursor:pointer;font-weight:700;font-size:1rem}
+.primary{background:#facc15;color:#101827;border:0;border-radius:10px;padding:14px 20px;width:100%;margin-top:22px}
+.primary:disabled{opacity:.7;cursor:wait}
+.secondary{color:#facc15;background:transparent;border:1px solid #7385a5;border-radius:10px;padding:10px;text-decoration:none;display:inline-block}
+.status{min-height:26px;font-weight:700;color:#fde68a;margin-top:16px}
+.guest-area{text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+.guest-circle{width:140px;height:140px;border-radius:50%;background:#facc15;color:#10213c;border:5px solid #eab308;box-shadow:0 0 0 10px #facc1515;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:5px;text-decoration:none;font-weight:900;transition:transform .12s ease}
+.guest-circle:hover{transform:scale(1.035)}
+.guest-circle svg{width:52px;height:52px}
+.guest-circle span{font-size:.87rem;letter-spacing:.7px}
+.hint{font-size:.84rem;color:#aebdd6}
+footer{max-width:940px;margin:0 auto;padding:0 18px 25px;color:#97a9c7;text-align:center;font-size:.82rem}
+@media(max-width:680px){.shell{grid-template-columns:1fr}.panel{padding:22px}.guest-circle{width:125px;height:125px}main{padding-top:22px}}

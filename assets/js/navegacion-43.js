@@ -88,7 +88,12 @@
     administracion.href = "administracion.html";
     administracion.textContent = "ADMINISTRACION";
 
-    barra.replaceChildren(control, monitoreo, administracion);
+    const soloCliente = location.pathname.split("/").pop() === "control.html";
+    if (soloCliente) {
+      barra.replaceChildren(control, monitoreo);
+    } else {
+      barra.replaceChildren(control, monitoreo, administracion);
+    }
     document.body.prepend(barra);
 
     function abrirPestana(nombre) {

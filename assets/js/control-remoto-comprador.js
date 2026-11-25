@@ -7,6 +7,8 @@
 (() => {
   if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') return;
   const API = 'https://vehiculo-iot.duckdns.org';
+  // El Control original solamente se habilita en la pantalla protegida.
+  if (location.pathname.split('/').pop() !== 'control.html') return;
   const centro = document.querySelector('.bloque-extras-centro');
   if (!centro) return;
   const aviso = document.querySelector('.control-aviso');
@@ -80,12 +82,7 @@
       return await r.json();
     } finally {clearTimeout(limite);}
   }
-  formulario.addEventListener('submit',async e=>{
-    e.preventDefault();if(token)return;
-    ingresar.disabled=true;mostrar('Validando comprador...');
-    try{
-      const login=await solicitud('/usuario/auth/login',{method:'POST',body:JSON.stringify({correo:correo.value.trim(),password:clave.value})});
-      const jwt=login.access_token;if(typeof jwt!=='string'||!jwt)throw new Error('JWT no recibido');
+  async function activarComprador(jwt) {
       const unidades=await solicitud('/usuario/mis-vehiculos',{},jwt);
       if(!Array.isArray(unidades) || !unidades.length)throw new Error('No tienes vehículos asignados');
       const elegido=unidades.find(u=>Number(u.id_vehiculo)===1);
@@ -100,14 +97,43 @@
       if(nuevo.get('DETENER')!==13)throw new Error('No se autorizó DETENER (13)');
       nombreACodigo.clear();for(const [n,c] of nuevo)nombreACodigo.set(n,c);
       token=jwt;vehiculo=1;sesion++;clave.value='';formulario.hidden=true;
-      acceso.textContent='🔒 Cerrar sesión';
+      acceso.textContent='🔒 Cerrar control';
       const b=document.getElementById('btnDetener');if(b)b.disabled=false;
       document.querySelectorAll('.extras-mini-grid .btn-extra-mini').forEach(b=>b.disabled=false);
       for(const id of ['btnEjecutarDemo','btnCancelarDemo']){const b=document.getElementById(id);if(b)b.disabled=false;}
-      mostrar('Comprador autorizado · Mantén presionado el joystick para moverte');
+      mostrar('Comprador autorizado · Control disponible para su unidad asignada');
+    }
+  formulario.addEventListener('submit',async e=>{
+    e.preventDefault();if(token)return;
+    ingresar.disabled=true;mostrar('Validando comprador...');
+    try{
+      const login=await solicitud('/usuario/auth/login',{method:'POST',body:JSON.stringify({correo:correo.value.trim(),password:clave.value})});
+      const jwt=login.access_token;if(typeof jwt!=='string'||!jwt)throw new Error('JWT no recibido');
+      await activarComprador(jwt);
     }catch(err){clave.value='';mostrar('Acceso rechazado: '+err.message,true);}
     finally{ingresar.disabled=false;}
   });
+  // Recupera el JWT de Control ya validado tras el login central.
+  // Nunca activa el control a partir del rol declarado por el navegador:
+  // vuelve a consultar asignación y comandos autorizados en AWS.
+  (async () => {
+    try {
+      const s = JSON.parse(sessionStorage.getItem('armo:cliente-sesion-43') || 'null');
+      if (!s || !s.jwtControl || s.vence < Date.now()) {
+        acceso.hidden=true;
+        mostrar('MONITOREO disponible · Control físico no autorizado en esta sesión');
+        return;
+      }
+      acceso.hidden=true;
+      mostrar('Validando CONTROL físico en AWS...');
+      await activarComprador(s.jwtControl);
+      acceso.hidden=true;
+    } catch (err) {
+      acceso.hidden=true;
+      mostrar('MONITOREO disponible · Control físico bloqueado: ' + err.message, true);
+    }
+  })();
+
   // El servidor valida el acceso y la duracion de cada orden renovada.
   // La confirmación de la API no equivale a confirmación eléctrica del ESP8266.
   async function enviar(nombre,duracion=200){
