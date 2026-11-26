@@ -12,6 +12,7 @@
 
   <link rel="icon" href="assets/favicon.svg">
   <link rel="stylesheet" href="css/administracion.css">
+  <style>/* ARMO-EDITOR-ADMIN-V6 */ #adminAbrirEditorDemos[hidden] { display: none !important; }</style>
   <link rel="stylesheet" href="css/armo-creditos-layout.css?v=1">
 
   <script type="module"
@@ -345,6 +346,14 @@
         </div>
 
         <div class="panel">
+          <!-- ARMO-EDITOR-ADMIN-V6: visible solamente tras autenticar al administrador -->
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:20px">
+            <a id="adminAbrirEditorDemos" href="editor-demos.html" class="accion" hidden
+               style="display:inline-flex;align-items:center;min-height:42px;text-decoration:none;font-weight:bold;background:#facc15;color:#172033">
+              ✎ Abrir editor de DEMOS
+            </a>
+            <small style="color:#526279">Solo administradores · Orden, duración y pausa de movimientos</small>
+          </div>
           <p>
             Demostraciones de empresa y demostraciones
             privadas de compradores.

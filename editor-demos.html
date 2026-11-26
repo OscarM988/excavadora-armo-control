@@ -104,6 +104,7 @@ button:disabled { opacity: .5; cursor: not-allowed; }
 
   <div class="acciones">
     <button id="cargar" type="button">Cargar DEMO</button>
+    <button id="regresarAdmin" type="button" class="secundario">← Volver a Administración</button>
     <button id="salir" type="button" class="secundario">Cerrar sesión</button>
   </div>
 
@@ -164,6 +165,7 @@ async function api(ruta, opciones = {}) {
 }
 
 function cerrarSesion() {
+  try { sessionStorage.removeItem("armo:editor-admin-v6-handoff"); } catch (_) {}
   token = null;
   demoActual = null;
   comandos = [];
@@ -197,18 +199,75 @@ $("formLogin").onsubmit = async evento => {
     }
 
     const datos = await respuesta.json();
-    token = datos.access_token;
-
-    $("password").value = "";
-    $("login").classList.add("oculto");
-    $("editor").classList.remove("oculto");
-
-    mensaje("Sesión administrativa iniciada.");
+    if (!datos?.access_token || typeof datos.access_token !== "string") {
+      throw new Error("La API no devolvió un token administrativo válido.");
+    }
+    // ARMO-EDITOR-ADMIN-V6: validar rol contra la API protegida antes de abrir.
+    await validarAdministrador(datos.access_token);
+    abrirEditorAutorizado(datos.access_token, "Sesión administrativa iniciada.");
 
   } catch (error) {
     mensaje(error.message);
   }
 };
+
+// ARMO-EDITOR-ADMIN-V6
+const CLAVE_ENTRADA = "armo:editor-admin-v6-handoff";
+const CLAVE_REGRESO = "armo:acceso-43-handoff";
+
+async function validarAdministrador(jwt) {
+  const respuesta = await fetch(API + "/admin/clientes", {
+    method: "GET",
+    headers: {Authorization: "Bearer " + jwt},
+    cache: "no-store"
+  });
+  if (!respuesta.ok) {
+    throw new Error(respuesta.status === 401 || respuesta.status === 403
+      ? "Acceso reservado al administrador (HTTP " + respuesta.status + ")."
+      : "No se pudo verificar la sesión administrativa (HTTP " + respuesta.status + ").");
+  }
+}
+
+function abrirEditorAutorizado(jwt, nota) {
+  token = jwt;
+  $("password").value = "";
+  $("login").classList.add("oculto");
+  $("editor").classList.remove("oculto");
+  mensaje(nota);
+}
+
+$("regresarAdmin").addEventListener("click", async () => {
+  if (!token) return;
+  try {
+    await validarAdministrador(token);
+    // Un solo uso, no guardar el token permanentemente.
+    sessionStorage.setItem(CLAVE_REGRESO, JSON.stringify({
+      rol: "administrador", jwt: token, vence: Date.now() + 120000
+    }));
+    window.location.assign("administracion.html");
+  } catch (error) {
+    mensaje("No se pudo volver con esta sesión: " + error.message);
+  }
+});
+
+(async function recuperarSesionAdministrativa() {
+  let acceso = null;
+  try {
+    const dato = sessionStorage.getItem(CLAVE_ENTRADA);
+    sessionStorage.removeItem(CLAVE_ENTRADA);
+    if (dato) acceso = JSON.parse(dato);
+  } catch (_) { /* Sin sesión válida; formulario administrativo normal. */ }
+  if (!acceso || acceso.rol !== "administrador" ||
+      typeof acceso.jwt !== "string" || !acceso.jwt ||
+      !Number.isFinite(acceso.vence) || Date.now() > acceso.vence) return;
+  try {
+    await validarAdministrador(acceso.jwt);
+    abrirEditorAutorizado(acceso.jwt, "Administrador verificado. Puedes editar las DEMOS.");
+  } catch (error) {
+    cerrarSesion();
+    mensaje("Sesión no autorizada: " + error.message);
+  }
+})();
 
 function actualizarTotal() {
   const total = movimientos.reduce(

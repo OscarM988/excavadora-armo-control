@@ -425,6 +425,10 @@
     if ($("adminRecargar")) {
       $("adminRecargar").disabled = !token;
     }
+
+    // ARMO-EDITOR-ADMIN-V6: ocultar el enlace si no hay sesión administrativa.
+    const enlaceEditor = $("adminAbrirEditorDemos");
+    if (enlaceEditor) enlaceEditor.hidden = !token;
   }
 
   function crearAcceso() {
@@ -1089,8 +1093,36 @@
   // INICIALIZAR
   // ==========================================
 
+  // ARMO-EDITOR-ADMIN-V6: solo pasa el JWT por sessionStorage del mismo origen.
+  // El Editor lo verifica de nuevo en FastAPI; nunca se añade a la URL.
+  function enlazarEditorAdministrativo() {
+    const enlace = $("adminAbrirEditorDemos");
+    if (!enlace) return;
+    enlace.addEventListener("click", async evento => {
+      evento.preventDefault();
+      if (!token) {
+        mensaje("Debes iniciar sesión como administrador para abrir el Editor de DEMOS.");
+        return;
+      }
+      enlace.setAttribute("aria-busy", "true");
+      try {
+        // Verificar de nuevo con un recurso administrativo, no confiar en la UI.
+        await solicitar("/admin/clientes");
+        sessionStorage.setItem("armo:editor-admin-v6-handoff", JSON.stringify({
+          rol: "administrador", jwt: token, vence: Date.now() + 120000
+        }));
+        window.location.assign("editor-demos.html");
+      } catch (error) {
+        mensaje("No fue posible acceder al editor: " + error.message);
+      } finally {
+        enlace.removeAttribute("aria-busy");
+      }
+    });
+  }
+
   function iniciar() {
     crearAcceso();
+    enlazarEditorAdministrativo();
     // Token de un solo uso transferido tras validación de FastAPI.
     try {
       const t = JSON.parse(sessionStorage.getItem("armo:acceso-43-handoff") || "null");
