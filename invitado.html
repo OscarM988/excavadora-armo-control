@@ -1,111 +1,650 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#101c31">
-<title>Invitado · Demostración | EXCAVADORA-ARMO</title>
-<link rel="icon" href="assets/favicon.svg">
-<style>
-:root{font-family:Arial,Helvetica,sans-serif;color-scheme:dark}
-*{box-sizing:border-box}
-body{margin:0;background:#0e1728;color:#f1f5f9;min-height:100vh}
-header{background:#16263e;border-bottom:2px solid #facc15;padding:15px max(16px,calc((100% - 1050px)/2))}
-header .header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-header h1{font-size:1.25rem;color:#facc15;margin:0}
-a{color:#facc15}
-.btn-link{color:#facc15;text-decoration:none;padding:8px 12px;border:1px solid #526987;border-radius:8px}
-main{max-width:1050px;margin:0 auto;padding:20px 16px 40px}
-nav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px}
-nav button{flex:1 1 160px}
-button{border:1px solid #5f7491;background:#233c60;color:#fff;font:700 14px Arial;cursor:pointer;border-radius:9px;padding:11px 14px}
-button:hover{border-color:#facc15}
-button:focus-visible,a:focus-visible{outline:3px solid #facc15;outline-offset:2px}
-button:disabled{opacity:.45;cursor:not-allowed}
-button.activo,button.principal{background:#facc15;color:#0e1728;border-color:#facc15}
-button.detener{background:#9f2433;border-color:#db6976;color:white}
-h2{color:#facc15;font-size:1.18rem;margin-top:0}
-h3{font-size:1rem;color:#fde68a}
-p{color:#cbd5e1;line-height:1.5}
-.panel{background:#192a44;border:1px solid #344868;border-radius:14px;padding:20px;margin-bottom:16px}
-[hidden]{display:none!important}
-.modelos{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin-top:15px}
-.modelo{background:#101f35;border:1px solid #526580;border-radius:10px;padding:14px}
-.modelo h3{margin:0 0 8px}
-.modelo p{font-size:.88rem}
-.aviso{color:#fde68a;font-weight:bold}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.joy{background:#101d31;border:1px solid #475b76;border-radius:12px;padding:15px;text-align:center}
-.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;max-width:260px;margin:13px auto}
-.pad button{min-height:57px;font-size:1.05rem;touch-action:none;user-select:none}
-.pad .arriba{grid-area:1 / 2}.pad .izq{grid-area:2 / 1}.pad .centro{grid-area:2 / 2}.pad .der{grid-area:2 / 3}.pad .abajo{grid-area:3 / 2}
-.barra{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.estado{display:inline-flex;align-items:center;border:1px solid #b4992e;background:#4b3e17;border-radius:18px;padding:6px 12px;color:#fde68a;font-weight:bold}
-.movimiento{font-size:1.45rem;color:#facc15;font-weight:900;margin:18px 0}
-.tabla{width:100%;border-collapse:collapse;font-size:.91rem}
-th,td{border-bottom:1px solid #445875;padding:10px;text-align:left}
-th{color:#facc15}
-.progreso{height:10px;background:#3b4c66;border-radius:10px;overflow:hidden;margin:10px 0}
-.progreso>div{height:100%;background:#facc15;width:0;transition:width .15s linear}
-@media(max-width:680px){.grid{grid-template-columns:1fr}.panel{padding:15px}.tabla{font-size:.79rem}th,td{padding:8px 5px}}
-</style>
-<script src="assets/js/armo-invitado-demo-43.js?v=20261125" defer></script>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; connect-src 'none'; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data:; font-src 'self' data: https://cdn.jsdelivr.net; object-src 'none'; base-uri 'self'; form-action 'self'">
+
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="description"
+          content="Panel de control y monitoreo IoT EXCAVADORA-ARMO">
+
+    <title>INVITADO | CONTROL y MONITOREO EXCAVADORA-ARMO</title>
+
+    <link rel="icon"
+          href="assets/favicon.svg"
+          type="image/svg+xml">
+
+    <link rel="manifest" href="manifest.json">
+
+    <!-- BOOTSTRAP CSS -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+        crossorigin="anonymous"
+    >
+
+    <!-- ESTILOS ORIGINALES -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/acabados.css">
+    <link rel="stylesheet" href="css/monitoreo.css">
+
+    <!-- ESTILO EXISTENTE DE ADMINISTRACION -->
+    <link rel="stylesheet" href="css/admin-nav.css">
+    <link rel="stylesheet" href="css/armo-pantalla-fija.css?v=1">
+
+    <link rel="stylesheet" href="css/armo-control-monitoreo-v4.css?v=4">
+    <link rel="stylesheet" href="css/armo-control-central-v5.css?v=5">
+
+    <!-- SCRIPTS ORIGINALES -->
+    
+    <!-- Puente físico LOCAL no disponible en Control de comprador público. -->
+    
+    
+    
+    
+    
+
+    <!-- NAVEGACION PRINCIPAL PRACTICA 4.3 -->
+    <!-- Se carga una sola vez -->
+    
+    
+    
+  <link rel="stylesheet" href="css/armo-extras-feedback-v2.css?v=2">
+  
+  
+    <link rel="stylesheet" href="css/armo-invitado-original-43.css?v=3">
+    <script src="assets/js/armo-invitado-original-43.js?v=3" defer></script>
 </head>
-<body>
-<header><div class="header"><div><h1>EXCAVADORA-ARMO</h1><small>INVITADO · Exhibición de producto</small></div><a class="btn-link" href="index.html">Iniciar sesión</a></div></header>
-<main>
-  <div class="panel"><strong class="aviso">MODO INVITADO · DEMOSTRACIÓN VIRTUAL</strong>
-    <p>Conoce el catálogo y prueba CONTROL y MONITOREO durante una sesión de 60 segundos. Los movimientos se simulan únicamente en tu navegador: <strong>no se envían órdenes al vehículo físico ni se muestran datos privados</strong>.</p>
-  </div>
-  <nav aria-label="Secciones de invitado">
-    <button type="button" class="activo" data-pestana="catalogo" aria-current="page">CATÁLOGO</button>
-    <button type="button" data-pestana="control">CONTROL · DEMO</button>
-    <button type="button" data-pestana="monitoreo">MONITOREO · DEMO</button>
-  </nav>
-  <section id="catalogo" class="vista panel">
-    <h2>Catálogo de vehículos IoT</h2>
-    <p>Selecciona un modelo para conocerlo en la demostración. El catálogo se consulta desde la API pública cuando está disponible.</p>
-    <div id="listaModelos" class="modelos" aria-live="polite">Consultando catálogo…</div>
-    <p id="mensajeCatalogo" role="status"></p>
-  </section>
-  <section id="control" class="vista" hidden>
-    <div class="panel">
-      <div class="barra"><h2 style="margin:0">CONTROL de exhibición</h2><span class="estado" id="sesionEstado">Sin sesión</span></div>
-      <p id="modeloDemo">Modelo: EXCAVADORA-ARMO (simulación)</p>
-      <div class="barra"><button class="principal" id="comenzarSesion" type="button">Iniciar sesión de 60 s</button><button class="detener" id="finalizarSesion" type="button">Finalizar sesión</button><span id="tiempoSesion">Tiempo disponible: 60 s</span></div>
-      <div class="movimiento" id="movimientoActual" role="status">DETENER</div>
-      <div class="grid">
-        <div class="joy"><h3>Dirección / desplazamiento</h3><div class="pad">
-          <button class="arriba mando" data-orden="AVANZAR" aria-label="Avanzar">↑</button>
-          <button class="izq mando" data-orden="GIRAR_IZQUIERDA" aria-label="Girar izquierda">←</button>
-          <button class="centro detener" data-orden="DETENER" aria-label="Detener">■</button>
-          <button class="der mando" data-orden="GIRAR_DERECHA" aria-label="Girar derecha">→</button>
-          <button class="abajo mando" data-orden="RETROCEDER" aria-label="Retroceder">↓</button>
-        </div></div>
-        <div class="joy"><h3>Brazo / pala</h3><div class="pad">
-          <button class="arriba mando" data-orden="SUBIR_BRAZO" aria-label="Subir brazo">↑</button>
-          <button class="izq mando" data-orden="RETIRAR" aria-label="Retirar pala">←</button>
-          <button class="centro detener" data-orden="DETENER" aria-label="Detener">■</button>
-          <button class="der mando" data-orden="DESCARGAR_PALA" aria-label="Descargar pala">→</button>
-          <button class="abajo mando" data-orden="EXCAVAR" aria-label="Excavar">↓</button>
-        </div></div>
-      </div>
-      <div class="barra" style="margin-top:18px"><button id="demoAutomatica" type="button">Reproducir demostración virtual (20 s)</button><button id="detenerDemo" class="detener" type="button">DETENER</button></div>
-      <div class="progreso"><div id="progresoDemo"></div></div>
-      <p id="mensajeControl" role="status">Inicia una sesión para habilitar los joysticks virtuales.</p>
+
+<body class="modo-invitado-43">
+
+    <!-- Formulario legado oculto: CONTROL abre directo sin credenciales -->
+    
+
+    <!-- APLICACION PRINCIPAL -->
+    <main id="pantallaControl">
+
+        <!-- ENCABEZADO ORIGINAL -->
+        <header class="encabezado">
+
+            <div>
+                <h1>
+                    &#128668; EXCAVADORA-ARMO
+                </h1>
+
+                <p>
+                    Panel de control remoto
+                </p>
+            </div>
+
+            <button
+                type="button"
+                id="btnSalir"
+                class="btn-salir">
+                Salir
+            </button>
+
+        </header>
+
+        <!-- PANEL 0: INDICADORES -->
+        <section
+            class="panel indicadores"
+            aria-label="Estado de conectividad">
+
+            <div class="indicador">
+
+                <span>
+                    WebSocket WSS
+                </span>
+
+                <strong
+                    id="estadoWS"
+                    role="status">
+                    Desconectado
+                </strong>
+
+            </div>
+
+            <div class="indicador">
+
+                <span>
+                    Servidor AWS · API de 21 servicios
+                </span>
+
+                <strong
+                    id="estadoAPI"
+                    role="status">
+                    Comprobando
+                </strong>
+
+            </div>
+
+            <div class="indicador">
+
+                <span>
+                    Amazon RDS
+                </span>
+
+                <strong
+                    id="estadoRDS"
+                    role="status">
+                    Sin verificar
+                </strong>
+
+            </div>
+
+        </section>
+
+        <!-- JWT ORIGINAL -->
+        <p
+            id="estadoJWT"
+            class="oculto"
+            aria-hidden="true">
+            Inactiva
+        </p>
+
+        <!-- PANEL 1: SEGURIDAD -->
+        <section class="panel">
+
+            <h2>
+                Seguridad de operación
+            </h2>
+
+            <p id="mensajeSeguridad">
+                Modo seguro activado.
+                Los controles físicos están deshabilitados.
+            </p>
+
+            <p class="nota">
+                Los joysticks y botones funcionan como simulación visual.
+                El control físico requiere autorización segura independiente.
+            </p>
+
+        </section>
+
+        <!-- PANEL 2: CONTROL PRINCIPAL -->
+        <section
+            class="panel"
+            aria-label="Control principal de la excavadora">
+
+            <h2>
+                Control principal de la excavadora
+            </h2>
+
+            <div class="zona-controles-principales">
+
+                <!-- JOYSTICK IZQUIERDO -->
+                <div class="bloque-joystick">
+
+                    <h3>
+                        Dirección
+                    </h3>
+
+                    <div
+                        id="joystick"
+                        class="joystick-base"
+                        role="group"
+                        aria-label="Joystick de dirección, solo demostración visual"
+                        tabindex="0">
+
+                        <span
+                            class="joystick-flecha arriba"
+                            aria-hidden="true">&#9650;</span>
+
+                        <span
+                            class="joystick-flecha abajo"
+                            aria-hidden="true">&#9660;</span>
+
+                        <span
+                            class="joystick-flecha izquierda"
+                            aria-hidden="true">&#9664;</span>
+
+                        <span
+                            class="joystick-flecha derecha"
+                            aria-hidden="true">&#9654;</span>
+
+                        <div
+                            id="joystickPerilla"
+                            class="joystick-perilla"
+                            aria-hidden="true">
+                        </div>
+
+                    </div>
+
+                    <output
+                        id="direccionActual"
+                        class="joystick-estado"
+                        aria-live="polite">
+                        NEUTRAL · Solo visual
+                    </output>
+
+                </div>
+
+                <!-- EXTRAS CENTRALES -->
+                <div class="bloque-extras-centro">
+
+                    <h3>
+                        Extras
+                    </h3>
+
+                    <div
+                        class="extras-mini-grid"
+                        aria-label="Funciones especiales">
+
+                        <button
+                            type="button"
+                            class="btn-funcion btn-extra-mini"
+                            data-codigo="10"
+                            disabled>
+                            &#127925;
+                            <span>Música</span>
+                        </button>
+
+                        <button
+                            type="button"
+                            class="btn-funcion btn-extra-mini"
+                            data-codigo="11"
+                            disabled>
+                            &#9889;
+                            <span>Velocidad</span>
+                        </button>
+
+                        <button
+                            type="button"
+                            class="btn-funcion btn-extra-mini"
+                            data-codigo="12"
+                            disabled>
+                            &#128161;
+                            <span>Luces</span>
+                        </button>
+
+                        <button
+                            type="button"
+                            class="btn-funcion btn-extra-mini"
+                            data-codigo="13"
+                            disabled>
+                            &#127916;
+                            <span>DEMO</span>
+                        </button>
+
+                    </div>
+
+                    <!-- DETENER ORIGINAL -->
+                    <button
+                        type="button"
+                        id="btnDetener"
+                        class="btn-detener btn-detener-central"
+                        disabled
+                        aria-label="DETENER, pendiente de integración segura">
+                        &#128721;
+                        <span>DETENER</span>
+                    </button>
+
+                    <p class="control-aviso">
+                        Modo visual · Sin órdenes REST
+                    </p>
+
+                </div>
+
+                <!-- JOYSTICK DERECHO -->
+                <div class="bloque-joystick">
+
+                    <h3>
+                        Brazo
+                    </h3>
+
+                    <div
+                        id="joystickBrazo"
+                        class="joystick-base"
+                        role="group"
+                        aria-label="Joystick de brazo, solo demostración visual"
+                        tabindex="0">
+
+                        <span
+                            class="joystick-flecha arriba"
+                            aria-hidden="true">&#9650;</span>
+
+                        <span
+                            class="joystick-flecha abajo"
+                            aria-hidden="true">&#9660;</span>
+
+                        <span
+                            class="joystick-flecha izquierda"
+                            aria-hidden="true">&#9664;</span>
+
+                        <span
+                            class="joystick-flecha derecha"
+                            aria-hidden="true">&#9654;</span>
+
+                        <div
+                            id="joystickPerillaBrazo"
+                            class="joystick-perilla"
+                            aria-hidden="true">
+                        </div>
+
+                    </div>
+
+                    <output
+                        id="brazoActual"
+                        class="joystick-estado"
+                        aria-live="polite">
+                        NEUTRAL · Solo visual
+                    </output>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- PANEL 3: BRAZO -->
+        <section class="panel">
+
+            <h2>
+                Brazo y excavación
+            </h2>
+
+            <p class="nota">
+                El joystick del brazo está en la pestaña Dirección.
+                Sus nombres y códigos definitivos se cargarán
+                desde el catálogo real de la API.
+            </p>
+
+            <div class="cuadricula-controles">
+
+                <button
+                    type="button"
+                    class="btn-movimiento"
+                    data-funcion="brazo1"
+                    disabled>
+                    Movimiento de brazo 1
+                </button>
+
+                <button
+                    type="button"
+                    class="btn-movimiento"
+                    data-funcion="brazo2"
+                    disabled>
+                    Movimiento de brazo 2
+                </button>
+
+                <button
+                    type="button"
+                    class="btn-movimiento"
+                    data-funcion="brazo3"
+                    disabled>
+                    Movimiento de brazo 3
+                </button>
+
+                <button
+                    type="button"
+                    class="btn-movimiento"
+                    data-funcion="brazo4"
+                    disabled>
+                    Movimiento de brazo 4
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- PANEL 4: EXTRAS -->
+        <section class="panel">
+
+            <h2>
+                Funciones especiales
+            </h2>
+
+            <p class="nota">
+                Música, Velocidad, Luces y DEMO aparecen
+                en el centro de los dos joysticks de
+                la pestaña Dirección.
+            </p>
+
+            <p class="nota">
+                Se habilitarán únicamente cuando validemos
+                los códigos y contratos de la API.
+            </p>
+
+        </section>
+
+        <!-- PANEL 5: DEMO -->
+        <section class="panel">
+
+            <h2>
+                Demostraciones automáticas
+            </h2>
+
+            <div class="cuadricula-controles">
+
+                <button
+                    type="button"
+                    id="btnEjecutarDemo"
+                    disabled>
+                    Ejecutar DEMO
+                </button>
+
+                <button
+                    type="button"
+                    id="btnCancelarDemo"
+                    disabled>
+                    Cancelar DEMO
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- PANEL 6: MONITOR ORIGINAL DE CONTROL -->
+        <section class="panel">
+
+            <h2>
+                Eventos del control
+            </h2>
+
+            <div
+                id="monitor"
+                role="log"
+                aria-live="polite"
+                aria-relevant="additions">
+
+                <p>
+                    Esperando conexión...
+                </p>
+
+            </div>
+
+        </section>
+
+        <!-- PANEL 7: MONITOREO PRACTICA 4.2 -->
+        <section
+            id="vistaMonitoreo"
+            class="panel"
+            aria-label="Monitoreo del vehículo"
+            hidden>
+
+            <div class="contenido-monitoreo">
+
+                <header>
+
+                    <h2 class="monitoreo-titulo">
+                        MONITOREO · DEMOSTRACIÓN VIRTUAL
+                    </h2>
+
+                    <p
+                        id="monitoreoVehiculo"
+                        class="monitoreo-vehiculo">
+                        Consultando vehículo...
+                    </p>
+
+                </header>
+
+                <!-- ULTIMO MOVIMIENTO -->
+                <article
+                    class="monitoreo-tarjeta"
+                    aria-label="Último movimiento reportado">
+
+                    <span class="monitoreo-etiqueta">
+                        ÚLTIMO MOVIMIENTO REPORTADO
+                    </span>
+
+                    <h3
+                        id="monitoreoMovimiento"
+                        class="monitoreo-movimiento"
+                        aria-live="polite">
+                        Cargando...
+                    </h3>
+
+                    <div class="monitoreo-datos">
+
+                        <div class="monitoreo-dato">
+
+                            <span class="monitoreo-etiqueta">
+                                FECHA
+                            </span>
+
+                            <strong id="monitoreoFecha">
+                                —
+                            </strong>
+
+                        </div>
+
+                        <div class="monitoreo-dato">
+
+                            <span class="monitoreo-etiqueta">
+                                HORA
+                            </span>
+
+                            <strong id="monitoreoHora">
+                                —
+                            </strong>
+
+                        </div>
+
+                        <div class="monitoreo-dato">
+
+                            <span class="monitoreo-etiqueta">
+                                CÓDIGO
+                            </span>
+
+                            <strong id="monitoreoCodigo">
+                                —
+                            </strong>
+
+                        </div>
+
+                        <div class="monitoreo-dato">
+
+                            <span class="monitoreo-etiqueta">
+                                ORIGEN
+                            </span>
+
+                            <strong id="monitoreoOrigen">
+                                Sin verificar
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+                <!-- HISTORIAL REAL -->
+                <section
+                    class="monitoreo-seccion"
+                    aria-labelledby="tituloHistorial">
+
+                    <h3 id="tituloHistorial">
+                        Últimos 10 movimientos virtuales
+                    </h3>
+
+                    <div class="monitoreo-tabla-contenedor">
+
+                        <table class="monitoreo-tabla">
+
+                            <caption class="visually-hidden">
+                                Diez movimientos individuales más
+                                recientes registrados para este vehículo.
+                            </caption>
+
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Movimiento</th>
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">Hora</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="monitoreoHistorial">
+
+                                <tr>
+                                    <td colspan="4">
+                                        Cargando historial...
+                                    </td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                    <p
+                        id="monitoreoMensaje"
+                        class="monitoreo-mensaje"
+                        role="status"
+                        aria-live="polite">
+                        Esperando datos de AWS...
+                    </p>
+
+                </section>
+
+            </div>
+
+        </section>
+        <!-- FIN DE MONITOREO 4.2 -->
+
+        <!-- CREDITOS DEL DESARROLLADOR -->
+
+
+
+
+        <footer class="armo-creditos" aria-label="Créditos de EXCAVADORA-ARMO">
+    <strong class="armo-creditos-titulo">EXCAVADORA-ARMO</strong>
+    <p>Desarrollado por <strong>Oscar Alexis Muñoz Reséndiz</strong></p>
+    <p>Ingeniería en Sistemas Computacionales · Tecnológico Nacional de México — Campus Pachuca</p>
+    <p>Implementación de Soluciones IoT · 2026</p>
+    <div class="armo-creditos-links">
+      <a href="https://github.com/OscarM988/excavadora-armo-control" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://www.linkedin.com/in/oscar-alexis-muñoz-resendiz-275098431/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
     </div>
-  </section>
-  <section id="monitoreo" class="vista" hidden>
-    <div class="panel">
-      <h2>MONITOREO de exhibición</h2>
-      <p>Los registros son <strong>virtuales de esta sesión</strong>, no el historial real de Amazon RDS.</p>
-      <div class="barra"><span class="estado" id="monitorSesion">Sin sesión</span><span id="monitorConexion">Fuente: navegador local (sin WSS físico)</span></div>
-      <div class="movimiento" id="monitorMovimiento">DETENER</div>
-      <p id="monitorFecha">Sin actividad reciente</p>
-      <h3>Últimos 10 movimientos de demostración</h3>
-      <div style="overflow:auto"><table class="tabla"><thead><tr><th>Hora</th><th>Movimiento</th><th>Origen</th></tr></thead><tbody id="monitorHistorial"><tr><td colspan="3">Sin movimientos</td></tr></tbody></table></div>
-    </div>
-  </section>
-</main>
+  </footer>
+    </main>
+
+    <!-- JOYSTICKS: COMPORTAMIENTO VISUAL ORIGINAL -->
+    
+
+    <!-- BOOTSTRAP JAVASCRIPT -->
+    
+
+    <!-- PWA ORIGINAL -->
+    
+
+    <!--
+        PRACTICA 4.3
+
+        La navegación principal se carga desde el HEAD
+        mediante js/navegacion-43.js.
+
+        No cargar js/admin-nav.js porque genera
+        una segunda navegación.
+    -->
+
+
 </body>
 </html>

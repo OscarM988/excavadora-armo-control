@@ -1,0 +1,26 @@
+/* EXCAVADORA-ARMO - Invitado con la misma interfaz visual del comprador. */
+:root {--armo-topbar:48px}
+.modo-invitado-43 #pantallaControl > section.panel:not(.indicadores):not([data-vista]) {display:none !important}
+.modo-invitado-43 #pantallaControl > section.panel[data-vista] {display:none !important}
+.modo-invitado-43 #pantallaControl > section.panel[data-vista].vista-activa:not([hidden]) {display:flex !important; flex-direction:column !important}
+.modo-invitado-43 #pantallaControl > #vistaMonitoreo[hidden] {display:none !important}
+.modo-invitado-43 #pantallaControl > #estadoJWT {display:none !important}
+.modo-invitado-43 #pantallaControl > #pantallaLogin {display:none !important}
+.modo-invitado-43 #pantallaControl > footer {display:none !important}
+.modo-invitado-43 #pantallaControl .extras-mini-grid button:disabled {opacity:.45}
+.modo-invitado-43 #pantallaControl .extras-mini-grid button:not(:disabled) {opacity:1}
+.modo-invitado-43 #pantallaControl .btn-detener-central:not(:disabled) {opacity:1}
+#navegacion-principal-43 {display:flex;align-items:center;justify-content:center;gap:10px;padding:5px 12px;background:#0f172a;border-bottom:2px solid #facc15;box-sizing:border-box}
+#navegacion-principal-43 button {padding:7px 14px;border:1px solid #445675;border-radius:10px;background:#233a5c;color:white;font:700 13px Arial;flex:0 1 170px;min-width:0;cursor:pointer;transition:none!important}
+#navegacion-principal-43 button.activo {background:#facc15;border-color:#facc15;color:#111827}
+#armo-invitado-barra {display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:7px;flex:0 0 auto;width:100%;min-height:32px;padding:4px 7px;color:white;background:#21334f;border:1px solid #445675;border-radius:9px;box-sizing:border-box;font:700 11px Arial}
+#armo-invitado-barra strong{color:#fde047;font-size:11px}
+#armo-invitado-barra span {min-width:76px;text-align:center;color:#e2e8f0;font-size:11px}
+#armo-invitado-barra button {padding:5px 8px;border-radius:7px;font:700 10px Arial;cursor:pointer}
+#armo-invitado-iniciar {background:#facc15;color:#14243d}
+#armo-invitado-terminar {background:#a9283b;color:white}
+#armo-invitado-barra button:disabled {opacity:.45;cursor:not-allowed}
+#armo-invitado-aviso {display:block;margin:0 0 8px;padding:5px 8px;border:1px solid rgba(250,204,21,.4);border-radius:9px;background:rgba(250,204,21,.08);color:#fde047;font:700 clamp(10px,1.6dvh,12px)/1.25 Arial;text-align:center}
+.modo-invitado-43 #pantallaControl #vistaMonitoreo .contenido-monitoreo {overflow-y:auto}
+.modo-invitado-43 #pantallaControl .joystick-base {touch-action:none}
+@media(max-width:560px){#armo-invitado-barra {gap:3px;padding:3px 4px;min-height:27px}#armo-invitado-barra strong {font-size:9px}#armo-invitado-barra span {min-width:50px;font-size:10px}#armo-invitado-barra button {font-size:9px;padding:4px 5px}#armo-invitado-aviso {padding:2px 4px;margin:0 0 4px;font-size:9px}}
