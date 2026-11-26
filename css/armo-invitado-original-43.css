@@ -24,3 +24,6 @@
 .modo-invitado-43 #pantallaControl #vistaMonitoreo .contenido-monitoreo {overflow-y:auto}
 .modo-invitado-43 #pantallaControl .joystick-base {touch-action:none}
 @media(max-width:560px){#armo-invitado-barra {gap:3px;padding:3px 4px;min-height:27px}#armo-invitado-barra strong {font-size:9px}#armo-invitado-barra span {min-width:50px;font-size:10px}#armo-invitado-barra button {font-size:9px;padding:4px 5px}#armo-invitado-aviso {padding:2px 4px;margin:0 0 4px;font-size:9px}}
+
+/* V4: DEMO original con la misma altura de sección que Control/Monitor */
+.modo-invitado-43 #pantallaControl > section.panel[data-vista="demo"].vista-activa:not([hidden]){display:flex!important;flex-direction:column!important}

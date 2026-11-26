@@ -66,6 +66,7 @@
     document.querySelectorAll('.extras-mini-grid .btn-extra-mini').forEach(b=>b.disabled=true);
     for(const id of ['btnEjecutarDemo','btnCancelarDemo']){const b=document.getElementById(id);if(b)b.disabled=true;}
     mostrar('Sesión cerrada · Sin control físico');
+    window.dispatchEvent(new Event('armo:comprador-control-revocado'));
   };
   acceso.addEventListener('click',()=>{
     if(token){cerrar();return;}
@@ -102,6 +103,12 @@
       document.querySelectorAll('.extras-mini-grid .btn-extra-mini').forEach(b=>b.disabled=false);
       for(const id of ['btnEjecutarDemo','btnCancelarDemo']){const b=document.getElementById(id);if(b)b.disabled=false;}
       mostrar('Comprador autorizado · Control disponible para su unidad asignada');
+      // Habilitación visual de DEMO: únicamente después de validar en AWS
+      // la propiedad del vehículo y su catálogo de comandos permitidos.
+      const pasosDemoRequeridos=['AVANZAR','GIRAR_DERECHA','EXCAVAR','DESCARGAR_PALA','RETROCEDER','DETENER'];
+      window.dispatchEvent(new CustomEvent('armo:comprador-control-autorizado',{
+        detail:{autorizado:true,demoDisponible:pasosDemoRequeridos.every(n=>nombreACodigo.has(n))}
+      }));
     }
   formulario.addEventListener('submit',async e=>{
     e.preventDefault();if(token)return;

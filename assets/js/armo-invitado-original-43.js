@@ -9,7 +9,9 @@
   const $ = id => document.getElementById(id);
   const control = document.querySelector('#pantallaControl > section[aria-label="Control principal de la excavadora"]');
   const monitoreo = $('vistaMonitoreo');
-  if (!control || !monitoreo || !$('joystick') || !$('joystickBrazo')) return;
+  // Conservamos el panel DEMO del CONTROL original sin cargar APIs reales.
+  const panelDemo = $('btnEjecutarDemo')?.closest('section.panel');
+  if (!control || !monitoreo || !panelDemo || !$('joystick') || !$('joystickBrazo')) return;
   const labelUltimo = monitoreo.querySelector('.monitoreo-tarjeta .monitoreo-etiqueta');
   if (labelUltimo) labelUltimo.textContent = 'ÚLTIMO MOVIMIENTO VIRTUAL';
   const captionHistorial = monitoreo.querySelector('.monitoreo-tabla caption');
@@ -26,6 +28,8 @@
   let vistaActual = 'control';
 
   control.dataset.vista = 'control';
+  panelDemo.dataset.vista = 'demo';
+  panelDemo.hidden = true;
   monitoreo.dataset.vista = 'monitoreo';
   control.classList.add('vista-activa');
   control.hidden = false;
@@ -80,6 +84,45 @@
   barra.append(etiqueta, tiempo, iniciar, terminar);
   document.querySelector('#pantallaControl > .indicadores')?.insertAdjacentElement('afterend', barra);
 
+  // Las mismas tres pestañas útiles del comprador: Dirección, DEMO y Monitor.
+  // BRAZO y EXTRAS siguen disponibles en el panel principal, NO como pestañas.
+  const secciones = document.createElement('nav');
+  secciones.className = 'armo-guest-subnav-v4';
+  secciones.setAttribute('aria-label','Secciones de exhibición');
+  const botonesSeccion = {};
+  for (const [vista, nombre] of [['control','Dirección'],['demo','Demo'],['monitoreo','Monitor']]) {
+    const boton = document.createElement('button');
+    boton.type = 'button'; boton.textContent = nombre;
+    boton.addEventListener('click',()=> mostrarVista(vista));
+    secciones.append(boton); botonesSeccion[vista] = boton;
+  }
+  barra.insertAdjacentElement('afterend', secciones);
+
+  const demoOriginal = $('btnEjecutarDemo');
+  const cancelarOriginal = $('btnCancelarDemo');
+  const catalogoDemo = document.createElement('div');
+  catalogoDemo.id = 'armo-guest-catalogo-v4';
+  const etiquetaDemo = document.createElement('label');
+  etiquetaDemo.textContent = 'Elige una DEMO virtual';
+  const elegirDemo = document.createElement('select');
+  elegirDemo.id = 'armo-guest-seleccion-v4';
+  for (const [codigo,nombre] of [
+    ['recorrido','Recorrido · Dirección y excavación'],
+    ['brazo','Movimiento de brazo y pala']
+  ]) {
+    const opcion = document.createElement('option');
+    opcion.value = codigo; opcion.textContent = nombre; elegirDemo.append(opcion);
+  }
+  etiquetaDemo.append(elegirDemo);
+  const mensajeDemo = document.createElement('p');
+  mensajeDemo.id='armo-guest-mensaje-v4';
+  mensajeDemo.setAttribute('role','status');
+  mensajeDemo.textContent='Inicia la sesión de 60 s para ejecutar una DEMO.';
+  catalogoDemo.append(etiquetaDemo,mensajeDemo);
+  panelDemo.querySelector('h2')?.insertAdjacentElement('afterend',catalogoDemo);
+  if (demoOriginal) demoOriginal.textContent='Ejecutar DEMO virtual';
+  if (cancelarOriginal) cancelarOriginal.textContent='Cancelar DEMO virtual';
+
   const aviso = document.createElement('p');
   aviso.id = 'armo-invitado-aviso'; aviso.setAttribute('role','status');
   aviso.textContent = 'Prueba los joysticks originales: sesión virtual sin movimientos físicos.';
@@ -94,14 +137,19 @@
   function activa() { return limite > Date.now(); }
 
   function mostrarVista(vista) {
-    vistaActual = vista === 'monitoreo' ? 'monitoreo' : 'control';
-    const esControl = vistaActual === 'control';
-    control.classList.toggle('vista-activa', esControl);
-    control.hidden = !esControl;
-    monitoreo.classList.toggle('vista-activa', !esControl);
-    monitoreo.hidden = esControl;
-    btnControl.classList.toggle('activo', esControl);
-    btnMonitor.classList.toggle('activo', !esControl);
+    vistaActual = ['control','demo','monitoreo'].includes(vista) ? vista : 'control';
+    for (const [nombre, panel] of [['control',control],['demo',panelDemo],['monitoreo',monitoreo]]) {
+      const visible = vistaActual === nombre;
+      panel.classList.toggle('vista-activa', visible);
+      panel.hidden = !visible;
+      const btn = botonesSeccion[nombre];
+      if (btn) {
+        btn.classList.toggle('activo',visible);
+        btn.setAttribute('aria-current', visible?'page':'false');
+      }
+    }
+    btnControl.classList.toggle('activo',vistaActual !== 'monitoreo');
+    btnMonitor.classList.toggle('activo',vistaActual === 'monitoreo');
   }
 
   function actualizarBotones() {
@@ -110,6 +158,9 @@
     if (detener) detener.disabled = !habilitado;
     iniciar.disabled = habilitado;
     terminar.disabled = !habilitado;
+    if (demoOriginal) demoOriginal.disabled = !habilitado || demoEnCurso;
+    if (cancelarOriginal) cancelarOriginal.disabled = !demoEnCurso;
+    elegirDemo.disabled = !habilitado || demoEnCurso;
     tiempo.textContent = habilitado ? `${Math.max(0,Math.ceil((limite-Date.now())/1000))} s restantes` : 'Sin sesión activa';
   }
 
@@ -170,7 +221,7 @@
   function finalizar(mensaje='Demostración finalizada') {
     limpiarDemo(); detenerVirtual(); limite=0;
     if(reloj!==null){clearInterval(reloj);reloj=null;}
-    actualizarBotones(); aviso.textContent = mensaje + '. Sin movimientos físicos.';
+    actualizarBotones(); mensajeDemo.textContent='Inicia una sesión para ejecutar una DEMO virtual.'; aviso.textContent = mensaje + '. Sin movimientos físicos.';
   }
   function tick() {
     if(limite && !activa()) { finalizar('Tiempo de exhibición terminado'); return; }
@@ -180,6 +231,7 @@
     finalizar('Preparando demostración');
     historial=[]; movimientoActual='DETENER'; limite=Date.now()+DURACION;
     registrar('DETENER','INICIO DE SESIÓN VIRTUAL');
+    mensajeDemo.textContent='Selecciona una DEMO para probarla durante esta sesión.';
     reloj=setInterval(tick,250);
     tick(); mostrarVista('control');
     aviso.textContent = 'Sesión virtual activa. Prueba Dirección, Brazo, extras y Monitoreo.';
@@ -194,16 +246,28 @@
     pausaMovimiento = setTimeout(()=>{pausaMovimiento=null;detenerVirtual('PARO AUTOMÁTICO VIRTUAL');},700);
   }
   function demoAutomatica() {
-    if (!activa()) return;
+    if (!activa() || demoEnCurso) return;
     limpiarDemo(); detenerVirtual(); demoEnCurso=true;
-    const secuencia = ['AVANZAR','DETENER','GIRAR_IZQUIERDA','DETENER','EXCAVAR','DETENER','DESCARGAR_PALA','DETENER'];
-    const pasoMs = 1350;
+    const secuencias = {
+      recorrido:['AVANZAR','DETENER','GIRAR_IZQUIERDA','DETENER','EXCAVAR','DETENER','DESCARGAR_PALA','DETENER'],
+      brazo:['EXCAVAR','DETENER','DESCARGAR_PALA','DETENER','GIRAR_VEHICULO_IZQUIERDA','DETENER','GIRAR_VEHICULO_DERECHA','DETENER']
+    };
+    const secuencia = secuencias[elegirDemo.value] || secuencias.recorrido;
+    const pasoMs = 1050;
+    mensajeDemo.textContent = 'DEMO virtual en ejecución. Puedes cancelarla en cualquier momento.';
+    actualizarBotones();
     secuencia.forEach((nombre,i)=>{
       timersDemo.push(setTimeout(()=>{
         if(!activa()||!demoEnCurso)return;
         if(nombre==='DETENER') detenerVirtual('DEMO AUTOMÁTICA');
         else registrar(nombre,'DEMO AUTOMÁTICA VIRTUAL');
-        if(i===secuencia.length-1){demoEnCurso=false;aviso.textContent='DEMO automática finalizada · simulación local';}
+        if(i===secuencia.length-1){
+          demoEnCurso=false;
+          detenerVirtual('FIN DE DEMO');
+          aviso.textContent='DEMO terminada · simulación local';
+          mensajeDemo.textContent='DEMO completada; los movimientos aparecen en MONITOREO.';
+          actualizarBotones();
+        }
       }, i*pasoMs));
     });
   }
@@ -261,11 +325,18 @@
     boton.addEventListener('click',()=>{
       if(!activa())return;
       const nombre=nombresExtras[Number(boton.dataset.codigo)];
-      if(nombre==='DEMO'){demoAutomatica();return;}
+      if(nombre==='DEMO'){mostrarVista('demo');mensajeDemo.textContent='Selecciona una DEMO y presiona Ejecutar.';return;}
       if(nombre){registrar(nombre);limpiarPausa();pausaMovimiento=setTimeout(()=>detenerVirtual('PULSACIÓN VIRTUAL'),400);}
     });
   }
-  detener?.addEventListener('click',()=>{if(!activa())return;limpiarDemo();detenerVirtual('DETENER INVITADO');aviso.textContent='DETENER activado · simulación sin hardware';});
+  detener?.addEventListener('click',()=>{if(!activa())return;limpiarDemo();detenerVirtual('DETENER INVITADO');mensajeDemo.textContent='DEMO detenida.';actualizarBotones();aviso.textContent='DETENER activado · simulación sin hardware';});
+  demoOriginal?.addEventListener('click',demoAutomatica);
+  cancelarOriginal?.addEventListener('click',()=>{
+    if(!demoEnCurso)return;
+    limpiarDemo();detenerVirtual('DEMO CANCELADA');
+    mensajeDemo.textContent='DEMO cancelada. Puedes iniciar otra mientras quede tiempo.';
+    actualizarBotones();
+  });
   iniciar.addEventListener('click',comenzar);
   terminar.addEventListener('click',()=>finalizar('Sesión finalizada por invitado'));
   document.addEventListener('visibilitychange',()=>{if(document.hidden){limpiarDemo();detenerVirtual();}});

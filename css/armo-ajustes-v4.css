@@ -1,0 +1,36 @@
+/* EXCAVADORA-ARMO · mejoras V4. Mantener los paneles ocultos en el DOM:
+   app.js usa sus índices para conectar las vistas, los joysticks y DEMO. */
+body:not(.modo-invitado-43) .navegacion-armo > button:nth-child(2),
+body:not(.modo-invitado-43) .navegacion-armo > button:nth-child(3) {
+  display: none !important;
+}
+/* Sin eliminar controles de brazo ni extras de la pestaña Dirección. */
+body.armo-demo-comprador-v4 .demo-catalogo {display:none !important}
+.armo-demo-info-v4 {display:grid;gap:7px;margin:4px 0 13px;padding:13px 15px;background:#132640;border:1px solid #395270;border-radius:12px;color:#edf2ff}
+.armo-demo-info-v4 strong {color:#facc15;font:700 15px Arial,sans-serif}
+.armo-demo-info-v4 p {margin:0;line-height:1.45;font:13px Arial,sans-serif}
+.armo-demo-estado-v4 {color:#fde68a;font-weight:700!important}
+.armo-demo-nota-v4 {color:#b9c8da;font-size:11px!important}
+.armo-demo-comprador-v4 #btnEjecutarDemo:not(:disabled) {background:#11614d!important;color:#fff!important;cursor:pointer}
+.armo-demo-comprador-v4 #btnCancelarDemo:not(:disabled) {background:#a32743!important;color:#fff!important;cursor:pointer}
+.armo-demo-comprador-v4 #btnEjecutarDemo:disabled,
+.armo-demo-comprador-v4 #btnCancelarDemo:disabled {opacity:.42;cursor:not-allowed}
+/* Pestañas interiores del invitado: misma disposición compacta del comprador. */
+.armo-guest-subnav-v4 {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;max-width:100%;width:100%;margin:3px auto 4px}
+.armo-guest-subnav-v4 button {border:1px solid #445675;border-radius:11px;background:#243c60;color:#fff;padding:10px 9px;font:700 clamp(12px,1.4vw,15px) Arial,sans-serif;cursor:pointer}
+.armo-guest-subnav-v4 button.activo {background:#facc15;color:#0f172a;border-color:#facc15}
+#armo-guest-catalogo-v4 {display:grid;gap:7px;padding:12px;background:#132640;border:1px solid #405775;border-radius:12px;color:#fff;margin-bottom:10px}
+#armo-guest-catalogo-v4 label {display:grid;gap:7px;font-weight:700;color:#facc15}
+#armo-guest-catalogo-v4 select {background:#0d203c;color:white;border:1px solid #6880a1;border-radius:9px;padding:9px;width:100%;min-height:40px}
+#armo-guest-catalogo-v4 p {margin:0;font-size:12px;color:#fde68a}
+.modo-invitado-43 #btnEjecutarDemo:not(:disabled) {background:#11614d!important;color:white!important;cursor:pointer}
+.modo-invitado-43 #btnCancelarDemo:not(:disabled) {background:#a32743!important;color:white!important;cursor:pointer}
+.modo-invitado-43 #btnEjecutarDemo:disabled,
+.modo-invitado-43 #btnCancelarDemo:disabled {opacity:.45;cursor:not-allowed}
+/* Login con créditos completos */
+.login-creditos-v4 {max-width:940px;margin:0 auto 14px;padding:18px 14px 25px;border-top:1px solid #354865;text-align:center;color:#cbd5e1}
+.login-creditos-v4 p {margin:4px 0;line-height:1.45;font-size:13px}
+.login-creditos-v4 strong {color:#fff}
+.login-creditos-v4 .creditos-enlaces {display:flex;justify-content:center;gap:20px;margin-top:9px}
+.login-creditos-v4 a {color:#facc15;text-decoration:underline;font-weight:700}
+@media(max-width:540px){.armo-demo-info-v4{padding:10px}.armo-demo-info-v4 p{font-size:11px}.armo-guest-subnav-v4{gap:4px}.armo-guest-subnav-v4 button{padding:9px 4px}.login-creditos-v4 p{font-size:11px}}

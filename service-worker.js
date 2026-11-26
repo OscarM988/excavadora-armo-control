@@ -10,9 +10,11 @@
  * La API AWS y el WebSocket no se interceptan.
  */
 
-const CACHE = "armoiot-pwa-v17-invitado-control-original";
+const CACHE = "armoiot-pwa-v18-diseno-demo-v4";
 
 const ARCHIVOS = [
+    "./css/armo-ajustes-v4.css",
+    "./assets/js/armo-demo-comprador-v4.js",
     "./css/armo-invitado-original-43.css",
     "./assets/js/armo-invitado-original-43.js",
     "./",
