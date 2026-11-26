@@ -27,3 +27,88 @@
 
 /* V4: DEMO original con la misma altura de sección que Control/Monitor */
 .modo-invitado-43 #pantallaControl > section.panel[data-vista="demo"].vista-activa:not([hidden]){display:flex!important;flex-direction:column!important}
+
+/* V5 - Identidad y medidas IGUALES al panel del comprador. */
+body.modo-invitado-43 { --armo-topbar: 48px; }
+body.modo-invitado-43 #armo-guest-perfil-v5 {
+  display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;
+  box-sizing:border-box;min-height:50px;flex:0 0 auto;width:100%;
+  background:#172338;color:#fff;border-bottom:2px solid #facc15;
+  padding:8px 12px;font:700 13px Arial,sans-serif;
+}
+#armo-guest-perfil-v5 a {color:#facc15;font:700 12px Arial,sans-serif;text-decoration:underline;}
+body.modo-invitado-43 #navegacion-principal-43 {min-height:48px;}
+body.modo-invitado-43 #pantallaControl:not(.oculto) {
+ width:min(100%,1120px)!important;max-width:1120px!important;margin:0 auto!important;
+}
+body.modo-invitado-43 #pantallaControl > .encabezado {padding:8px 13px!important;}
+body.modo-invitado-43 .armo-guest-subnav-v4 {
+  display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:6px!important;margin:1px 0 2px!important;flex:0 0 auto;
+}
+body.modo-invitado-43 .armo-guest-subnav-v4 button {height:37px;padding:5px 4px;font-size:13px;}
+body.modo-invitado-43 #pantallaControl > footer.armo-creditos {display:flex!important;}
+body.modo-invitado-43 #pantallaControl .zona-controles-principales {
+  grid-template-columns:minmax(0,1fr) minmax(310px,1.85fr) minmax(0,1fr)!important;gap:12px!important;
+}
+body.modo-invitado-43 #pantallaControl .bloque-extras-centro {width:100%!important;max-width:none!important;}
+body.modo-invitado-43 .armo-guest-extras-v5 {
+ display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+ align-items:center;justify-items:center;gap:8px;width:100%;max-width:440px;
+}
+body.modo-invitado-43 .armo-guest-extras-izq-v5 {
+ display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;width:100%;min-width:0;
+}
+body.modo-invitado-43 #pantallaControl .armo-guest-extras-v5 .extras-mini-grid {width:100%!important;}
+body.modo-invitado-43 #pantallaControl .armo-guest-extras-v5 .btn-extra-mini {height:39px!important;}
+body.modo-invitado-43 #pantallaControl .armo-guest-extras-v5 .btn-detener-central {height:35px!important;width:130px!important;}
+body.modo-invitado-43 #pantallaControl .armo-guest-estado-extras-v5 {
+ font:10px/1.2 Arial,sans-serif;text-align:center;color:#e5e7eb;margin:1px 0;
+}
+body.modo-invitado-43 #pantallaControl #armo-voz-dock.armo-guest-voz-v5 {
+  display:flex!important;flex-direction:column!important;gap:3px!important;
+  justify-content:center;align-items:stretch;width:100%;max-width:225px;max-height:none!important;
+  border:1px solid #526781;border-radius:10px;background:#14243d;
+  padding:8px!important;margin:0!important;box-sizing:border-box;overflow:hidden;
+}
+body.modo-invitado-43 #pantallaControl #armo-voz-dock.armo-guest-voz-v5 h3 {
+ margin:0!important;font:700 11px Arial,sans-serif;color:#facc15;text-align:center;
+}
+body.modo-invitado-43 #pantallaControl #armo-voz-dock.armo-guest-voz-v5 button {
+  position:static!important;transform:none!important;display:block!important;
+  width:100%!important;max-width:100%;flex:0 0 auto!important;padding:5px!important;
+  color:#14243d;background:#facc15;border:0;border-radius:6px;font:700 10px Arial,sans-serif;
+}
+body.modo-invitado-43 #pantallaControl #armo-voz-dock.armo-guest-voz-v5 button:nth-of-type(2) {background:#a9283b;color:#fff;}
+body.modo-invitado-43 #pantallaControl #armo-voz-dock.armo-guest-voz-v5 button:disabled {opacity:.55;cursor:not-allowed;}
+body.modo-invitado-43 #pantallaControl #armo-voz-dock.armo-guest-voz-v5 p[role="status"] {
+  display:block!important;font:9px/1.25 Arial,sans-serif;color:#f8fafc;text-align:center;white-space:normal;
+  margin:0!important;flex:0 0 auto!important;
+}
+@media (max-width:780px) {
+ body.modo-invitado-43 #pantallaControl .zona-controles-principales {
+  grid-template-columns:minmax(0,1fr) minmax(145px,1.3fr) minmax(0,1fr)!important;gap:4px!important;
+ }
+ body.modo-invitado-43 .armo-guest-extras-v5{grid-template-columns:1fr;gap:2px;}
+ body.modo-invitado-43 #pantallaControl #armo-voz-dock.armo-guest-voz-v5{padding:4px!important;}
+ body.modo-invitado-43 #pantallaControl #armo-voz-dock.armo-guest-voz-v5 button{padding:3px!important;font-size:9px;}
+ body.modo-invitado-43 .armo-guest-estado-extras-v5{font-size:8px!important;}
+ body.modo-invitado-43 #pantallaControl .armo-guest-extras-v5 .btn-extra-mini{height:29px!important;}
+}
+@media (max-width:500px) {
+ #armo-guest-perfil-v5{font-size:10px!important;padding:4px!important;min-height:34px!important;}
+ body.modo-invitado-43 .armo-guest-subnav-v4 button {font-size:10px!important;height:28px;}
+ body.modo-invitado-43 #armo-invitado-barra {min-height:29px;}
+ body.modo-invitado-43 #pantallaControl .zona-controles-principales {
+  grid-template-columns:minmax(0,1fr) minmax(130px,1.2fr) minmax(0,1fr)!important;gap:2px!important;
+ }
+ body.modo-invitado-43 #pantallaControl #armo-voz-dock.armo-guest-voz-v5 {padding:3px!important;}
+ body.modo-invitado-43 #pantallaControl #armo-voz-dock.armo-guest-voz-v5 p[role="status"]{font-size:8px;}
+}
+
+/* Un único botón de regreso, igual que la barra de perfil del comprador. */
+body.modo-invitado-43 #pantallaControl > .encabezado #btnSalir {display:none!important;}
+/* No cortar el estado del micrófono. */
+body.modo-invitado-43 #pantallaControl #armo-voz-dock.armo-guest-voz-v5 p[role="status"] {
+  text-overflow:clip!important;white-space:normal!important;overflow-wrap:anywhere!important;
+}

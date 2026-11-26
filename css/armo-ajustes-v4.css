@@ -34,3 +34,11 @@ body.armo-demo-comprador-v4 .demo-catalogo {display:none !important}
 .login-creditos-v4 .creditos-enlaces {display:flex;justify-content:center;gap:20px;margin-top:9px}
 .login-creditos-v4 a {color:#facc15;text-decoration:underline;font-weight:700}
 @media(max-width:540px){.armo-demo-info-v4{padding:10px}.armo-demo-info-v4 p{font-size:11px}.armo-guest-subnav-v4{gap:4px}.armo-guest-subnav-v4 button{padding:9px 4px}.login-creditos-v4 p{font-size:11px}}
+
+/* V5: las tres pestañas visibles se distribuyen en tres columnas reales. */
+body:not(.modo-invitado-43) #pantallaControl .navegacion-armo {
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+}
+body:not(.modo-invitado-43) #pantallaControl:not(.oculto) {
+  width:min(100%,1120px)!important;max-width:1120px!important;
+}

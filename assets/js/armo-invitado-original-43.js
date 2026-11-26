@@ -26,6 +26,7 @@
   let movimientoActual = 'DETENER';
   let historial = [];
   let vistaActual = 'control';
+  let musicaEncendida=false, lucesEncendidas=false, velocidadRapida=false;
 
   control.dataset.vista = 'control';
   panelDemo.dataset.vista = 'demo';
@@ -36,8 +37,19 @@
   monitoreo.classList.remove('vista-activa');
   monitoreo.hidden = true;
 
+  // La barra del perfil se construye igual que la del comprador.
+  const barraPerfil = document.createElement('div');
+  barraPerfil.id = 'armo-guest-perfil-v5';
+  const perfilTexto = document.createElement('span');
+  perfilTexto.textContent = 'INVITADO · EXCAVADORA-ARMO';
+  const perfilVolver = document.createElement('a');
+  perfilVolver.textContent = 'INICIAR SESIÓN';
+  perfilVolver.href = 'index.html';
+  barraPerfil.append(perfilTexto,perfilVolver);
+  document.body.prepend(barraPerfil);
+
   const cabecera = document.querySelector('.encabezado');
-  if (cabecera?.querySelector('p')) cabecera.querySelector('p').textContent = 'Demostración del producto · Modo INVITADO';
+  if (cabecera?.querySelector('p')) cabecera.querySelector('p').textContent = 'Panel de control remoto · Exhibición virtual';
   const salir = $('btnSalir');
   if (salir) {
     salir.hidden = false;
@@ -66,14 +78,14 @@
   }
   btnControl.addEventListener('click', () => mostrarVista('control'));
   btnMonitor.addEventListener('click', () => mostrarVista('monitoreo'));
-  document.body.prepend(nav);
+  barraPerfil.insertAdjacentElement('afterend',nav);
 
   const barra = document.createElement('div');
   barra.id = 'armo-invitado-barra';
   barra.setAttribute('role', 'group');
   barra.setAttribute('aria-label', 'Sesión de demostración de invitado');
   const etiqueta = document.createElement('strong');
-  etiqueta.textContent = 'INVITADO · DEMO VIRTUAL';
+  etiqueta.textContent = 'INVITADO · EXHIBICIÓN VIRTUAL';
   const tiempo = document.createElement('span');
   tiempo.id = 'armo-invitado-tiempo';
   tiempo.setAttribute('role','status');
@@ -130,6 +142,45 @@
 
   // Las piezas del CONTROL de comprador se conservan, pero sólo esta página
   // habilita las visualizaciones, nunca los endpoints reales.
+  // El comprador tiene Extras + Voz en la misma zona central.
+  // Construimos esos elementos para el invitado con la MISMA disposición.
+  const centro = control.querySelector('.bloque-extras-centro');
+  const gridExtras = centro?.querySelector('.extras-mini-grid');
+  const botonDetener = $('btnDetener');
+  const encabezadoExtras = centro?.querySelector('h3');
+  const contenedorExtras = document.createElement('div');
+  contenedorExtras.className = 'armo-guest-extras-v5';
+  const controlesExtras = document.createElement('div');
+  controlesExtras.className = 'armo-guest-extras-izq-v5';
+  if (encabezadoExtras) controlesExtras.append(encabezadoExtras);
+  if (gridExtras) controlesExtras.append(gridExtras);
+  if (botonDetener) controlesExtras.append(botonDetener);
+  const extrasEstado = document.createElement('p');
+  extrasEstado.className='armo-guest-estado-extras-v5';
+  extrasEstado.setAttribute('role','status');
+  extrasEstado.textContent='Música: sin activar · Luces: sin activar · Velocidad: normal';
+  controlesExtras.append(extrasEstado);
+
+  const vozDock = document.createElement('section');
+  vozDock.id='armo-voz-dock';
+  vozDock.className='armo-guest-voz-v5';
+  vozDock.setAttribute('aria-label','Control por voz virtual');
+  const vozTitulo = document.createElement('h3');
+  vozTitulo.textContent='🎤 Control por voz';
+  const vozBoton = document.createElement('button');
+  vozBoton.type='button';
+  vozBoton.textContent='🎤 Reconocer voz';
+  vozBoton.disabled=true;
+  const vozParar = document.createElement('button');
+  vozParar.type='button';
+  vozParar.textContent='⛔ DETENER';
+  vozParar.disabled=true;
+  const vozEstado = document.createElement('p');
+  vozEstado.setAttribute('role','status');
+  vozEstado.textContent='Voz: demostración virtual';
+  vozDock.append(vozTitulo,vozBoton,vozParar,vozEstado);
+  contenedorExtras.append(controlesExtras,vozDock);
+  centro?.prepend(contenedorExtras);
   const extras = [...control.querySelectorAll('.extras-mini-grid [data-codigo]')];
   const detener = $('btnDetener');
   const etiquetasJoystick = [$('direccionActual'), $('brazoActual')];
@@ -155,6 +206,8 @@
   function actualizarBotones() {
     const habilitado = activa();
     for (const e of extras) e.disabled = !habilitado;
+    vozBoton.disabled = !habilitado || demoEnCurso;
+    vozParar.disabled = !habilitado;
     if (detener) detener.disabled = !habilitado;
     iniciar.disabled = habilitado;
     terminar.disabled = !habilitado;
@@ -326,7 +379,13 @@
       if(!activa())return;
       const nombre=nombresExtras[Number(boton.dataset.codigo)];
       if(nombre==='DEMO'){mostrarVista('demo');mensajeDemo.textContent='Selecciona una DEMO y presiona Ejecutar.';return;}
-      if(nombre){registrar(nombre);limpiarPausa();pausaMovimiento=setTimeout(()=>detenerVirtual('PULSACIÓN VIRTUAL'),400);}
+      if(nombre){
+        if(nombre==='MUSICA')musicaEncendida=!musicaEncendida;
+        if(nombre==='LUZ_LED')lucesEncendidas=!lucesEncendidas;
+        if(nombre==='CAMBIAR_VELOCIDAD')velocidadRapida=!velocidadRapida;
+        extrasEstado.textContent=`Música: ${musicaEncendida?'activada':'apagada'} · Luces: ${lucesEncendidas?'encendidas':'apagadas'} · Velocidad: ${velocidadRapida?'rápida':'normal'} (virtual)`;
+        registrar(nombre);limpiarPausa();pausaMovimiento=setTimeout(()=>detenerVirtual('PULSACIÓN VIRTUAL'),400);
+      }
     });
   }
   detener?.addEventListener('click',()=>{if(!activa())return;limpiarDemo();detenerVirtual('DETENER INVITADO');mensajeDemo.textContent='DEMO detenida.';actualizarBotones();aviso.textContent='DETENER activado · simulación sin hardware';});
@@ -337,10 +396,63 @@
     mensajeDemo.textContent='DEMO cancelada. Puedes iniciar otra mientras quede tiempo.';
     actualizarBotones();
   });
+
+  // Reconocimiento del navegador únicamente para la simulación, SIN fetch.
+  // Mantener obligatoria la palabra «excavadora», como en el panel del comprador.
+  const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!Speech) vozEstado.textContent='El navegador no dispone de reconocimiento de voz.';
+  function interpretarVoz(frase) {
+    const t=String(frase||'').toLowerCase().normalize('NFD')
+      .replace(/[\u0300-\u036f]/g,'').replace(/[^a-z\s]/g,' ').replace(/\s+/g,' ').trim();
+    if(!/^excavadora\b/.test(t) || /\b(no|nunca|evita)\b/.test(t)) return null;
+    const q=t.replace(/^excavadora\b/,'').trim();
+    if(/\b(detente|detener|alto|para|parar|stop)\b/.test(q))return 'DETENER';
+    if(/\b(retrocede|retroceder|atras)\b/.test(q))return 'RETROCEDER';
+    if(/\b(avanza|avanzar|adelante)\b/.test(q))return 'AVANZAR';
+    if(/\b(excava|excavar)\b/.test(q))return 'EXCAVAR';
+    if(/\b(descarga|descargar)\b/.test(q))return 'DESCARGAR_PALA';
+    if(/\b(musica|sonido)\b/.test(q))return 'MUSICA';
+    if(/\b(velocidad)\b/.test(q))return 'CAMBIAR_VELOCIDAD';
+    if(/\b(luces|luz)\b/.test(q))return 'LUZ_LED';
+    if(/\bizquierda\b/.test(q))return /\b(brazo|orugas|vehiculo)\b/.test(q)?'GIRAR_VEHICULO_IZQUIERDA':'GIRAR_IZQUIERDA';
+    if(/\bderecha\b/.test(q))return /\b(brazo|orugas|vehiculo)\b/.test(q)?'GIRAR_VEHICULO_DERECHA':'GIRAR_DERECHA';
+    return null;
+  }
+  const ordenesVoz=new Set(['AVANZAR','RETROCEDER','GIRAR_IZQUIERDA','GIRAR_DERECHA',
+    'EXCAVAR','DESCARGAR_PALA','GIRAR_VEHICULO_IZQUIERDA','GIRAR_VEHICULO_DERECHA']);
+  let vozAbierta=null;
+  vozBoton.addEventListener('click',()=>{
+    if(!activa() || !Speech || vozAbierta) return;
+    let rec;
+    try{rec=new Speech();}catch(_){vozEstado.textContent='Micrófono no disponible.';return;}
+    vozAbierta=rec;rec.lang='es-MX';rec.continuous=false;rec.interimResults=false;rec.maxAlternatives=1;
+    rec.onstart=()=>{vozEstado.textContent='Escuchando: «Excavadora, avanza»';vozBoton.disabled=true;};
+    rec.onresult=e=>{
+      const n=interpretarVoz(e.results?.[0]?.[0]?.transcript||'');
+      if(!activa()){vozEstado.textContent='Sesión finalizada';return;}
+      if(!n){vozEstado.textContent='Orden no reconocida. Di «Excavadora» y la orden.';return;}
+      if(n==='DETENER'){limpiarDemo();detenerVirtual('VOZ · DETENER');actualizarBotones();}
+      else if(ordenesVoz.has(n))mover(n,'INVITADO · VOZ VIRTUAL');
+      else {
+        const b=extras.find(x=>nombresExtras[Number(x.dataset.codigo)]===n);
+        b?.click();
+      }
+      vozEstado.textContent=n+' · Solo simulación';
+    };
+    rec.onerror=e=>{vozEstado.textContent='Micrófono: '+e.error+'. Sin orden enviada.';};
+    rec.onend=()=>{vozAbierta=null;actualizarBotones();};
+    try{rec.start();}catch(_){vozAbierta=null;vozEstado.textContent='No se pudo abrir micrófono.';actualizarBotones();}
+  });
+  vozParar.addEventListener('click',()=>{
+    try{vozAbierta?.abort();}catch(_){}
+    limpiarDemo();detenerVirtual('VOZ · DETENER');
+    actualizarBotones();vozEstado.textContent='DETENER · Simulación virtual';
+  });
+
   iniciar.addEventListener('click',comenzar);
   terminar.addEventListener('click',()=>finalizar('Sesión finalizada por invitado'));
-  document.addEventListener('visibilitychange',()=>{if(document.hidden){limpiarDemo();detenerVirtual();}});
-  window.addEventListener('pagehide',()=>{limpiarDemo();detenerVirtual();});
+  document.addEventListener('visibilitychange',()=>{if(document.hidden){try{vozAbierta?.abort();}catch(_){}limpiarDemo();detenerVirtual();}});
+  window.addEventListener('pagehide',()=>{try{vozAbierta?.abort();}catch(_){}limpiarDemo();detenerVirtual();});
 
   mostrarVista('control');
   mostrarUltimo('DETENER',new Date(),'INVITADO · VIRTUAL');
