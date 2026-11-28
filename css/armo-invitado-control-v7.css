@@ -1,0 +1,196 @@
+/* EXCAVADORA-ARMO V7 · INVITADO: misma distribución del CONTROL del comprador.
+ * Presentación solamente; no modifica comandos, permisos REST/WSS ni hardware.
+ * Se carga después de armo-invitado-original-43.css para corregir V5/V6.
+ */
+body.modo-invitado-43 #pantallaControl:not(.oculto) {
+  box-sizing:border-box !important;
+  width:min(100%,1120px) !important;
+  max-width:1120px !important;
+  margin-inline:auto !important;
+}
+body.modo-invitado-43 #pantallaControl > section.panel[aria-label="Control principal de la excavadora"] .zona-controles-principales {
+  display:grid !important;
+  width:100% !important;
+  min-width:0 !important;
+  grid-template-columns:minmax(0,1fr) minmax(360px,1.75fr) minmax(0,1fr) !important;
+  justify-content:space-between !important;
+  justify-items:stretch !important;
+  align-items:center !important;
+  column-gap:clamp(8px,1.1vw,18px) !important;
+  overflow:visible !important;
+}
+body.modo-invitado-43 #pantallaControl .zona-controles-principales > .bloque-extras-centro {
+  box-sizing:border-box !important;
+  width:100% !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  max-width:none !important;
+  margin:0 !important;
+  padding:0 !important;
+  display:flex !important;
+  flex-direction:column !important;
+  justify-self:stretch !important;
+  align-self:center !important;
+  align-items:stretch !important;
+  justify-content:center !important;
+  overflow:visible !important;
+}
+body.modo-invitado-43 #pantallaControl .armo-guest-extras-v5 {
+  box-sizing:border-box !important;
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
+  width:100% !important;
+  max-width:none !important;
+  min-width:0 !important;
+  margin:0 !important;
+  padding:0 !important;
+  align-items:center !important;
+  justify-content:center !important;
+  justify-items:stretch !important;
+  gap:10px !important;
+}
+body.modo-invitado-43 #pantallaControl .armo-guest-extras-izq-v5 {
+  box-sizing:border-box !important;
+  display:flex !important;
+  flex-direction:column !important;
+  gap:3px !important;
+  align-items:center !important;
+  justify-content:center !important;
+  width:100% !important;
+  min-width:0 !important;
+  max-width:none !important;
+  padding:0 !important;
+}
+body.modo-invitado-43 #pantallaControl .armo-guest-extras-v5 .extras-mini-grid {
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  width:100% !important;
+  max-width:215px !important;
+  margin:0 auto !important;
+  gap:5px !important;
+}
+body.modo-invitado-43 #pantallaControl .armo-guest-extras-v5 .btn-extra-mini {
+  box-sizing:border-box !important;
+  width:100% !important;
+  min-width:0 !important;
+  height:clamp(34px,5.4dvh,48px) !important;
+  padding:3px 1px !important;
+  font-size:clamp(11px,1.5dvh,13px) !important;
+  overflow:hidden !important;
+}
+body.modo-invitado-43 #pantallaControl .armo-guest-extras-v5 .btn-extra-mini span {
+  font-size:clamp(9px,1.2dvh,11px) !important;
+}
+body.modo-invitado-43 #pantallaControl .armo-guest-extras-v5 .btn-detener-central {
+  box-sizing:border-box !important;
+  width:min(100%,135px) !important;
+  height:clamp(30px,4.5dvh,42px) !important;
+  margin:2px auto 0 !important;
+  align-self:center !important;
+}
+body.modo-invitado-43 #pantallaControl .armo-guest-estado-extras-v5 {
+  box-sizing:border-box !important;
+  max-width:100% !important;
+  margin:1px 0 !important;
+  font:clamp(9px,1.25dvh,11px)/1.2 Arial,sans-serif !important;
+  overflow-wrap:anywhere !important;
+  text-align:center !important;
+}
+body.modo-invitado-43 #pantallaControl #armo-voz-dock.armo-guest-voz-v5 {
+  box-sizing:border-box !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:stretch !important;
+  justify-content:center !important;
+  gap:5px !important;
+  min-width:0 !important;
+  width:100% !important;
+  max-width:none !important;
+  max-height:none !important;
+  margin:0 !important;
+  padding:8px 7px !important;
+  overflow:hidden !important;
+}
+body.modo-invitado-43 #pantallaControl #armo-voz-dock.armo-guest-voz-v5 h3 {
+  margin:0 !important;
+  padding:0 !important;
+  font:700 clamp(10px,1.45dvh,13px)/1.25 Arial,sans-serif !important;
+  text-align:center !important;
+}
+body.modo-invitado-43 #pantallaControl #armo-voz-dock.armo-guest-voz-v5 button {
+  display:block !important;
+  position:static !important;
+  transform:none !important;
+  width:100% !important;
+  max-width:none !important;
+  min-width:0 !important;
+  height:auto !important;
+  padding:5px 4px !important;
+  margin:0 !important;
+  white-space:normal !important;
+  font:700 clamp(10px,1.3dvh,12px)/1.15 Arial,sans-serif !important;
+  text-align:center !important;
+}
+body.modo-invitado-43 #pantallaControl #armo-voz-dock.armo-guest-voz-v5 p[role="status"] {
+  flex:0 0 auto !important;
+  display:block !important;
+  width:100% !important;
+  margin:0 !important;
+  padding:0 !important;
+  white-space:normal !important;
+  overflow:visible !important;
+  overflow-wrap:anywhere !important;
+  text-align:center !important;
+  font:clamp(9px,1.2dvh,11px)/1.2 Arial,sans-serif !important;
+}
+body.modo-invitado-43 #pantallaControl .bloque-joystick .joystick-base {
+  width:min(100%,29dvh,230px) !important;
+  max-width:230px !important;
+  aspect-ratio:1 !important;
+  margin:0 auto !important;
+}
+/* Medidas de escritorio reducido / tabletas: el centro conserva espacio real. */
+@media (min-width:681px) and (max-width:1040px) {
+  body.modo-invitado-43 #pantallaControl > section.panel[aria-label="Control principal de la excavadora"] .zona-controles-principales {
+    grid-template-columns:minmax(0,1fr) minmax(280px,1.65fr) minmax(0,1fr) !important;
+    gap:6px !important;
+  }
+  body.modo-invitado-43 #pantallaControl .armo-guest-extras-v5{gap:5px !important;}
+  body.modo-invitado-43 #pantallaControl #armo-voz-dock.armo-guest-voz-v5{padding:5px 4px !important;}
+  body.modo-invitado-43 #pantallaControl .armo-guest-extras-v5 .btn-extra-mini {height:34px !important;}
+}
+/* Celular: dos joysticks equilibrados arriba y Extras + Voz centrados debajo.
+   Evita comprimir Extras y Voz a columnas de menos de 80 px. */
+@media (max-width:680px) {
+  body.modo-invitado-43 #pantallaControl > section.panel[aria-label="Control principal de la excavadora"] .zona-controles-principales {
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    grid-template-rows:auto auto !important;
+    gap:5px 6px !important;
+    align-content:center !important;
+    overflow:auto !important;
+  }
+  body.modo-invitado-43 #pantallaControl .zona-controles-principales > .bloque-joystick:first-child {
+    grid-column:1 !important;grid-row:1 !important;
+  }
+  body.modo-invitado-43 #pantallaControl .zona-controles-principales > .bloque-joystick:last-child {
+    grid-column:2 !important;grid-row:1 !important;
+  }
+  body.modo-invitado-43 #pantallaControl .zona-controles-principales > .bloque-extras-centro {
+    grid-column:1 / -1 !important;grid-row:2 !important;
+    max-height:none !important;height:auto !important;
+  }
+  body.modo-invitado-43 #pantallaControl .bloque-joystick .joystick-base {
+    width:min(100%,17dvh,145px) !important;
+  }
+  body.modo-invitado-43 #pantallaControl .armo-guest-extras-v5 {
+    width:min(100%,420px) !important;
+    max-width:420px !important;
+    margin:0 auto !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:6px !important;
+  }
+  body.modo-invitado-43 #pantallaControl .armo-guest-extras-v5 .btn-extra-mini{height:28px !important;}
+  body.modo-invitado-43 #pantallaControl .armo-guest-extras-v5 .btn-detener-central{height:29px !important;}
+  body.modo-invitado-43 #pantallaControl #armo-voz-dock.armo-guest-voz-v5{padding:4px !important;gap:2px !important;}
+  body.modo-invitado-43 #pantallaControl #armo-voz-dock.armo-guest-voz-v5 button{padding:3px !important;}
+}
