@@ -1,0 +1,8 @@
+#armo-exhibicion-fisica-v10{max-width:1200px;margin:12px auto;padding:16px;background:rgba(10,25,48,.96);color:white;border:2px solid #d4a52b;border-radius:14px;box-sizing:border-box}
+#armo-exhibicion-fisica-v10 .armo-exhibicion-cabecera{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+#armo-exhibicion-fisica-v10 p{margin:10px 0;line-height:1.5}
+#armo-exhibicion-fisica-v10 .armo-exhibicion-acceso{display:flex;align-items:center;flex-wrap:wrap;gap:10px}
+#armo-exhibicion-fisica-v10 input{min-width:180px;flex:1;max-width:350px;padding:10px;border-radius:8px;border:1px solid #9ba4af}
+#armo-exhibicion-fisica-v10 button{border:1px solid #b78f1a;background:#e7c04c;color:#131b2b;border-radius:8px;padding:10px;font-weight:700;cursor:pointer}
+#armo-exhibicion-fisica-v10 button:disabled{opacity:.55;cursor:not-allowed}
+#armo-exhibicion-fisica-v10 #armo-ex-v10-estado{background:rgba(255,255,255,.09);padding:10px;border-radius:8px;overflow-wrap:anywhere}

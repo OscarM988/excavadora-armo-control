@@ -1179,4 +1179,36 @@
     iniciar();
   }
 
+// ARMO_EXHIBICION_FISICA_V10
+// Este modulo se INYECTA dentro del cierre de admin-integracion.js (acceso a solicitar/token).
+// No contiene claves ni tokens fijos y no almacena el codigo de invitacion.
+(() => {
+  const raiz=document.getElementById('demos');
+  if(!raiz)return;
+  const panel=document.createElement('section');
+  panel.id='armo-admin-fisico-v10';
+  panel.style.cssText='margin:1rem 0;padding:1rem;border:1px solid #a0aab8;border-radius:12px;';
+  const titulo=document.createElement('h3');titulo.textContent='Exhibición física supervisada';
+  const descripcion=document.createElement('p');descripcion.textContent='Solo unidades disponibles sin comprador activo, con ESP8266 y parada verificados. Código de un solo uso durante 5 minutos.';
+  const numero=document.createElement('input');numero.type='number';numero.min='1';numero.placeholder='ID del vehículo de exhibición';numero.setAttribute('aria-label','ID del vehículo');
+  const autorizar=document.createElement('button');autorizar.type='button';autorizar.textContent='AUTORIZAR EXHIBICIÓN';
+  const revocar=document.createElement('button');revocar.type='button';revocar.textContent='REVOCAR Y DETENER';
+  const estado=document.createElement('p');estado.setAttribute('role','status');estado.textContent='Deshabilitado hasta que el servidor y ESP8266 sean verificados.';
+  autorizar.addEventListener('click',async()=>{
+    const id=Number(numero.value);if(!Number.isSafeInteger(id)||id<=0)return;
+    estado.textContent='Solicitando autorización segura...';
+    try {const d=await solicitar(`/admin/exhibicion/unidades/${id}/autorizar`,{method:'POST'});
+      estado.textContent='Código temporal (se muestra una sola vez; entregar en persona): '+d.codigo_autorizacion+' · Caduca en 5 minutos.';
+    }catch(e){estado.textContent=e.message;}
+  });
+  revocar.addEventListener('click',async()=>{
+    const id=Number(numero.value);if(!Number.isSafeInteger(id)||id<=0)return;
+    try {const d=await solicitar(`/admin/exhibicion/unidades/${id}/revocar`,{method:'POST'});
+      estado.textContent='Sesión revocada; DETENER solicitado al dispositivo.';
+    }catch(e){estado.textContent=e.message;}
+  });
+  panel.append(titulo,descripcion,numero,autorizar,revocar,estado);raiz.prepend(panel);
+})();
+
+
 })();

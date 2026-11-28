@@ -10,7 +10,7 @@
  * La API AWS y el WebSocket no se interceptan.
  */
 
-const CACHE = "armoiot-pwa-v22-invitado-panel-v7";
+const CACHE = "armoiot-v10-exhibicion-protegida";
 
 const ARCHIVOS = [
     "./css/armo-ajustes-v4.css",
@@ -148,3 +148,5 @@ self.addEventListener("fetch", evento => {
             )
     );
 });
+
+// ARMO_EXHIBICION_FISICA_V10
